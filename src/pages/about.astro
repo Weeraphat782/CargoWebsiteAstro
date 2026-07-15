@@ -1,0 +1,61 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { pageMeta } from '../lib/page-meta';
+import { breadcrumbListSchema, jsonLdScript, webPageSchema } from '../lib/json-ld';
+import { BRAND_NAME } from '../lib/site';
+
+const meta = pageMeta({
+  title: 'About Us',
+  description:
+    'From GSA and airline distribution heritage to specialized pharmaceutical-grade logistics—industry expertise and routing intelligence at OMG Experience.',
+  path: '/about',
+});
+
+const ld = jsonLdScript([
+  webPageSchema({
+    path: '/about',
+    name: `About ${BRAND_NAME}`,
+    description: 'Heritage in airline distribution and GSA, now focused on pharmaceutical-grade logistics.',
+  }),
+]);
+
+const breadcrumbLd = JSON.stringify({
+  '@context': 'https://schema.org',
+  ...breadcrumbListSchema([
+    { name: 'Home', path: '/' },
+    { name: 'About', path: '/about' },
+  ]),
+});
+
+const reviewed = new Date().toISOString().slice(0, 10);
+---
+
+<BaseLayout meta={meta} jsonLd={ld} breadcrumbLd={breadcrumbLd}>
+  <article class="mx-auto max-w-4xl px-4 py-16 sm:px-6 lg:px-8">
+    <header>
+      <h1 class="text-3xl font-bold text-neutral-900 sm:text-4xl">About Us</h1>
+      <p class="mt-2 text-sm text-neutral-500">Last updated: {reviewed}</p>
+    </header>
+    <section class="mt-12">
+      <h2 class="text-xl font-semibold text-neutral-900">From airline distribution to specialized logistics</h2>
+      <p class="mt-4 text-neutral-600">
+        {BRAND_NAME} has built its expertise on a foundation of traditional airline distribution and GSA heritage,
+        transitioning into specialized pharmaceutical-grade logistics with modern traceability and compliance tooling.
+      </p>
+    </section>
+    <section class="mt-12">
+      <h2 class="text-xl font-semibold text-neutral-900">Our values</h2>
+      <ul class="mt-4 space-y-2 text-neutral-600">
+        <li>Professionalism and reliability</li>
+        <li>Regulatory compliance and transparency</li>
+        <li>Technology-driven traceability</li>
+        <li>Customer-focused service</li>
+      </ul>
+    </section>
+    <p class="mt-12 text-center">
+      <a href="/contact" class="inline-flex min-h-[44px] items-center justify-center rounded-lg px-6 font-semibold text-white" style="background-color: var(--color-primary-ref)">
+        Contact {BRAND_NAME}
+      </a>
+    </p>
+  </article>
+</BaseLayout>

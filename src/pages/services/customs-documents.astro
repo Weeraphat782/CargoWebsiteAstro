@@ -1,0 +1,16 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CustomsDocumentsPage from '../../components/react/CustomsDocumentsPage';
+import { pageMeta } from '../../lib/page-meta';
+
+const meta = pageMeta({
+  title: 'Shipping & Customs Documents',
+  description:
+    'End-to-end customs clearance support with document preparation, AI-assisted verification, and compliance expertise for regulated exports.',
+  path: '/services/customs-documents',
+});
+---
+
+<BaseLayout meta={meta}>
+  <CustomsDocumentsPage client:load />
+</BaseLayout>

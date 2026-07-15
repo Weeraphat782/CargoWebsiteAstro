@@ -1,0 +1,61 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { services } from '../../data/marketing-services';
+import { pageMeta } from '../../lib/page-meta';
+import { absoluteUrl, BRAND_NAME } from '../../lib/site';
+import { itemListSchema, jsonLdScript, webPageSchema } from '../../lib/json-ld';
+
+const meta = pageMeta({
+  title: 'Services',
+  description:
+    'Specialized air freight, shipping & customs, GDP warehousing, and controlled temperature transport—end-to-end logistics from OMG Experience.',
+  path: '/services',
+});
+
+const serviceSlugMap: Record<string, string> = {
+  'specialized-air-freight': '/services/air-freight',
+  'shipping-customs': '/services/customs-documents',
+};
+
+const listItems = services.map((s) => ({
+  name: s.title,
+  url: absoluteUrl(serviceSlugMap[s.id] || `/services#${s.id}`),
+}));
+
+const ld = jsonLdScript([
+  webPageSchema({
+    path: '/services',
+    name: `${BRAND_NAME} services overview`,
+    description: 'Air freight, customs and documents, GDP warehousing, and cold-chain transport.',
+  }),
+  itemListSchema(`${BRAND_NAME} service lines`, listItems),
+]);
+
+const reviewed = new Date().toISOString().slice(0, 10);
+---
+
+<BaseLayout meta={meta} jsonLd={ld}>
+  <div class="mx-auto max-w-4xl px-4 py-16 sm:px-6 lg:px-8">
+    <header>
+      <p class="text-sm text-neutral-500">Last updated: {reviewed}</p>
+      <h1 class="mt-2 text-3xl font-bold text-neutral-900 sm:text-4xl">Our Services</h1>
+      <p class="mt-4 text-lg text-neutral-600">
+        {BRAND_NAME} delivers end-to-end logistics for specialized air freight, customs clearance,
+        pharmaceutical-grade warehousing, and controlled temperature transport.
+      </p>
+    </header>
+    <div class="mt-12 space-y-10">
+      {services.map((s) => {
+        const href = serviceSlugMap[s.id] || `/services#${s.id}`;
+        return (
+          <article id={s.id} class="rounded-xl border border-neutral-200 bg-white p-6 shadow-sm">
+            <h2 class="text-xl font-semibold text-neutral-900">{s.title}</h2>
+            <p class="mt-3 text-neutral-600">{s.shortDescription}</p>
+            <p class="mt-3 text-sm text-neutral-500">{s.fullDescription.slice(0, 280)}…</p>
+            <a href={href} class="mt-4 inline-flex text-sm font-semibold" style="color: var(--color-accent-ref)">Learn more →</a>
+          </article>
+        );
+      })}
+    </div>
+  </div>
+</BaseLayout>

@@ -1,0 +1,60 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ResourcesList from '../../components/react/ResourcesList';
+import { getPublishedResources } from '../../lib/newsroom-data';
+import { pageMeta } from '../../lib/page-meta';
+import { absoluteUrl, BRAND_NAME } from '../../lib/site';
+import { itemListSchema, jsonLdScript, webPageSchema } from '../../lib/json-ld';
+
+const meta = pageMeta({
+  title: 'Resources',
+  description:
+    'Long-form guides for Thailand medical cannabis export to Europe: B.E. 2568 licensing, GACP, EU-GMP Annex 7, QP batch release, GDP cold chain, and market access.',
+  path: '/resources',
+});
+
+const raw = await getPublishedResources();
+const resources = raw.map((item) => ({
+  slug: item.slug,
+  title: item.title,
+  excerpt: item.excerpt,
+  tags: item.tags || [],
+  imageUrl: item.image_url || undefined,
+}));
+const allTags = Array.from(new Set(resources.flatMap((r) => r.tags))).sort();
+
+const listItems = resources.map((r) => ({
+  name: r.title,
+  url: absoluteUrl(`/resources/${r.slug}`),
+}));
+
+const ld = jsonLdScript([
+  webPageSchema({
+    path: '/resources',
+    name: `${BRAND_NAME} resource library`,
+    description: 'Deep-dive articles on Thai controlled-herb export and EU GMP expectations.',
+  }),
+  ...(listItems.length ? [itemListSchema(`${BRAND_NAME} resources`, listItems)] : []),
+]);
+
+const reviewed = new Date().toISOString().slice(0, 10);
+---
+
+<BaseLayout meta={meta} jsonLd={ld}>
+  <section class="mx-auto max-w-5xl px-4 py-16 sm:px-6 lg:px-8">
+    <header>
+      <p class="text-sm text-neutral-500">Last updated: {reviewed}</p>
+      <h1 class="mt-2 text-3xl font-bold text-neutral-900 sm:text-4xl">Resources</h1>
+      <p class="mt-4 text-neutral-600">
+        Long-form guides for regulated export, EU GMP and QP expectations, GDP logistics, and EU market strategy.
+      </p>
+    </header>
+    <div class="mt-10">
+      {resources.length === 0 ? (
+        <p class="py-8 text-center text-neutral-400">No published guides yet.</p>
+      ) : (
+        <ResourcesList client:visible resources={resources} allTags={allTags} />
+      )}
+    </div>
+  </section>
+</BaseLayout>

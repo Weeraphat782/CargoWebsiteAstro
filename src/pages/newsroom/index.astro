@@ -1,0 +1,68 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import NewsCard from '../../components/react/NewsCard';
+import { ContinueExploring } from '../../components/react/ContinueExploring';
+import { getPublishedArticlesList } from '../../lib/newsroom-data';
+import { pageMeta } from '../../lib/page-meta';
+import { absoluteUrl, BRAND_NAME } from '../../lib/site';
+import { itemListSchema, jsonLdScript, webPageSchema } from '../../lib/json-ld';
+
+const meta = pageMeta({
+  title: 'Newsroom',
+  description:
+    'Company announcements, route updates, and logistics industry news from OMG Experience.',
+  path: '/newsroom',
+});
+
+const rows = await getPublishedArticlesList();
+const articles = rows.map((item) => ({
+  slug: item.slug,
+  title: item.title,
+  excerpt: item.excerpt,
+  date: item.published_at || '',
+  imageUrl: item.image_url || undefined,
+}));
+
+const listItems = articles.map((a) => ({
+  name: a.title,
+  url: absoluteUrl(`/newsroom/${a.slug}`),
+}));
+
+const ld = jsonLdScript([
+  webPageSchema({
+    path: '/newsroom',
+    name: `${BRAND_NAME} Newsroom`,
+    description: 'Updates on logistics operations, industry context, and company announcements.',
+  }),
+  ...(listItems.length ? [itemListSchema(`${BRAND_NAME} news articles`, listItems)] : []),
+]);
+
+const reviewed = new Date().toISOString().slice(0, 10);
+---
+
+<BaseLayout meta={meta} jsonLd={ld}>
+  <section class="mx-auto max-w-5xl px-4 py-16 sm:px-6 lg:px-8">
+    <header>
+      <p class="text-sm text-neutral-500">Last updated: {reviewed}</p>
+      <h1 class="mt-2 text-3xl font-bold text-neutral-900 sm:text-4xl">Newsroom</h1>
+      <p class="mt-4 text-neutral-600">Company announcements, route updates, and logistics industry news.</p>
+    </header>
+    <div class="mt-10 space-y-8">
+      {articles.length === 0 ? (
+        <p class="py-8 text-center text-neutral-400">No articles published yet.</p>
+      ) : (
+        articles.map((item) => (
+          <NewsCard
+            client:visible
+            slug={item.slug}
+            title={item.title}
+            date={item.date}
+            excerpt={item.excerpt}
+            imageUrl={item.imageUrl}
+          />
+        ))
+      )}
+    </div>
+    <ContinueExploring client:visible />
+  </section>
+</BaseLayout>

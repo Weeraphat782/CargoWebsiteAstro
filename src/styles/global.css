@@ -1,0 +1,87 @@
+@import "tailwindcss";
+
+@theme inline {
+  --font-sans: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+  --color-primary-ref: #215497;
+  --color-primary-dark-ref: #1a4279;
+  --color-accent-ref: #5BBF21;
+  --color-accent-hover-ref: #4da61c;
+}
+
+:root {
+  --color-primary-ref: #215497;
+  --color-primary-dark-ref: #1a4279;
+  --color-accent-ref: #5BBF21;
+  --color-accent-hover-ref: #4da61c;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes slideInLeft {
+  from { opacity: 0; transform: translateX(-32px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(32px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+@keyframes lineFlow {
+  from { stroke-dashoffset: 20; }
+  to { stroke-dashoffset: 0; }
+}
+@keyframes radarPulse {
+  0% { transform: scale(0.5); opacity: 0.8; }
+  100% { transform: scale(2.5); opacity: 0; }
+}
+
+.animate-fade-in { animation: fadeIn 1s ease forwards; }
+.animate-fade-in-up { animation: fadeInUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+.animate-line-flow {
+  stroke-dasharray: 4 2;
+  animation: lineFlow 1s linear infinite;
+}
+.radar-ring { animation: radarPulse 2s cubic-bezier(0.21, 0.53, 0.56, 0.8) infinite; }
+.radar-ring-delayed { animation: radarPulse 2s cubic-bezier(0.21, 0.53, 0.56, 0.8) infinite 1s; }
+
+.reveal-on-scroll, .reveal-slide-left, .reveal-slide-right { opacity: 0; }
+.reveal-on-scroll.is-visible { animation: fadeInUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+.reveal-slide-left.is-visible { animation: slideInLeft 1s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+.reveal-slide-right.is-visible { animation: slideInRight 1s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+
+.nav-link { position: relative; padding-bottom: 2px; }
+.nav-link::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: 0;
+  left: 50%;
+  background: linear-gradient(90deg, var(--color-accent-ref), #86ef6c);
+  border-radius: 9999px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: translateX(-50%);
+}
+.nav-link:hover::after { width: 100%; }
+
+.accent-bar {
+  height: 4px;
+  width: 48px;
+  background: linear-gradient(90deg, var(--color-accent-ref), #86ef6c);
+  border-radius: 9999px;
+}
+
+.stat-card { position: relative; overflow: hidden; }
+
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: none;
+  border-color: var(--color-primary-ref) !important;
+  box-shadow: 0 0 0 3px rgba(33, 84, 151, 0.12);
+}

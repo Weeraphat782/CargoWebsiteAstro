@@ -1,0 +1,94 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { MarkdownBody } from '../../components/react/MarkdownBody';
+import { ContinueExploring } from '../../components/react/ContinueExploring';
+import { getArticleBySlug, getPublishedArticlesList } from '../../lib/newsroom-data';
+import { pageMeta } from '../../lib/page-meta';
+import { absoluteUrl } from '../../lib/site';
+import {
+  blogPostingSchema,
+  breadcrumbListSchema,
+  extractFaqsFromMarkdown,
+  faqPageSchema,
+  jsonLdScript,
+} from '../../lib/json-ld';
+
+export async function getStaticPaths() {
+  const rows = await getPublishedArticlesList();
+  return rows.map((row) => ({ params: { slug: row.slug } }));
+}
+
+const { slug } = Astro.params;
+const item = await getArticleBySlug(slug!);
+if (!item) return Astro.redirect('/404');
+
+function normalizeImg(url: string | null | undefined): string {
+  if (!url) return '';
+  const t = url.trim();
+  if (t.startsWith('//')) return `https:${t}`;
+  if (/^https?:\/\//i.test(t)) return t;
+  return t.startsWith('/') ? t : `/${t}`;
+}
+
+const ogImage = normalizeImg(item.image_url) || undefined;
+const meta = pageMeta({
+  title: item.title,
+  description: item.excerpt,
+  path: `/newsroom/${slug}`,
+  ogImage: ogImage?.startsWith('http') ? ogImage : ogImage ? absoluteUrl(ogImage) : undefined,
+  ogImageAlt: item.title,
+  article: {
+    publishedTime: item.published_at || undefined,
+    modifiedTime: item.updated_at || item.published_at || undefined,
+  },
+});
+
+const faqs = item.content ? extractFaqsFromMarkdown(item.content) : [];
+const faqLd = faqPageSchema(faqs);
+const ld = jsonLdScript([
+  blogPostingSchema({
+    headline: item.title,
+    description: item.excerpt,
+    slug: slug!,
+    datePublished: item.published_at || new Date().toISOString(),
+    dateModified: item.updated_at || item.published_at || undefined,
+    imageUrl: ogImage,
+  }),
+  ...(faqLd ? [faqLd] : []),
+]);
+
+const breadcrumbLd = JSON.stringify({
+  '@context': 'https://schema.org',
+  ...breadcrumbListSchema([
+    { name: 'Home', path: '/' },
+    { name: 'Newsroom', path: '/newsroom' },
+    { name: item.title, path: `/newsroom/${slug}` },
+  ]),
+});
+
+const formattedDate = item.published_at
+  ? new Date(item.published_at).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
+  : '';
+---
+
+<BaseLayout meta={meta} jsonLd={ld} breadcrumbLd={breadcrumbLd}>
+  <article class="mx-auto max-w-3xl px-4 py-16 sm:px-6 lg:px-8">
+    <a href="/newsroom" class="mb-8 inline-flex text-sm font-medium" style="color: var(--color-primary-ref)">← Back to Newsroom</a>
+    <header>
+      {formattedDate && <time datetime={item.published_at!} class="text-sm font-medium" style="color: var(--color-primary-ref)">{formattedDate}</time>}
+      <h1 class="mt-2 text-3xl font-bold text-neutral-900 sm:text-4xl">{item.title}</h1>
+      <p class="mt-4 text-lg text-neutral-600">{item.excerpt}</p>
+    </header>
+    {ogImage && (
+      <div class="relative mt-8 aspect-[16/9] overflow-hidden rounded-xl bg-neutral-100">
+        <img src={ogImage} alt={item.title} class="h-full w-full object-cover" loading="lazy" />
+      </div>
+    )}
+    {item.content && (
+      <div class="mt-10">
+        <MarkdownBody client:visible>{item.content}</MarkdownBody>
+      </div>
+    )}
+    <ContinueExploring client:visible />
+  </article>
+</BaseLayout>

@@ -1,0 +1,27 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import MarketingHomePage from '../components/react/MarketingHomePage';
+import { pageMeta } from '../lib/page-meta';
+import { jsonLdScript, webPageSchema } from '../lib/json-ld';
+import { BRAND_NAME } from '../lib/site';
+
+const meta = pageMeta({
+  title: 'Air Freight & Pharmaceutical Logistics from Thailand',
+  description:
+    'End-to-end air freight from Bangkok and Thailand — GDP warehousing, customs clearance, and AI-assisted document intelligence for pharmaceutical and time-sensitive cargo.',
+  path: '/',
+});
+
+const ld = jsonLdScript([
+  webPageSchema({
+    path: '/',
+    name: `${BRAND_NAME} — Air Freight from Thailand`,
+    description:
+      'Specialized air freight from Bangkok and Thailand — GDP warehousing, customs, and cold-chain logistics with AI document verification.',
+  }),
+]);
+---
+
+<BaseLayout meta={meta} jsonLd={ld}>
+  <MarketingHomePage client:load />
+</BaseLayout>

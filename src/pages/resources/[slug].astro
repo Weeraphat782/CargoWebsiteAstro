@@ -1,0 +1,102 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { MarkdownBody } from '../../components/react/MarkdownBody';
+import { ContinueExploring } from '../../components/react/ContinueExploring';
+import { getPublishedResources, getResourceBySlug } from '../../lib/newsroom-data';
+import { pageMeta } from '../../lib/page-meta';
+import { absoluteUrl } from '../../lib/site';
+import {
+  articleSchema,
+  breadcrumbListSchema,
+  extractFaqsFromMarkdown,
+  faqPageSchema,
+  jsonLdScript,
+} from '../../lib/json-ld';
+
+export async function getStaticPaths() {
+  const rows = await getPublishedResources();
+  return rows.map((row) => ({ params: { slug: row.slug } }));
+}
+
+const { slug } = Astro.params;
+const item = await getResourceBySlug(slug!);
+if (!item) return Astro.redirect('/404');
+
+const ogImage = item.image_url?.startsWith('http')
+  ? item.image_url
+  : item.image_url
+    ? absoluteUrl(item.image_url)
+    : undefined;
+
+const meta = pageMeta({
+  title: item.title,
+  description: item.excerpt,
+  path: `/resources/${slug}`,
+  ogImage,
+  ogImageAlt: item.title,
+  article: {
+    publishedTime: item.published_at || undefined,
+    modifiedTime: item.updated_at || item.published_at || undefined,
+  },
+});
+
+const faqs = item.content ? extractFaqsFromMarkdown(item.content) : [];
+const faqLd = faqPageSchema(faqs);
+const ld = jsonLdScript([
+  articleSchema({
+    headline: item.title,
+    description: item.excerpt,
+    slug: slug!,
+    datePublished: item.published_at || undefined,
+    dateModified: item.updated_at || item.published_at || undefined,
+    imageUrl: ogImage,
+  }),
+  ...(faqLd ? [faqLd] : []),
+]);
+
+const breadcrumbLd = JSON.stringify({
+  '@context': 'https://schema.org',
+  ...breadcrumbListSchema([
+    { name: 'Home', path: '/' },
+    { name: 'Resources', path: '/resources' },
+    { name: item.title, path: `/resources/${slug}` },
+  ]),
+});
+
+const heroSrc = item.image_url?.startsWith('http') ? item.image_url : item.image_url || '';
+const publishedFormatted = item.published_at
+  ? new Date(item.published_at).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
+  : '';
+---
+
+<BaseLayout meta={meta} jsonLd={ld} breadcrumbLd={breadcrumbLd}>
+  <article class="mx-auto max-w-3xl px-4 py-16 sm:px-6 lg:px-8">
+    <a href="/resources" class="mb-8 inline-flex text-sm font-medium" style="color: var(--color-primary-ref)">← Back to Resources</a>
+    <div class="flex flex-wrap gap-2">
+      {(item.tags || []).map((tag: string) => (
+        <span class="rounded-full px-3 py-1 text-xs font-medium text-white" style="background-color: var(--color-primary-ref)">{tag}</span>
+      ))}
+    </div>
+    <header class="mt-4">
+      {publishedFormatted && <time class="text-sm font-medium" style="color: var(--color-primary-ref)">{publishedFormatted}</time>}
+      <h1 class="mt-2 text-3xl font-bold text-neutral-900 sm:text-4xl">{item.title}</h1>
+      <p class="mt-4 text-lg text-neutral-600">{item.excerpt}</p>
+    </header>
+    {heroSrc && (
+      <div class="relative mt-8 aspect-[16/9] overflow-hidden rounded-xl bg-neutral-100">
+        <img src={heroSrc} alt={item.title} class="h-full w-full object-cover" loading="lazy" />
+      </div>
+    )}
+    {item.file_url && (
+      <p class="mt-6">
+        <a href={item.file_url} class="font-semibold underline" style="color: var(--color-primary-ref)" target="_blank" rel="noopener noreferrer">Download attached file</a>
+      </p>
+    )}
+    {item.content && (
+      <div class="mt-10">
+        <MarkdownBody client:visible>{item.content}</MarkdownBody>
+      </div>
+    )}
+    <ContinueExploring client:visible />
+  </article>
+</BaseLayout>
