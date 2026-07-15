@@ -49,16 +49,16 @@ const components: Components = {
  * Renders CMS Markdown (e.g. **bold**, lists) on marketing pages.
  */
 export function MarkdownBody({
-    children,
+    content,
     className = "",
 }: {
-    children: string;
+    content: string;
     className?: string;
 }) {
     return (
         <div className={`max-w-none ${className}`}>
             <ReactMarkdown remarkPlugins={[remarkGfm]} components={components}>
-                {children}
+                {content}
             </ReactMarkdown>
         </div>
     );

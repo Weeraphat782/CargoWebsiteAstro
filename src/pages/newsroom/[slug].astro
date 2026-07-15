@@ -86,7 +86,7 @@ const formattedDate = item.published_at
     )}
     {item.content && (
       <div class="mt-10">
-        <MarkdownBody client:visible>{item.content}</MarkdownBody>
+        <MarkdownBody content={item.content} />
       </div>
     )}
     <ContinueExploring client:visible />

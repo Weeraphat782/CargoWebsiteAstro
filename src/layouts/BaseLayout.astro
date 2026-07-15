@@ -6,6 +6,7 @@ import Footer from '../components/react/Footer';
 import { MarketingBreadcrumbNav } from '../components/react/MarketingBreadcrumbNav';
 import { BRAND_NAME } from '../lib/site';
 import type { PageMeta } from '../lib/page-meta';
+import { jsonLdScript, organizationSchema, websiteSchema } from '../lib/json-ld';
 
 interface Props {
   meta: PageMeta;
@@ -14,6 +15,7 @@ interface Props {
 }
 
 const { meta, jsonLd, breadcrumbLd } = Astro.props;
+const siteLd = jsonLdScript([organizationSchema(), websiteSchema()]);
 ---
 
 <!doctype html>
@@ -30,6 +32,8 @@ const { meta, jsonLd, breadcrumbLd } = Astro.props;
     <meta name="robots" content={meta.robots} />
     <link rel="canonical" href={meta.canonical} />
     <meta property="og:type" content={meta.ogType} />
+    <meta property="og:site_name" content={BRAND_NAME} />
+    <meta property="og:locale" content="en_US" />
     <meta property="og:title" content={meta.ogTitle} />
     <meta property="og:description" content={meta.ogDescription} />
     <meta property="og:url" content={meta.ogUrl} />
@@ -41,6 +45,7 @@ const { meta, jsonLd, breadcrumbLd } = Astro.props;
     <meta name="twitter:image" content={meta.ogImage} />
     {meta.publishedTime && <meta property="article:published_time" content={meta.publishedTime} />}
     {meta.modifiedTime && <meta property="article:modified_time" content={meta.modifiedTime} />}
+    <script type="application/ld+json" set:html={siteLd} />
     {jsonLd && <script type="application/ld+json" set:html={jsonLd} />}
     {breadcrumbLd && <script type="application/ld+json" set:html={breadcrumbLd} />}
   </head>
