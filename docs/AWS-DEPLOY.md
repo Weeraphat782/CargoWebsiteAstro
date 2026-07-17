@@ -8,6 +8,7 @@ Static Astro site → **S3** `omgexp-marketing-site` → **CloudFront** CDN.
 | S3 bucket | `omgexp-marketing-site` |
 | CloudFront ID | `EG4RDROJ9ZNW1` |
 | CloudFront URL | `https://d3c2ycuie46lns.cloudfront.net` |
+| URL rewrite | CloudFront Function `omgexp-marketing-url-rewrite` (Astro `/path/` → `/path/index.html`) |
 | GitHub repo | `Weeraphat782/CargoWebsiteAstro` branch `master` |
 
 ## Push to deploy (GitHub Actions)
