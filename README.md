@@ -28,12 +28,16 @@ Copy `logo.png` and `/public/images/*` from `Tr/public/` if missing.
 
 ## Tr app integration
 
-In **Tr** Vercel env, set:
+In **Tr** env (local `.env.local` or Vercel), set:
 
-- `MARKETING_DEPLOY_HOOK_URL` — Vercel Deploy Hook for this project
-- `MARKETING_SITE_ORIGIN` — e.g. `https://your-preview.vercel.app` (CORS for contact form)
+- `MARKETING_GITHUB_PAT` — fine-grained PAT with Actions:write on `CargoWebsiteAstro` (see [`docs/CMS-REBUILD.md`](docs/CMS-REBUILD.md))
+- `MARKETING_SITE_ORIGIN` — e.g. `https://d3c2ycuie46lns.cloudfront.net` (CORS for contact form)
 
-CMS publish + `/api/newsroom/posts` call `/api/marketing/rebuild` → deploy hook.
+CMS publish calls `/api/marketing/rebuild` → GitHub Actions deploy.
+
+## Deploy (AWS)
+
+See [`docs/AWS-DEPLOY.md`](docs/AWS-DEPLOY.md) and [`docs/GITHUB-SECRETS.md`](docs/GITHUB-SECRETS.md).
 
 ## Routes
 

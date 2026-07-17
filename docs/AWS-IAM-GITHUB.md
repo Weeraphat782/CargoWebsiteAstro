@@ -1,6 +1,6 @@
 # IAM for GitHub Actions deploy (S3 + CloudFront)
 
-Marketing site deploy needs **no Amplify**. Create an IAM user `omgexp-marketing-github` for CI only.
+Marketing site deploy uses GitHub Actions → S3 + CloudFront. Create an IAM user `omgexp-marketing-github` for CI only.
 
 ## Policy
 

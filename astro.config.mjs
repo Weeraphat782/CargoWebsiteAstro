@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-// https://astro.build/config — static SSG for AWS Amplify (ponytail: no adapter)
+// https://astro.build/config — static SSG for S3 + CloudFront (ponytail: no adapter)
 export default defineConfig({
   output: 'static',
   site: process.env.PUBLIC_SITE_URL || 'https://web.omgexp.com',

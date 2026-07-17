@@ -47,16 +47,22 @@ node scripts/deploy-aws.mjs
 
 ## CMS rebuild from Tr (local)
 
+Full guide: **[`CMS-REBUILD.md`](CMS-REBUILD.md)** — PAT setup, CMS save test, manual trigger.
+
 Set in `Tr/.env.local`:
 
-```
+```env
 MARKETING_GITHUB_PAT=<fine-grained PAT with Actions:write on CargoWebsiteAstro>
 MARKETING_GITHUB_REPO=Weeraphat782/CargoWebsiteAstro
 MARKETING_GITHUB_WORKFLOW=deploy-marketing.yml
 ```
 
-Saving news/resources in CMS triggers GitHub Actions rebuild.
+Saving **published** news/resources in CMS triggers GitHub Actions rebuild (~1–2 min).
 
-## Not using Amplify
+Manual trigger (no CMS):
 
-`amplify.yml` in repo is unused. Hosting is S3 + CloudFront only.
+```powershell
+cd web
+$env:MARKETING_GITHUB_PAT = "<your PAT>"
+npm run rebuild:cms
+```
