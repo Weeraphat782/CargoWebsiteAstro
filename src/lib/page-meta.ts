@@ -19,7 +19,7 @@ export function pageMeta(opts: PageMeta) {
   const title = opts.title;
   const description = opts.description;
   const url = absoluteUrl(opts.path);
-  const canonical = legacyCanonical(opts.path);
+  const canonical = NOINDEX ? legacyCanonical(opts.path) : url;
   const og = opts.ogImage || getDefaultOgImageUrl();
   const imgAlt = opts.ogImageAlt || opts.title;
 

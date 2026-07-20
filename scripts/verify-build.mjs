@@ -16,9 +16,10 @@ const contactJs = contactChunk
   ? readFileSync(join(astroDir, contactChunk), 'utf8')
   : '';
 
+const noindex = process.env.PUBLIC_NOINDEX !== 'false';
+
 const checks = [
   ['login link', indexHtml, 'cargo.omgexp.com/site/login'],
-  ['noindex staging', indexHtml, 'noindex'],
   ['contact api', contactJs, 'cargo.omgexp.com/api/contact'],
 ];
 for (const [label, haystack, needle] of checks) {
@@ -27,4 +28,11 @@ for (const [label, haystack, needle] of checks) {
     process.exit(1);
   }
 }
-console.log('OK: login, contact API, and noindex verified in build output');
+
+const robotsNeedle = noindex ? 'noindex' : 'index, follow';
+if (!indexHtml.includes(robotsNeedle)) {
+  console.error(`FAIL: robots — expected "${robotsNeedle}" (PUBLIC_NOINDEX=${process.env.PUBLIC_NOINDEX ?? '(unset)'})`);
+  process.exit(1);
+}
+
+console.log(`OK: login, contact API, robots (${noindex ? 'noindex' : 'index'}) verified in build output`);

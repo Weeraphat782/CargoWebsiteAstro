@@ -13,8 +13,8 @@ env:
   S3_BUCKET: omgexp-marketing-site
   PUBLIC_APP_URL: https://cargo.omgexp.com
   PUBLIC_CONTACT_API_URL: https://cargo.omgexp.com/api/contact
-  PUBLIC_CANONICAL_BASE: https://cargo.omgexp.com
-  PUBLIC_NOINDEX: "true"
+  PUBLIC_CANONICAL_BASE: https://www.omgcargo.tech
+  PUBLIC_NOINDEX: "false"
 
 jobs:
   deploy:
