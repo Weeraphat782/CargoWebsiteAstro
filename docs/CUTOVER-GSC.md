@@ -7,11 +7,7 @@ App (login, portal, API): **https://cargo.omgexp.com**
 
 ### GitHub Secret (`CargoWebsiteAstro`)
 
-| Secret | Value |
-|--------|-------|
-| `PUBLIC_SITE_URL` | `https://www.omgcargo.tech` |
-
-Workflow already sets `PUBLIC_NOINDEX=false` and `PUBLIC_CANONICAL_BASE=https://www.omgcargo.tech`.
+Build uses workflow env `PUBLIC_SITE_URL=https://www.omgcargo.tech` (no secret change required). Optional: update secret `PUBLIC_SITE_URL` to match for local docs consistency.
 
 ### Vercel env (Tr / Exportation-Tracker)
 
