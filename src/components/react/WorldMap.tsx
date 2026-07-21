@@ -25,6 +25,16 @@ const PRIMARY_DARK = '#1a4279';
 const ACCENT = '#5BBF21';
 const ACCENT_LIGHT = '#86ef6c';
 
+const mapLabelProps = {
+  fill: '#fff',
+  fontSize: 11,
+  fontWeight: 600,
+  stroke: PRIMARY_DARK,
+  strokeWidth: 2,
+  paintOrder: 'stroke' as const,
+  style: { pointerEvents: 'none' as const },
+};
+
 export default function WorldMap() {
   return (
     <div
@@ -57,11 +67,22 @@ export default function WorldMap() {
             <Marker key={dest.name} coordinates={dest.coords}>
               <circle r={12} fill="transparent" stroke={ACCENT} strokeWidth={1} className="radar-ring" />
               <circle r={5} fill="#fff" stroke={ACCENT} strokeWidth={1.5} />
+              <text
+                x={dest.offset[0]}
+                y={dest.offset[1]}
+                textAnchor={dest.align}
+                {...mapLabelProps}
+              >
+                {dest.name}
+              </text>
             </Marker>
           ))}
           <Marker coordinates={thailand}>
             <circle r={18} fill={`${ACCENT}33`} className="radar-ring" />
             <circle r={8} fill={ACCENT} stroke="#fff" strokeWidth={2.5} />
+            <text x={0} y={28} textAnchor="middle" {...mapLabelProps}>
+              Thailand
+            </text>
           </Marker>
         </ComposableMap>
       </Suspense>
