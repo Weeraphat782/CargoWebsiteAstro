@@ -50,7 +50,7 @@ Our solutions cover ambient, chilled, and frozen requirements across air and gro
     {
         id: serviceIds.qcLabTesting,
         title: "QC Lab Testing",
-        imageUrl: "/images/air-freight.jpg",
+        imageUrl: "/images/qc-lab-testing.jpg",
         shortDescription:
             "GACP-aligned partner lab, portal-integrated — QR-tracked samples with COA results online.",
         fullDescription: `Submit export samples through the OMG Experience Export Portal and receive a transparent QC quote with itemized pricing. Every sample gets a QR code for live tracking from receipt through testing to Certificate of Analysis (COA) delivery.
