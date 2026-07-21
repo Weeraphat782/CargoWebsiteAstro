@@ -21,8 +21,11 @@ export default function ResourceCard({
                     <img
                         src={imageUrl}
                         alt={title}
+                        width={384}
+                        height={192}
                         className="absolute inset-0 h-full w-full object-cover"
                         loading="lazy"
+                        decoding="async"
                     />
                 </div>
             )}

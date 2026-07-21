@@ -1,36 +1,9 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
-import { getSupabaseBrowser } from '@/lib/supabase';
-import {
-  type CarrierBoardRouteRow,
-  type CarrierBoardDisplayItem,
-  rowToDisplayItem,
-} from '@/types/carrier-board';
+import React, { useState } from 'react';
+import type { CarrierBoardDisplayItem } from '@/types/carrier-board';
 
 const ACCENT = '#5BBF21';
-
-/** Offline / error fallback (matches last seeded defaults) */
-const FALLBACK_ROWS: Omit<CarrierBoardRouteRow, 'id' | 'created_at' | 'updated_at'>[] = [
-  { country: 'Switzerland', city: 'Zurich', carrier_code: 'TG', sort_order: 0, is_active: true },
-  { country: 'Macedonia', city: 'Skopje', carrier_code: 'LH', sort_order: 1, is_active: true },
-  { country: 'Germany', city: 'Munich, Frankfurt', carrier_code: 'LH', sort_order: 2, is_active: true },
-  { country: 'Australia', city: 'Melbourne, Sydney', carrier_code: 'TG', sort_order: 3, is_active: true },
-  { country: 'Czech', city: 'Prague', carrier_code: 'QR', sort_order: 4, is_active: true },
-  { country: 'Portugal', city: 'Lisbon', carrier_code: 'QR', sort_order: 5, is_active: true },
-  { country: 'New Zealand', city: 'Auckland', carrier_code: 'Qantas', sort_order: 6, is_active: true },
-];
-
-function fallbackDisplayItems(): CarrierBoardDisplayItem[] {
-  return FALLBACK_ROWS.map((r, i) =>
-    rowToDisplayItem({
-      ...r,
-      id: `fallback-${i}-${r.country}-${r.carrier_code}`,
-      created_at: '',
-      updated_at: '',
-    })
-  );
-}
 
 function CarrierLogo({ carrier }: { carrier: string }) {
   const [failed, setFailed] = useState(false);
@@ -45,70 +18,22 @@ function CarrierLogo({ carrier }: { carrier: string }) {
     <img
       src={`/images/carriers/logo-${carrier.toLowerCase()}.png`}
       alt={carrier}
+      width={96}
+      height={56}
       className="absolute inset-0 h-full w-full object-contain p-0.5"
       loading="lazy"
+      decoding="async"
       onError={() => setFailed(true)}
     />
   );
 }
 
-export default function CarrierBoard() {
-  const [items, setItems] = useState<CarrierBoardDisplayItem[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [usedFallback, setUsedFallback] = useState(false);
+interface CarrierBoardProps {
+  items: CarrierBoardDisplayItem[];
+}
 
-  useEffect(() => {
-    let cancelled = false;
-
-    async function load() {
-      setLoading(true);
-      try {
-        const sb = getSupabaseBrowser();
-        if (!sb) {
-          setItems(fallbackDisplayItems());
-          setUsedFallback(true);
-          return;
-        }
-        const { data, error } = await sb
-          .from('carrier_board_routes')
-          .select('*')
-          .order('sort_order', { ascending: true });
-
-        if (cancelled) return;
-
-        if (error) {
-          console.warn('[CarrierBoard] Using fallback:', error.message);
-          setItems(fallbackDisplayItems());
-          setUsedFallback(true);
-          return;
-        }
-
-        const rows = (data ?? []) as CarrierBoardRouteRow[];
-        if (rows.length === 0) {
-          setItems(fallbackDisplayItems());
-          setUsedFallback(true);
-          return;
-        }
-
-        setItems(rows.map(rowToDisplayItem));
-        setUsedFallback(false);
-      } catch (e) {
-        if (!cancelled) {
-          console.warn('[CarrierBoard] Using fallback:', e);
-          setItems(fallbackDisplayItems());
-          setUsedFallback(true);
-        }
-      } finally {
-        if (!cancelled) setLoading(false);
-      }
-    }
-
-    void load();
-    return () => {
-      cancelled = true;
-    };
-  }, []);
-
+// ponytail: routes refresh on marketing rebuild, not realtime in-browser
+export default function CarrierBoard({ items }: CarrierBoardProps) {
   return (
     <div className="mx-auto w-full lg:ml-auto animate-fade-in-up stagger-1">
       <div className="overflow-hidden rounded-xl border border-white/10 bg-black/50 backdrop-blur-xl shadow-2xl">
@@ -126,16 +51,8 @@ export default function CarrierBoard() {
               Live Shipping Status
             </h3>
           </div>
-          <div className="flex flex-col items-end gap-0.5">
-            <div className="text-[10px] font-mono text-neutral-500 uppercase tracking-widest sm:text-xs">
-              Real-Time Feed
-            </div>
-            {loading && (
-              <span className="text-[10px] font-mono text-neutral-500 sm:text-xs">Loading…</span>
-            )}
-            {!loading && usedFallback && (
-              <span className="text-[10px] font-mono text-amber-500/90 sm:text-xs">Offline</span>
-            )}
+          <div className="text-[10px] font-mono text-neutral-500 uppercase tracking-widest sm:text-xs">
+            Real-Time Feed
           </div>
         </div>
 
@@ -146,13 +63,7 @@ export default function CarrierBoard() {
         </div>
 
         <div className="divide-y divide-white/5">
-          {loading && (
-            <div className="px-4 py-8 text-center text-xs font-mono text-neutral-500">
-              Loading carrier routes…
-            </div>
-          )}
-          {!loading &&
-            items.map((item) => (
+          {items.map((item) => (
             <div
               key={item.id}
               className="grid grid-cols-12 gap-2 px-4 py-2.5 items-center hover:bg-white/5 transition-colors group"
@@ -191,7 +102,7 @@ export default function CarrierBoard() {
                 </div>
               </div>
             </div>
-            ))}
+          ))}
         </div>
 
         <div className="bg-black/20 px-3 py-2 border-t border-white/5 sm:px-4">

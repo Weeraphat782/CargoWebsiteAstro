@@ -16,7 +16,3 @@ export function getSupabase(): SupabaseClient | null {
   return client;
 }
 
-/** Browser client for CarrierBoard island. */
-export function getSupabaseBrowser(): SupabaseClient | null {
-  return getSupabase();
-}

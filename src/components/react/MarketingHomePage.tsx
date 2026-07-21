@@ -19,6 +19,10 @@ import WorldMapDeferred from '@/components/react/WorldMapDeferred';
 import EdgeCarousel from '@/components/react/EdgeCarousel';
 import CarrierBoard from '@/components/react/CarrierBoard';
 import { ContinueExploring } from '@/components/react/ContinueExploring';
+import type { CarrierBoardDisplayItem } from '@/types/carrier-board';
+
+const HERO_UNSPLASH =
+  'https://images.unsplash.com/photo-1570710891163-6d3b5c47248b?q=80&auto=format&fit=crop';
 
 const registerUrl = `${APP_URL}/site/register`;
 const loginUrl = `${APP_URL}/site/login`;
@@ -81,7 +85,11 @@ const stats = [
   },
 ];
 
-export default function MarketingHomePageClient() {
+interface MarketingHomePageProps {
+  carrierItems: CarrierBoardDisplayItem[];
+}
+
+export default function MarketingHomePageClient({ carrierItems }: MarketingHomePageProps) {
   useScrollReveal();
   const [servicesCarouselApi, setServicesCarouselApi] = useState<CarouselApi>();
   const servicesCarouselPaused = useRef(false);
@@ -103,10 +111,16 @@ export default function MarketingHomePageClient() {
       {/* Hero Section */}
       <section className="relative min-h-[60vh] overflow-hidden sm:min-h-[80vh]">
         <img
-          src="https://images.unsplash.com/photo-1570710891163-6d3b5c47248b?q=80&w=2000&auto=format&fit=crop"
+          src={`${HERO_UNSPLASH}&w=1200`}
+          srcSet={`${HERO_UNSPLASH}&w=800 800w, ${HERO_UNSPLASH}&w=1200 1200w, ${HERO_UNSPLASH}&w=2000 2000w`}
+          sizes="100vw"
           alt="Cargo aircraft on airport tarmac"
           className="absolute inset-0 h-full w-full object-cover opacity-55 animate-fade-in"
           loading="eager"
+          fetchPriority="high"
+          decoding="async"
+          width={2000}
+          height={1333}
         />
         {/* Multi-layer gradient for depth */}
         <div className="absolute inset-0 bg-gradient-to-br from-neutral-950/80 via-neutral-900/50 to-transparent" />
@@ -168,7 +182,7 @@ export default function MarketingHomePageClient() {
             </div>
 
             {/* Shipping Status Board */}
-            <CarrierBoard />
+            <CarrierBoard items={carrierItems} />
           </div>
         </div>
 

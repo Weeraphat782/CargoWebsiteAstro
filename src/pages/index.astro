@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import MarketingHomePage from '../components/react/MarketingHomePage';
+import { getCarrierBoardDisplayItems } from '../lib/carrier-board-data';
 import { pageMeta } from '../lib/page-meta';
 import { jsonLdScript, webPageSchema } from '../lib/json-ld';
 import { BRAND_NAME } from '../lib/site';
@@ -11,6 +12,8 @@ const meta = pageMeta({
     'End-to-end air freight from Bangkok and Thailand — GDP warehousing, customs clearance, and AI-assisted document intelligence for pharmaceutical and time-sensitive cargo.',
   path: '/',
 });
+
+const carrierItems = await getCarrierBoardDisplayItems();
 
 const ld = jsonLdScript([
   webPageSchema({
@@ -23,5 +26,5 @@ const ld = jsonLdScript([
 ---
 
 <BaseLayout meta={meta} jsonLd={ld}>
-  <MarketingHomePage client:load />
+  <MarketingHomePage client:idle carrierItems={carrierItems} />
 </BaseLayout>

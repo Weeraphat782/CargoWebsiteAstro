@@ -10,8 +10,12 @@ export const GET: APIRoute = async () => {
   try {
     const news = (await getPublishedArticlesList()).slice(0, 5);
     const res = (await getPublishedResources()).slice(0, 5);
-    news.forEach((n) => lines.push(`- ${n.title}: ${base}/newsroom/${n.slug}`));
-    res.forEach((r) => lines.push(`- ${r.title}: ${base}/resources/${r.slug}`));
+    news.forEach((n) =>
+      lines.push(`- [${n.title}](${base}/newsroom/${n.slug})`),
+    );
+    res.forEach((r) =>
+      lines.push(`- [${r.title}](${base}/resources/${r.slug})`),
+    );
   } catch {
     // skip pillar lines
   }
@@ -24,20 +28,20 @@ export const GET: APIRoute = async () => {
 
 ## Entity
 - Type: Organization (logistics / air freight)
-- Website: ${base}/
+- Website: [${BRAND_NAME}](${base}/)
 - Legal name: ${BRAND_LEGAL_NAME}
 
 ## Key pages
-- Homepage: ${base}/
-- Services: ${base}/services
-- Newsroom: ${base}/newsroom
-- Resources: ${base}/resources
-- About: ${base}/about
-- Contact: ${base}/contact
+- [Homepage](${base}/)
+- [Services](${base}/services)
+- [Newsroom](${base}/newsroom)
+- [Resources](${base}/resources)
+- [About](${base}/about)
+- [Contact](${base}/contact)
 
 ${pillarLines}## Machine-readable endpoints
-- RSS: ${base}/feed.xml
-- Sitemap: ${base}/sitemap-index.xml
+- [RSS feed](${base}/feed.xml)
+- [Sitemap index](${base}/sitemap-index.xml)
 
 Last reviewed: ${reviewed}
 `.trim();

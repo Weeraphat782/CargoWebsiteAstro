@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import NewsCard from '../../components/react/NewsCard';
+import NewsCard from '../../components/NewsCard.astro';
 import { ContinueExploring } from '../../components/react/ContinueExploring';
 import { getPublishedArticlesList } from '../../lib/newsroom-data';
 import { pageMeta } from '../../lib/page-meta';
@@ -53,7 +53,6 @@ const reviewed = new Date().toISOString().slice(0, 10);
       ) : (
         articles.map((item) => (
           <NewsCard
-            client:visible
             slug={item.slug}
             title={item.title}
             date={item.date}
