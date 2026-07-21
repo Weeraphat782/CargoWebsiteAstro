@@ -46,6 +46,35 @@ function sanitizeImageUrl(url: string | null | undefined, slug: string): string 
   return t;
 }
 
+export const NEWSROOM_PAGE_SIZE = 12;
+
+export type NewsroomListArticle = {
+  slug: string;
+  title: string;
+  excerpt: string;
+  date: string;
+  imageUrl?: string;
+};
+
+export function mapNewsroomListArticles(rows: NewsListRow[]): NewsroomListArticle[] {
+  return rows.map((item) => ({
+    slug: item.slug,
+    title: item.title,
+    excerpt: item.excerpt,
+    date: item.published_at || '',
+    imageUrl: item.image_url || undefined,
+  }));
+}
+
+export function newsroomListTotalPages(articleCount: number): number {
+  return Math.max(1, Math.ceil(articleCount / NEWSROOM_PAGE_SIZE));
+}
+
+/** Page 1 is /newsroom; page 2+ is /newsroom/page/N */
+export function newsroomListPagePath(page: number): string {
+  return page <= 1 ? '/newsroom' : `/newsroom/page/${page}`;
+}
+
 const ARTICLE_COLUMNS =
   'id, slug, title, excerpt, content, image_url, is_published, is_pinned, published_at, updated_at';
 

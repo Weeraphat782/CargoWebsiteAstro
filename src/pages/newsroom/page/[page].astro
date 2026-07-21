@@ -1,0 +1,92 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import NewsCard from '../../../components/NewsCard.astro';
+import NewsroomPagination from '../../../components/NewsroomPagination.astro';
+import { ContinueExploring } from '../../../components/react/ContinueExploring';
+import {
+  getPublishedArticlesList,
+  mapNewsroomListArticles,
+  NEWSROOM_PAGE_SIZE,
+  newsroomListPagePath,
+  newsroomListTotalPages,
+  type NewsroomListArticle,
+} from '../../../lib/newsroom-data';
+import { pageMeta } from '../../../lib/page-meta';
+import { absoluteUrl, BRAND_NAME } from '../../../lib/site';
+import { itemListSchema, jsonLdScript, webPageSchema } from '../../../lib/json-ld';
+
+export async function getStaticPaths() {
+  const rows = await getPublishedArticlesList();
+  const allArticles = mapNewsroomListArticles(rows);
+  const totalPages = newsroomListTotalPages(allArticles.length);
+  if (totalPages < 2) return [];
+
+  return Array.from({ length: totalPages - 1 }, (_, i) => {
+    const pageNum = i + 2;
+    const start = (pageNum - 1) * NEWSROOM_PAGE_SIZE;
+    const pageArticles = allArticles.slice(start, start + NEWSROOM_PAGE_SIZE);
+    return {
+      params: { page: String(pageNum) },
+      props: { pageArticles, pageNum, totalPages },
+    };
+  });
+}
+
+interface Props {
+  pageArticles: NewsroomListArticle[];
+  pageNum: number;
+  totalPages: number;
+}
+
+const { pageArticles, pageNum, totalPages } = Astro.props;
+
+const meta = pageMeta({
+  title: `Newsroom — Page ${pageNum}`,
+  description:
+    'Company announcements, route updates, and logistics industry news from OMG Experience.',
+  path: newsroomListPagePath(pageNum),
+});
+
+const listItems = pageArticles.map((a) => ({
+  name: a.title,
+  url: absoluteUrl(`/newsroom/${a.slug}`),
+}));
+
+const ld = jsonLdScript([
+  webPageSchema({
+    path: newsroomListPagePath(pageNum),
+    name: `${BRAND_NAME} Newsroom — Page ${pageNum}`,
+    description: 'Updates on logistics operations, industry context, and company announcements.',
+  }),
+  ...(listItems.length ? [itemListSchema(`${BRAND_NAME} news articles`, listItems)] : []),
+]);
+
+const prevUrl = absoluteUrl(newsroomListPagePath(pageNum - 1));
+const nextUrl =
+  pageNum < totalPages ? absoluteUrl(newsroomListPagePath(pageNum + 1)) : undefined;
+const reviewed = new Date().toISOString().slice(0, 10);
+---
+
+<BaseLayout meta={meta} jsonLd={ld} prevUrl={prevUrl} nextUrl={nextUrl}>
+  <section class="mx-auto max-w-5xl px-4 py-16 sm:px-6 lg:px-8">
+    <header>
+      <p class="text-sm text-neutral-500">Last updated: {reviewed}</p>
+      <h1 class="mt-2 text-3xl font-bold text-neutral-900 sm:text-4xl">Newsroom</h1>
+      <p class="mt-4 text-neutral-600">Company announcements, route updates, and logistics industry news.</p>
+      <p class="mt-2 text-sm text-neutral-500">Page {pageNum} of {totalPages}</p>
+    </header>
+    <div class="mt-10 space-y-8">
+      {pageArticles.map((item) => (
+        <NewsCard
+          slug={item.slug}
+          title={item.title}
+          date={item.date}
+          excerpt={item.excerpt}
+          imageUrl={item.imageUrl}
+        />
+      ))}
+    </div>
+    <NewsroomPagination currentPage={pageNum} totalPages={totalPages} />
+    <ContinueExploring client:visible />
+  </section>
+</BaseLayout>

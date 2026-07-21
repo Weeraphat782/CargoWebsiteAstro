@@ -1,11 +1,24 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import NewsCard from '../../components/NewsCard.astro';
+import NewsroomPagination from '../../components/NewsroomPagination.astro';
 import { ContinueExploring } from '../../components/react/ContinueExploring';
-import { getPublishedArticlesList } from '../../lib/newsroom-data';
+import {
+  getPublishedArticlesList,
+  mapNewsroomListArticles,
+  NEWSROOM_PAGE_SIZE,
+  newsroomListPagePath,
+  newsroomListTotalPages,
+} from '../../lib/newsroom-data';
 import { pageMeta } from '../../lib/page-meta';
 import { absoluteUrl, BRAND_NAME } from '../../lib/site';
 import { itemListSchema, jsonLdScript, webPageSchema } from '../../lib/json-ld';
+
+const currentPage = 1;
+const rows = await getPublishedArticlesList();
+const allArticles = mapNewsroomListArticles(rows);
+const totalPages = newsroomListTotalPages(allArticles.length);
+const pageArticles = allArticles.slice(0, NEWSROOM_PAGE_SIZE);
 
 const meta = pageMeta({
   title: 'Newsroom',
@@ -14,16 +27,7 @@ const meta = pageMeta({
   path: '/newsroom',
 });
 
-const rows = await getPublishedArticlesList();
-const articles = rows.map((item) => ({
-  slug: item.slug,
-  title: item.title,
-  excerpt: item.excerpt,
-  date: item.published_at || '',
-  imageUrl: item.image_url || undefined,
-}));
-
-const listItems = articles.map((a) => ({
+const listItems = pageArticles.map((a) => ({
   name: a.title,
   url: absoluteUrl(`/newsroom/${a.slug}`),
 }));
@@ -37,10 +41,11 @@ const ld = jsonLdScript([
   ...(listItems.length ? [itemListSchema(`${BRAND_NAME} news articles`, listItems)] : []),
 ]);
 
+const nextUrl = totalPages > 1 ? absoluteUrl(newsroomListPagePath(2)) : undefined;
 const reviewed = new Date().toISOString().slice(0, 10);
 ---
 
-<BaseLayout meta={meta} jsonLd={ld}>
+<BaseLayout meta={meta} jsonLd={ld} nextUrl={nextUrl}>
   <section class="mx-auto max-w-5xl px-4 py-16 sm:px-6 lg:px-8">
     <header>
       <p class="text-sm text-neutral-500">Last updated: {reviewed}</p>
@@ -48,10 +53,10 @@ const reviewed = new Date().toISOString().slice(0, 10);
       <p class="mt-4 text-neutral-600">Company announcements, route updates, and logistics industry news.</p>
     </header>
     <div class="mt-10 space-y-8">
-      {articles.length === 0 ? (
+      {pageArticles.length === 0 ? (
         <p class="py-8 text-center text-neutral-400">No articles published yet.</p>
       ) : (
-        articles.map((item) => (
+        pageArticles.map((item) => (
           <NewsCard
             slug={item.slug}
             title={item.title}
@@ -62,6 +67,7 @@ const reviewed = new Date().toISOString().slice(0, 10);
         ))
       )}
     </div>
+    <NewsroomPagination currentPage={currentPage} totalPages={totalPages} />
     <ContinueExploring client:visible />
   </section>
 </BaseLayout>

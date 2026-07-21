@@ -12,9 +12,11 @@ interface Props {
   meta: PageMeta;
   jsonLd?: string;
   breadcrumbLd?: string;
+  prevUrl?: string;
+  nextUrl?: string;
 }
 
-const { meta, jsonLd, breadcrumbLd } = Astro.props;
+const { meta, jsonLd, breadcrumbLd, prevUrl, nextUrl } = Astro.props;
 const siteLd = jsonLdScript([organizationSchema(), websiteSchema()]);
 const gtmId = import.meta.env.PUBLIC_GTM_ID?.trim();
 ---
@@ -37,6 +39,8 @@ const gtmId = import.meta.env.PUBLIC_GTM_ID?.trim();
     <meta name="description" content={meta.description} />
     <meta name="robots" content={meta.robots} />
     <link rel="canonical" href={meta.canonical} />
+    {prevUrl && <link rel="prev" href={prevUrl} />}
+    {nextUrl && <link rel="next" href={nextUrl} />}
     <meta property="og:type" content={meta.ogType} />
     <meta property="og:site_name" content={BRAND_NAME} />
     <meta property="og:locale" content="en_US" />
@@ -89,5 +93,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       <slot />
     </main>
     <Footer client:load />
+    <script is:inline>
+      if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+      function scrollTopUnlessHash() {
+        if (!window.location.hash) window.scrollTo(0, 0);
+      }
+      window.addEventListener('pageshow', function (e) {
+        if (e.persisted) scrollTopUnlessHash();
+      });
+      window.addEventListener('load', scrollTopUnlessHash);
+    </script>
   </body>
 </html>
