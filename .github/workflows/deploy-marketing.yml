@@ -16,6 +16,7 @@ env:
   PUBLIC_CONTACT_API_URL: https://cargo.omgexp.com/api/contact
   PUBLIC_CANONICAL_BASE: https://www.omgcargo.tech
   PUBLIC_NOINDEX: "false"
+  PUBLIC_GTM_ID: GTM-NLW7B7NP
 
 jobs:
   deploy:
@@ -35,6 +36,7 @@ jobs:
       - name: Build
         env:
           PUBLIC_SITE_URL: ${{ env.PUBLIC_SITE_URL }}
+          PUBLIC_GTM_ID: ${{ env.PUBLIC_GTM_ID }}
           PUBLIC_SUPABASE_URL: ${{ secrets.PUBLIC_SUPABASE_URL }}
           PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.PUBLIC_SUPABASE_ANON_KEY }}
         run: npm run build

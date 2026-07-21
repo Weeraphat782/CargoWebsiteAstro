@@ -16,6 +16,7 @@ interface Props {
 
 const { meta, jsonLd, breadcrumbLd } = Astro.props;
 const siteLd = jsonLdScript([organizationSchema(), websiteSchema()]);
+const gtmId = import.meta.env.PUBLIC_GTM_ID?.trim();
 ---
 
 <!doctype html>
@@ -48,8 +49,32 @@ const siteLd = jsonLdScript([organizationSchema(), websiteSchema()]);
     <script type="application/ld+json" set:html={siteLd} />
     {jsonLd && <script type="application/ld+json" set:html={jsonLd} />}
     {breadcrumbLd && <script type="application/ld+json" set:html={breadcrumbLd} />}
+    {
+      gtmId && (
+        <script
+          is:inline
+          set:html={`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','${gtmId}');`}
+        />
+      )
+    }
   </head>
   <body class="font-sans min-h-screen flex flex-col bg-white text-neutral-900">
+    {
+      gtmId && (
+        <noscript>
+          <iframe
+            src={`https://www.googletagmanager.com/ns.html?id=${gtmId}`}
+            height="0"
+            width="0"
+            style="display:none;visibility:hidden"
+          />
+        </noscript>
+      )
+    }
     <div class="sticky top-0 z-50">
       <TopBar />
       <Header client:load />
