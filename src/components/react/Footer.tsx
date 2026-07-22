@@ -13,8 +13,8 @@ const navLinks = [
 ];
 
 const serviceLinks = [
-  { href: '/services/air-freight', label: 'Air Freight' },
-  { href: '/services/customs-documents', label: 'Customs & Documents' },
+  { href: '/services#specialized-air-freight', label: 'Air Freight' },
+  { href: '/services#shipping-customs', label: 'Customs & Documents' },
   { href: '/services#gdp-warehousing', label: 'GDP Warehousing' },
   { href: '/services#controlled-temperature-transport', label: 'Cold Chain Transport' },
 ];

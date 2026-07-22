@@ -8,8 +8,6 @@ const SEGMENT_LABELS: Record<string, string> = {
   services: 'Services',
   newsroom: 'Newsroom',
   resources: 'Resources',
-  'air-freight': 'Air Freight',
-  'customs-documents': 'Customs & Documents',
 };
 
 function labelForSegment(seg: string): string {

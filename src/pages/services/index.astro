@@ -12,10 +12,7 @@ const meta = pageMeta({
   path: '/services',
 });
 
-const serviceSlugMap: Record<string, string> = {
-  'specialized-air-freight': '/services/air-freight',
-  'shipping-customs': '/services/customs-documents',
-};
+const serviceSlugMap: Record<string, string> = {};
 
 const listItems = services.map((s) => ({
   name: s.title,
