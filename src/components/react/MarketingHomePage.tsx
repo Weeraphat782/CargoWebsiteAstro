@@ -1,7 +1,8 @@
 'use client';
 
 import { APP_URL } from '@/lib/site';
-import { services, serviceIds } from '@/data/marketing-services';
+import { homeServiceOrder, serviceById } from '@/data/marketing-services';
+import { ServiceIcon } from '@/components/ServiceIcon';
 import PartnerSection from '@/components/react/PartnerSection';
 import { trackCtaClick } from '@/lib/analytics';
 import CarrierBoard from '@/components/react/CarrierBoard';
@@ -14,14 +15,7 @@ const HERO_IMAGE_BASE =
 const HERO_IMAGE = `${HERO_IMAGE_BASE}&w=1900&q=72`;
 const HERO_SRCSET = `${HERO_IMAGE_BASE}&w=640&q=72 640w, ${HERO_IMAGE_BASE}&w=1280&q=72 1280w, ${HERO_IMAGE} 1900w`;
 
-const homeServices = services.filter((s) => s.id !== serviceIds.qcLabTesting);
-
-const serviceIcons: Record<string, string> = {
-  [serviceIds.specializedAirFreight]: '✈',
-  [serviceIds.shippingCustoms]: '📋',
-  [serviceIds.gdpWarehousing]: '📦',
-  [serviceIds.controlledTempTransport]: '🌡',
-};
+const homeServices = homeServiceOrder.map((id) => serviceById(id)).filter((s): s is NonNullable<typeof s> => !!s);
 
 const aiTags = ['Error Detection', 'Compliance Check', 'Batch Processing', 'Region Rules'];
 const qcTags = ['Lab Testing', 'QR Tracked', 'COA Online', 'GACP-aligned'];
@@ -40,7 +34,7 @@ export default function MarketingHomePageClient({ carrierItems }: MarketingHomeP
           srcSet={HERO_SRCSET}
           sizes="100vw"
           alt="Cargo aircraft"
-          className="absolute inset-0 h-full w-full object-cover opacity-50"
+          className="absolute inset-0 h-full w-full object-cover opacity-60"
           loading="eager"
           fetchPriority="high"
           decoding="async"
@@ -49,7 +43,7 @@ export default function MarketingHomePageClient({ carrierItems }: MarketingHomeP
           className="absolute inset-0"
           style={{
             background:
-              'linear-gradient(105deg,rgba(13,44,77,.95) 0%,rgba(13,44,77,.82) 42%,rgba(13,44,77,.55) 100%)',
+              'linear-gradient(105deg,rgba(13,44,77,.72) 0%,rgba(13,44,77,.58) 42%,rgba(13,44,77,.35) 100%)',
           }}
         />
         <div className="marketing-container relative grid items-center gap-12 py-16 lg:grid-cols-[1.05fr_0.95fr] lg:py-[72px]">
@@ -171,10 +165,10 @@ export default function MarketingHomePageClient({ carrierItems }: MarketingHomeP
               <div className="relative h-[150px]">
                 <img src={s.imageUrl} alt={s.title} className="h-full w-full object-cover" loading="lazy" />
                 <span
-                  className="absolute left-3 top-3 flex h-[34px] w-[34px] items-center justify-center rounded-[3px] text-sm text-white shadow-md"
+                  className="absolute left-3 top-3 flex h-[34px] w-[34px] items-center justify-center rounded-[3px] text-white shadow-md"
                   style={{ background: 'var(--navy-700)' }}
                 >
-                  {serviceIcons[s.id] ?? '•'}
+                  <ServiceIcon id={s.icon} size={16} strokeWidth={2} />
                 </span>
               </div>
               <div className="flex flex-1 flex-col p-[18px]">

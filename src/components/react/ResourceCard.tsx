@@ -10,7 +10,7 @@ interface ResourceCardProps {
 export default function ResourceCard({ slug, title, excerpt, tags, imageUrl }: ResourceCardProps) {
   const primaryTag = tags[0] ?? 'Guide';
   return (
-    <article className="flex flex-col overflow-hidden rounded-[var(--radius-md)] border border-[var(--line)] bg-white transition hover:-translate-y-0.5 hover:shadow-[var(--shadow-2)]">
+    <article className="flex flex-col overflow-hidden rounded-[var(--radius-md)] border border-[var(--line)] bg-white transition hover:shadow-[var(--shadow-2)]">
       {imageUrl && (
         <div className="relative h-[150px]">
           <img src={imageUrl} alt={title} className="h-full w-full object-cover" loading="lazy" decoding="async" />

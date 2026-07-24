@@ -43,7 +43,13 @@ export default function Header() {
     <header className="sticky top-0 z-50 border-b border-[var(--line)] bg-white">
       <div className="marketing-container flex h-[70px] items-center gap-6">
         <a href="/" className="flex shrink-0 items-center">
-          <img src="/logo.png" alt={`${BRAND_NAME} logo`} width={220} height={68} className="h-[34px] w-auto" />
+          <img
+            src="/logo/OMG-LOGO-Color.png"
+            alt={`${BRAND_NAME} logo`}
+            width={280}
+            height={86}
+            className="h-[46px] w-auto sm:h-[48px]"
+          />
         </a>
 
         <nav className="ml-auto hidden items-center gap-1 md:flex">
@@ -56,7 +62,7 @@ export default function Header() {
                 className="font-display px-3.5 py-2 text-[14.5px] font-semibold transition-colors"
                 style={{
                   color: active ? 'var(--navy-700)' : 'var(--muted)',
-                  borderBottom: active ? '2px solid var(--navy-700)' : '2px solid transparent',
+                  borderBottom: active ? '2px solid var(--green-500)' : '2px solid transparent',
                   marginBottom: '-2px',
                 }}
               >
