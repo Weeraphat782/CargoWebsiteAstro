@@ -1,5 +1,7 @@
 # GitHub Secrets checklist
 
+Build-time `PUBLIC_*` URLs (hero video, document demo API, site URL) are set in [`.github/workflows/deploy-marketing.yml`](../.github/workflows/deploy-marketing.yml) — no extra GitHub env needed for those.
+
 Set these in https://github.com/Weeraphat782/CargoWebsiteAstro/settings/secrets/actions
 
 | Secret | Value |
@@ -10,6 +12,8 @@ Set these in https://github.com/Weeraphat782/CargoWebsiteAstro/settings/secrets/
 | `PUBLIC_SITE_URL` | `https://www.omgcargo.tech` |
 | `PUBLIC_SUPABASE_URL` | `https://olcjmlvjtykcariimjbz.supabase.co` |
 | `PUBLIC_SUPABASE_ANON_KEY` | Supabase anon key (from Tr `.env.local`) |
+
+Optional (legacy): `PUBLIC_SITE_URL` secret — workflow `env` already sets `https://www.omgcargo.tech`.
 
 Until secrets are set, deploy locally:
 

@@ -14,6 +14,8 @@ env:
   PUBLIC_SITE_URL: https://www.omgcargo.tech
   PUBLIC_APP_URL: https://cargo.omgexp.com
   PUBLIC_CONTACT_API_URL: https://cargo.omgexp.com/api/contact
+  PUBLIC_DOCUMENT_DEMO_API_URL: https://cargo.omgexp.com/api/public/document-demo
+  PUBLIC_HERO_BG: video
   PUBLIC_CANONICAL_BASE: https://www.omgcargo.tech
   PUBLIC_NOINDEX: "false"
   PUBLIC_GTM_ID: GTM-NLW7B7NP
@@ -36,6 +38,12 @@ jobs:
       - name: Build
         env:
           PUBLIC_SITE_URL: ${{ env.PUBLIC_SITE_URL }}
+          PUBLIC_APP_URL: ${{ env.PUBLIC_APP_URL }}
+          PUBLIC_CANONICAL_BASE: ${{ env.PUBLIC_CANONICAL_BASE }}
+          PUBLIC_CONTACT_API_URL: ${{ env.PUBLIC_CONTACT_API_URL }}
+          PUBLIC_DOCUMENT_DEMO_API_URL: ${{ env.PUBLIC_DOCUMENT_DEMO_API_URL }}
+          PUBLIC_HERO_BG: ${{ env.PUBLIC_HERO_BG }}
+          PUBLIC_NOINDEX: ${{ env.PUBLIC_NOINDEX }}
           PUBLIC_GTM_ID: ${{ env.PUBLIC_GTM_ID }}
           PUBLIC_SUPABASE_URL: ${{ secrets.PUBLIC_SUPABASE_URL }}
           PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.PUBLIC_SUPABASE_ANON_KEY }}

@@ -8,11 +8,11 @@ const HOME_HERO_ID = 'photo-1774698078446-59299e016718';
 const HERO_IMAGE = unsplashHeroImage(HOME_HERO_ID, 1900);
 const HERO_SRCSET = `${unsplashHeroImage(HOME_HERO_ID, 640)} 640w, ${unsplashHeroImage(HOME_HERO_ID, 1280)} 1280w, ${HERO_IMAGE} 1900w`;
 
-const heroGradient =
-  'linear-gradient(105deg,rgba(13,44,77,.95) 0%,rgba(13,44,77,.82) 42%,rgba(13,44,77,.55) 100%)';
+const heroGradientVideo =
+  'linear-gradient(105deg,rgba(13,44,77,.78) 0%,rgba(13,44,77,.55) 42%,rgba(13,44,77,.32) 100%)';
 
 const heroGradientImage =
-  'linear-gradient(105deg,rgba(13,44,77,.72) 0%,rgba(13,44,77,.58) 42%,rgba(13,44,77,.35) 100%)';
+  'linear-gradient(105deg,rgba(13,44,77,.62) 0%,rgba(13,44,77,.48) 42%,rgba(13,44,77,.28) 100%)';
 
 export function HeroBackground() {
   const [useVideo, setUseVideo] = useState(false);
@@ -28,7 +28,7 @@ export function HeroBackground() {
     <>
       {useVideo ? (
         <video
-          className="absolute inset-0 h-full w-full object-cover opacity-[0.55]"
+          className="absolute inset-0 h-full w-full object-cover opacity-[0.62]"
           src={HERO_VIDEO_SRC}
           autoPlay
           muted
@@ -53,7 +53,7 @@ export function HeroBackground() {
       )}
       <div
         className="absolute inset-0"
-        style={{ background: useVideo ? heroGradient : heroGradientImage }}
+        style={{ background: useVideo ? heroGradientVideo : heroGradientImage }}
       />
     </>
   );
