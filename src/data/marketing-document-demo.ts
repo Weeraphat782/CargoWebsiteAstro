@@ -1,4 +1,6 @@
 /** Pre-booking document slots for marketing demo (mirrors Tr customer-check-rule slugs). */
+import { getHeroBgMode, HERO_VIDEO_SRC } from '@/lib/hero';
+
 export const MARKETING_DEMO_DOC_SLOTS = [
   { type: 'tk-32', label: 'TK-32 Export Permit', hint: 'Required · PDF or image', primary: true },
   { type: 'import-permit', label: 'Import Permit', hint: 'PDF or image' },
@@ -33,6 +35,6 @@ export interface DemoCheckResponse {
 export const DOCUMENT_DEMO_API_URL =
   import.meta.env.PUBLIC_DOCUMENT_DEMO_API_URL || 'https://cargo.omgexp.com/api/public/document-demo';
 
-export const HERO_BG_MODE = (import.meta.env.PUBLIC_HERO_BG || 'image').toLowerCase() === 'video' ? 'video' : 'image';
-
-export const HERO_VIDEO_SRC = '/video/hero-bg.mp4';
+export { HERO_VIDEO_SRC };
+/** Resolved at build time from `PUBLIC_HERO_BG`. */
+export const HERO_BG_MODE = getHeroBgMode();

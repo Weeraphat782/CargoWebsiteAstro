@@ -7,6 +7,8 @@ interface Props {
   backgroundImage?: string;
   backgroundImageAlt?: string;
   imageOpacity?: number;
+  /** LCP hero: eager load + fetchpriority high */
+  priority?: boolean;
 }
 const {
   eyebrow,
@@ -16,6 +18,7 @@ const {
   backgroundImage,
   backgroundImageAlt,
   imageOpacity = 0.5,
+  priority = false,
 } = Astro.props;
 const imgAlt = backgroundImageAlt ?? title;
 ---
@@ -28,8 +31,9 @@ const imgAlt = backgroundImageAlt ?? title;
         alt={imgAlt}
         class="absolute inset-0 h-full w-full object-cover"
         style={`opacity: ${imageOpacity};`}
-        loading="eager"
+        loading={priority ? 'eager' : 'lazy'}
         decoding="async"
+        fetchpriority={priority ? 'high' : 'auto'}
       />
       <div
         class="absolute inset-0"

@@ -25,6 +25,24 @@ Copy `logo.png` and `/public/images/*` from `Tr/public/` if missing.
 | `PUBLIC_CANONICAL_BASE` | Legacy canonical during staging (`https://cargo.omgexp.com`) |
 | `PUBLIC_NOINDEX` | `true` until root domain cutover |
 | `PUBLIC_SITE_URL` | This site's URL after deploy |
+| `PUBLIC_HERO_BG` | `video` for looping hero mp4, else static image |
+| `PUBLIC_DOCUMENT_DEMO_API_URL` | Tr public document-demo API (home demo) |
+
+### Hero background video (optional)
+
+Place `public/video/hero-bg.mp4` and set `PUBLIC_HERO_BG=video`. Poster frame lives at `public/images/hero-poster.jpg` (used for LCP preload). To regenerate the poster from the mp4:
+
+```bash
+ffmpeg -ss 00:00:01 -i public/video/hero-bg.mp4 -vframes 1 -q:v 2 public/images/hero-poster.jpg
+```
+
+Smaller mp4 (~1–2MB, 720p H.264) loads faster in production:
+
+```bash
+ffmpeg -i public/video/hero-bg.mp4 -vf scale=-2:720 -c:v libx264 -crf 28 -an public/video/hero-bg-sm.mp4
+```
+
+(then swap the file or update `HERO_VIDEO_SRC` in `src/lib/hero.ts`.)
 
 ## Tr app integration
 

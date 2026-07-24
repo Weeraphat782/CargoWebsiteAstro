@@ -5,10 +5,7 @@ import { homeServiceOrder, serviceById } from '@/data/marketing-services';
 import { ServiceIcon } from '@/components/ServiceIcon';
 import PartnerSection from '@/components/react/PartnerSection';
 import { trackCtaClick } from '@/lib/analytics';
-import CarrierBoard from '@/components/react/CarrierBoard';
 import { destinationRegions } from '@/data/marketing-destinations';
-import type { CarrierBoardDisplayItem } from '@/types/carrier-board';
-import { HeroBackground } from '@/components/react/HeroBackground';
 import DocumentIntelligenceDemo from '@/components/react/DocumentIntelligenceDemo';
 
 const homeServices = homeServiceOrder.map((id) => serviceById(id)).filter((s): s is NonNullable<typeof s> => !!s);
@@ -51,79 +48,9 @@ function HomeContinueExploring() {
   );
 }
 
-interface MarketingHomePageProps {
-  carrierItems: CarrierBoardDisplayItem[];
-}
-
-export default function MarketingHomePageClient({ carrierItems }: MarketingHomePageProps) {
+export default function MarketingHomePageClient() {
   return (
     <div>
-      {/* Hero */}
-      <section className="relative overflow-hidden text-white" style={{ background: 'var(--navy-950)' }}>
-        <HeroBackground />
-        <div className="marketing-container relative grid items-center gap-12 py-16 lg:grid-cols-[1.05fr_0.95fr] lg:py-[72px]">
-          <div>
-            <span
-              className="mb-5 inline-block rounded-[var(--radius-sm)] border px-3 py-1.5 text-[11.5px] font-bold uppercase tracking-[0.09em]"
-              style={{ borderColor: 'rgba(111,190,68,.45)', color: '#aedb93' }}
-            >
-              GDP Certified · Pharma-Grade Logistics
-            </span>
-            <h1 className="font-display text-[clamp(38px,5vw,60px)] font-extrabold leading-[1.02] tracking-tight">
-              Specialized Air Freight
-              <br />
-              &amp; Global Logistics
-            </h1>
-            <p className="mt-5 max-w-[520px] text-lg leading-relaxed" style={{ color: 'var(--hero-muted)' }}>
-              End-to-end logistics for time-sensitive and temperature-controlled cargo. From air freight
-              and customs clearance to GDP warehousing — we deliver reliability, compliance and documented
-              handling across your supply chain.
-            </p>
-            <div className="mt-8 flex flex-wrap gap-3.5">
-              <a
-                href="/contact"
-                onClick={() => trackCtaClick('Request a Quote', 'hero')}
-                className="inline-flex items-center gap-2 rounded-[var(--radius-sm)] px-6 py-3.5 text-base font-semibold text-white"
-                style={{ background: 'var(--green-500)' }}
-              >
-                Request a Quote →
-              </a>
-              <a
-                href="/services"
-                onClick={() => trackCtaClick('View Services', 'hero')}
-                className="inline-flex items-center rounded-[var(--radius-sm)] border px-6 py-3.5 text-base font-semibold text-white"
-                style={{ borderColor: 'rgba(255,255,255,.4)', background: 'rgba(255,255,255,.1)' }}
-              >
-                View Services
-              </a>
-            </div>
-          </div>
-          <CarrierBoard items={carrierItems} />
-        </div>
-        <div className="relative border-t border-white/10" style={{ background: 'rgba(9,26,45,.6)' }}>
-          <div className="marketing-container grid grid-cols-1 py-7 sm:grid-cols-3">
-            {[
-              { v: '7+', l: 'Countries Served' },
-              { v: 'GDP', l: 'Certified Handling' },
-              { v: 'AI', l: 'Document Intelligence' },
-            ].map((s, i) => (
-              <div
-                key={s.l}
-                className={`text-center ${i < 2 ? 'sm:border-r sm:border-white/12' : ''}`}
-              >
-                <div className="font-display text-[34px] font-extrabold" style={{ color: 'var(--green-500)' }}>
-                  {s.v}
-                </div>
-                <div className="mt-0.5 text-[11px] font-medium uppercase tracking-[0.12em]" style={{ color: '#9fb6cf' }}>
-                  {s.l}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Quick links */}
       <section className="marketing-container grid gap-5 pt-8 sm:grid-cols-2">
         <a
           href="/newsroom"
@@ -178,7 +105,7 @@ export default function MarketingHomePageClient({ carrierItems }: MarketingHomeP
               className="flex flex-col overflow-hidden rounded-[var(--radius-md)] border border-[var(--line)] bg-white text-left transition hover:shadow-[var(--shadow-2)]"
             >
               <div className="relative h-[150px]">
-                <img src={s.imageUrl} alt={s.title} className="h-full w-full object-cover" loading="eager" decoding="async" />
+                <img src={s.imageUrl} alt={s.title} className="h-full w-full object-cover" loading="lazy" decoding="async" fetchPriority="low" />
                 <span
                   className="absolute left-3 top-3 flex h-[34px] w-[34px] items-center justify-center rounded-[3px] text-white shadow-md"
                   style={{ background: 'var(--navy-700)' }}

@@ -35,12 +35,16 @@ const loginUrl = `${APP_URL}/site/login`;
 ---
 
 <BaseLayout meta={meta} jsonLd={ld} breadcrumbLd={breadcrumbLd}>
+  <Fragment slot="head">
+    <link rel="preload" as="image" href={marketingHeroImages.contact.src} />
+  </Fragment>
   <MarketingPageHero
     eyebrow="Contact Us"
     title="Contact Us"
     description="Request a quote for air freight, customs clearance, warehousing or cold-chain transport."
     backgroundImage={marketingHeroImages.contact.src}
     backgroundImageAlt={marketingHeroImages.contact.alt}
+    priority
   />
   <div class="marketing-container grid gap-12 py-14 pb-[72px] lg:grid-cols-[0.85fr_1.15fr] lg:items-start">
     <div>

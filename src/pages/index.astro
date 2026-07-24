@@ -1,10 +1,17 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import HomeHero from '../components/HomeHero.astro';
 import MarketingHomePage from '../components/react/MarketingHomePage';
 import { getCarrierBoardDisplayItems } from '../lib/carrier-board-data';
 import { pageMeta } from '../lib/page-meta';
 import { jsonLdScript, webPageSchema } from '../lib/json-ld';
 import { BRAND_NAME } from '../lib/site';
+import {
+  getHeroBgMode,
+  HERO_FALLBACK_IMAGE,
+  HERO_POSTER_SRC,
+  HERO_VIDEO_SRC,
+} from '../lib/hero';
 
 const meta = pageMeta({
   title: 'Air Freight & Pharmaceutical Logistics from Thailand',
@@ -14,6 +21,7 @@ const meta = pageMeta({
 });
 
 const carrierItems = await getCarrierBoardDisplayItems();
+const heroMode = getHeroBgMode();
 
 const ld = jsonLdScript([
   webPageSchema({
@@ -25,6 +33,19 @@ const ld = jsonLdScript([
 ]);
 ---
 
-<BaseLayout meta={meta} jsonLd={ld}>
-  <MarketingHomePage client:load carrierItems={carrierItems} />
+<BaseLayout meta={meta} jsonLd={ld} showBreadcrumbNav={false}>
+  <Fragment slot="head">
+    {
+      heroMode === 'video' ? (
+        <>
+          <link rel="preload" href={HERO_VIDEO_SRC} as="video" type="video/mp4" />
+          <link rel="preload" href={HERO_POSTER_SRC} as="image" />
+        </>
+      ) : (
+        <link rel="preload" href={HERO_FALLBACK_IMAGE} as="image" />
+      )
+    }
+  </Fragment>
+  <HomeHero carrierItems={carrierItems} />
+  <MarketingHomePage client:visible />
 </BaseLayout>

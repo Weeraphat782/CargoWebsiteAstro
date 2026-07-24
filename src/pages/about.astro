@@ -64,12 +64,17 @@ const teamPhoto =
 ---
 
 <BaseLayout meta={meta} jsonLd={ld} breadcrumbLd={breadcrumbLd}>
+  <Fragment slot="head">
+    <link rel="preload" as="image" href={marketingHeroImages.about.src} />
+  </Fragment>
   <section class="relative overflow-hidden text-white" style="background: var(--navy-950);">
     <img
       src={marketingHeroImages.about.src}
       alt={marketingHeroImages.about.alt}
       class="absolute inset-0 h-full w-full object-cover opacity-50"
       loading="eager"
+      fetchpriority="high"
+      decoding="async"
     />
     <div
       class="absolute inset-0"

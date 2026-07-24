@@ -14,9 +14,11 @@ interface Props {
   breadcrumbLd?: string;
   prevUrl?: string;
   nextUrl?: string;
+  /** When false, skip breadcrumb island on home (saves JS). Default true. */
+  showBreadcrumbNav?: boolean;
 }
 
-const { meta, jsonLd, breadcrumbLd, prevUrl, nextUrl } = Astro.props;
+const { meta, jsonLd, breadcrumbLd, prevUrl, nextUrl, showBreadcrumbNav = true } = Astro.props;
 const siteLd = jsonLdScript([organizationSchema(), websiteSchema()]);
 const gtmId = import.meta.env.PUBLIC_GTM_ID?.trim();
 ---
@@ -34,7 +36,19 @@ const gtmId = import.meta.env.PUBLIC_GTM_ID?.trim();
     <link rel="preconnect" href="https://pub-8bcc4f3b024b4819ba737865d58e9664.r2.dev" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700;800&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700;800&family=Public+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+      media="print"
+      onload="this.media='all'"
+    />
+    <noscript>
+      <link
+        href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700;800&family=Public+Sans:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+      />
+    </noscript>
+    <slot name="head" />
     <title>{meta.title} | {BRAND_NAME}</title>
     <meta name="description" content={meta.description} />
     <meta name="robots" content={meta.robots} />
@@ -89,7 +103,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       <Header client:load />
     </div>
     <main class="flex-1 overflow-x-hidden">
-      <MarketingBreadcrumbNav client:load />
+      {showBreadcrumbNav && <MarketingBreadcrumbNav client:visible />}
       <slot />
     </main>
     <Footer client:load />

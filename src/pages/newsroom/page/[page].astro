@@ -69,12 +69,16 @@ const nextUrl =
 ---
 
 <BaseLayout meta={meta} jsonLd={ld} prevUrl={prevUrl} nextUrl={nextUrl}>
+  <Fragment slot="head">
+    <link rel="preload" as="image" href={marketingHeroImages.newsroom.src} />
+  </Fragment>
   <MarketingPageHero
     eyebrow="Newsroom"
     title={`Newsroom — Page ${pageNum}`}
     description="Company announcements, route updates and logistics industry news."
     backgroundImage={marketingHeroImages.newsroom.src}
     backgroundImageAlt={marketingHeroImages.newsroom.alt}
+    priority
   />
   <div class="marketing-container py-12 pb-[72px]">
     <div class="grid gap-[22px] sm:grid-cols-2 lg:grid-cols-3">

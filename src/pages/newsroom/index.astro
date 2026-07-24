@@ -48,12 +48,16 @@ const nextUrl = totalPages > 1 ? absoluteUrl(newsroomListPagePath(2)) : undefine
 ---
 
 <BaseLayout meta={meta} jsonLd={ld} nextUrl={nextUrl}>
+  <Fragment slot="head">
+    <link rel="preload" as="image" href={marketingHeroImages.newsroom.src} />
+  </Fragment>
   <MarketingPageHero
     eyebrow="Newsroom"
     title="Newsroom"
     description="Company announcements, route updates and logistics industry news."
     backgroundImage={marketingHeroImages.newsroom.src}
     backgroundImageAlt={marketingHeroImages.newsroom.alt}
+    priority
   />
   <div class="marketing-container py-12 pb-[72px]">
     {

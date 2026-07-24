@@ -42,12 +42,16 @@ const ld = jsonLdScript([
 ---
 
 <BaseLayout meta={meta} jsonLd={ld}>
+  <Fragment slot="head">
+    <link rel="preload" as="image" href={marketingHeroImages.resources.src} />
+  </Fragment>
   <MarketingPageHero
     eyebrow="Resources"
     title="Resources"
     description="Long-form guides for regulated export, EU-GMP and QP expectations, GDP logistics, and EU market strategy."
     backgroundImage={marketingHeroImages.resources.src}
     backgroundImageAlt={marketingHeroImages.resources.alt}
+    priority
   />
   <div class="marketing-container py-9 pb-[72px]">
     {
