@@ -50,7 +50,7 @@ const ld = jsonLdScript([
       resources.length === 0 ? (
         <p class="py-8 text-center" style="color: #9aa2aa;">No published guides yet.</p>
       ) : (
-        <ResourcesList client:visible resources={resources} allTags={allTags} />
+        <ResourcesList client:load resources={resources} allTags={allTags} />
       )
     }
   </div>

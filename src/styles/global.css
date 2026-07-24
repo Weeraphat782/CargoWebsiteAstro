@@ -100,6 +100,15 @@ body {
   font-weight: 700;
 }
 
+/* ponytail: never hide content until scroll — bad for UX/SEO if reintroduced */
+.reveal-on-scroll,
+.reveal-slide-left,
+.reveal-slide-right {
+  opacity: 1 !important;
+  transform: none !important;
+  animation: none !important;
+}
+
 input:focus-visible,
 textarea:focus-visible,
 select:focus-visible {

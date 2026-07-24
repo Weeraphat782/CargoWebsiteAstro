@@ -3,7 +3,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import NewsCard from '../../components/NewsCard.astro';
 import NewsroomPagination from '../../components/NewsroomPagination.astro';
 import MarketingPageHero from '../../components/MarketingPageHero.astro';
-import { ContinueExploring } from '../../components/react/ContinueExploring';
+import ContinueExploring from '../../components/ContinueExploring.astro';
 import {
   getPublishedArticlesList,
   mapNewsroomListArticles,
@@ -83,6 +83,6 @@ const nextUrl = totalPages > 1 ? absoluteUrl(newsroomListPagePath(2)) : undefine
       )
     }
     <NewsroomPagination currentPage={currentPage} totalPages={totalPages} />
-    <ContinueExploring client:visible />
+    <ContinueExploring />
   </div>
 </BaseLayout>

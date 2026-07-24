@@ -163,7 +163,7 @@ export default function MarketingHomePageClient({ carrierItems }: MarketingHomeP
               className="flex flex-col overflow-hidden rounded-[var(--radius-md)] border border-[var(--line)] bg-white text-left transition hover:shadow-[var(--shadow-2)]"
             >
               <div className="relative h-[150px]">
-                <img src={s.imageUrl} alt={s.title} className="h-full w-full object-cover" loading="lazy" />
+                <img src={s.imageUrl} alt={s.title} className="h-full w-full object-cover" loading="eager" decoding="async" />
                 <span
                   className="absolute left-3 top-3 flex h-[34px] w-[34px] items-center justify-center rounded-[3px] text-white shadow-md"
                   style={{ background: 'var(--navy-700)' }}
@@ -202,7 +202,7 @@ export default function MarketingHomePageClient({ carrierItems }: MarketingHomeP
               <span className="h-2.5 w-2.5 rounded-full bg-[#4a9c2d]" />
               <span className="ml-3 font-mono text-[11px] text-[#9aa2aa]">app.omgexp.com</span>
             </div>
-            <img src="/images/ai-edge.jpg" alt="Export portal dashboard" className="block h-[280px] w-full object-cover" loading="lazy" />
+            <img src="/images/ai-edge.jpg" alt="Export portal dashboard" className="block h-[280px] w-full object-cover" loading="eager" decoding="async" />
           </div>
           <div>
             <div className="accent-bar mb-4" />

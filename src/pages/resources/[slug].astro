@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { MarkdownBody } from '../../components/react/MarkdownBody';
-import { ContinueExploring } from '../../components/react/ContinueExploring';
+import ContinueExploring from '../../components/ContinueExploring.astro';
 import { getPublishedResources, getResourceBySlug } from '../../lib/newsroom-data';
 import { pageMeta } from '../../lib/page-meta';
 import { absoluteUrl } from '../../lib/site';
@@ -97,6 +97,6 @@ const publishedFormatted = item.published_at
         <MarkdownBody content={item.content} />
       </div>
     )}
-    <ContinueExploring client:visible />
+    <ContinueExploring />
   </article>
 </BaseLayout>

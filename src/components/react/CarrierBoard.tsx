@@ -23,7 +23,7 @@ function CarrierLogo({ carrier }: { carrier: string }) {
       width={96}
       height={56}
       className="absolute inset-0 h-full w-full object-contain p-0.5"
-      loading="lazy"
+      loading="eager"
       decoding="async"
       onError={() => setFailed(true)}
     />
