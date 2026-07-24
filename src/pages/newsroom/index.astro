@@ -14,6 +14,7 @@ import {
 import { pageMeta } from '../../lib/page-meta';
 import { absoluteUrl, BRAND_NAME } from '../../lib/site';
 import { itemListSchema, jsonLdScript, webPageSchema } from '../../lib/json-ld';
+import { marketingHeroImages } from '../../data/marketing-hero-images';
 
 const currentPage = 1;
 const rows = await getPublishedArticlesList();
@@ -51,6 +52,8 @@ const nextUrl = totalPages > 1 ? absoluteUrl(newsroomListPagePath(2)) : undefine
     eyebrow="Newsroom"
     title="Newsroom"
     description="Company announcements, route updates and logistics industry news."
+    backgroundImage={marketingHeroImages.newsroom.src}
+    backgroundImageAlt={marketingHeroImages.newsroom.alt}
   />
   <div class="marketing-container py-12 pb-[72px]">
     {

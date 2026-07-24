@@ -6,6 +6,7 @@ import ContactForm from '../components/react/ContactForm';
 import { pageMeta } from '../lib/page-meta';
 import { breadcrumbListSchema, jsonLdScript, webPageSchema } from '../lib/json-ld';
 import { APP_URL, BRAND_NAME } from '../lib/site';
+import { marketingHeroImages } from '../data/marketing-hero-images';
 
 const meta = pageMeta({
   title: 'Contact Us',
@@ -38,6 +39,8 @@ const loginUrl = `${APP_URL}/site/login`;
     eyebrow="Contact Us"
     title="Contact Us"
     description="Request a quote for air freight, customs clearance, warehousing or cold-chain transport."
+    backgroundImage={marketingHeroImages.contact.src}
+    backgroundImageAlt={marketingHeroImages.contact.alt}
   />
   <div class="marketing-container grid gap-12 py-14 pb-[72px] lg:grid-cols-[0.85fr_1.15fr] lg:items-start">
     <div>

@@ -6,6 +6,7 @@ import { services } from '../../data/marketing-services';
 import { pageMeta } from '../../lib/page-meta';
 import { absoluteUrl, BRAND_NAME } from '../../lib/site';
 import { itemListSchema, jsonLdScript, webPageSchema } from '../../lib/json-ld';
+import { marketingHeroImages } from '../../data/marketing-hero-images';
 
 const meta = pageMeta({
   title: 'Services',
@@ -34,6 +35,8 @@ const ld = jsonLdScript([
     eyebrow="Services"
     title="Our Services"
     description="End-to-end logistics for specialized air freight, customs clearance, pharmaceutical-grade warehousing, controlled temperature transport and QC lab testing."
+    backgroundImage={marketingHeroImages.services.src}
+    backgroundImageAlt={marketingHeroImages.services.alt}
   />
   <div class="marketing-container pb-[72px] pt-4">
     {

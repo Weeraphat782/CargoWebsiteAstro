@@ -4,6 +4,7 @@ import MarketingIcon from '../components/MarketingIcon.astro';
 import { pageMeta } from '../lib/page-meta';
 import { breadcrumbListSchema, jsonLdScript, webPageSchema } from '../lib/json-ld';
 import { BRAND_NAME } from '../lib/site';
+import { marketingHeroImages } from '../data/marketing-hero-images';
 
 const meta = pageMeta({
   title: 'About Us',
@@ -65,8 +66,8 @@ const teamPhoto =
 <BaseLayout meta={meta} jsonLd={ld} breadcrumbLd={breadcrumbLd}>
   <section class="relative overflow-hidden text-white" style="background: var(--navy-950);">
     <img
-      src="https://images.unsplash.com/photo-1604140969696-0c495a16f300?auto=format&fit=crop&w=1800&q=72"
-      alt="Cargo aircraft"
+      src={marketingHeroImages.about.src}
+      alt={marketingHeroImages.about.alt}
       class="absolute inset-0 h-full w-full object-cover opacity-50"
       loading="eager"
     />

@@ -7,12 +7,12 @@ import PartnerSection from '@/components/react/PartnerSection';
 import { trackCtaClick } from '@/lib/analytics';
 import CarrierBoard from '@/components/react/CarrierBoard';
 import { destinationRegions } from '@/data/marketing-destinations';
+import { unsplashHeroImage } from '@/data/marketing-hero-images';
 import type { CarrierBoardDisplayItem } from '@/types/carrier-board';
 
-const HERO_IMAGE_BASE =
-  'https://images.unsplash.com/photo-1774698078446-59299e016718?auto=format&fit=crop';
-const HERO_IMAGE = `${HERO_IMAGE_BASE}&w=1900&q=72`;
-const HERO_SRCSET = `${HERO_IMAGE_BASE}&w=640&q=72 640w, ${HERO_IMAGE_BASE}&w=1280&q=72 1280w, ${HERO_IMAGE} 1900w`;
+const HOME_HERO_ID = 'photo-1774698078446-59299e016718';
+const HERO_IMAGE = unsplashHeroImage(HOME_HERO_ID, 1900);
+const HERO_SRCSET = `${unsplashHeroImage(HOME_HERO_ID, 640)} 640w, ${unsplashHeroImage(HOME_HERO_ID, 1280)} 1280w, ${HERO_IMAGE} 1900w`;
 
 const homeServices = homeServiceOrder.map((id) => serviceById(id)).filter((s): s is NonNullable<typeof s> => !!s);
 

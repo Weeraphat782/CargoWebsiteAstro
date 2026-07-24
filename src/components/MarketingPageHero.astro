@@ -4,18 +4,58 @@ interface Props {
   title: string;
   description?: string;
   class?: string;
+  backgroundImage?: string;
+  backgroundImageAlt?: string;
+  imageOpacity?: number;
 }
-const { eyebrow, title, description, class: className = '' } = Astro.props;
+const {
+  eyebrow,
+  title,
+  description,
+  class: className = '',
+  backgroundImage,
+  backgroundImageAlt,
+  imageOpacity = 0.5,
+} = Astro.props;
+const imgAlt = backgroundImageAlt ?? title;
 ---
 
-<section class={`page-hero-band ${className}`}>
-  <div class="marketing-container">
-    <div class="text-eyebrow mb-2.5">{eyebrow}</div>
-    <h1 class="font-display text-[clamp(34px,4.5vw,50px)] font-extrabold leading-[1.05]">{title}</h1>
-    {description && (
-      <p class="mt-3 max-w-[680px] text-[17px] leading-relaxed" style="color: var(--hero-muted);">
-        {description}
-      </p>
-    )}
-  </div>
-</section>
+{
+  backgroundImage ? (
+    <section class={`relative overflow-hidden text-white ${className}`} style="background: var(--navy-950);">
+      <img
+        src={backgroundImage}
+        alt={imgAlt}
+        class="absolute inset-0 h-full w-full object-cover"
+        style={`opacity: ${imageOpacity};`}
+        loading="eager"
+        decoding="async"
+      />
+      <div
+        class="absolute inset-0"
+        style="background: linear-gradient(110deg,rgba(13,44,77,.72),rgba(13,44,77,.48));"
+      />
+      <div class="marketing-container relative py-16">
+        <div class="text-eyebrow mb-2.5">{eyebrow}</div>
+        <h1 class="font-display text-[clamp(34px,4.5vw,50px)] font-extrabold leading-[1.05]">{title}</h1>
+        {description && (
+          <p class="mt-3 max-w-[680px] text-[17px] leading-relaxed" style="color: var(--hero-muted);">
+            {description}
+          </p>
+        )}
+      </div>
+    </section>
+  ) : (
+    <section class={`page-hero-band ${className}`}>
+      <div class="marketing-container">
+        <div class="text-eyebrow mb-2.5">{eyebrow}</div>
+        <h1 class="font-display text-[clamp(34px,4.5vw,50px)] font-extrabold leading-[1.05]">{title}</h1>
+        {description && (
+          <p class="mt-3 max-w-[680px] text-[17px] leading-relaxed" style="color: var(--hero-muted);">
+            {description}
+          </p>
+        )}
+      </div>
+    </section>
+  )
+}

@@ -6,6 +6,7 @@ import { getPublishedResources } from '../../lib/newsroom-data';
 import { pageMeta } from '../../lib/page-meta';
 import { absoluteUrl, BRAND_NAME } from '../../lib/site';
 import { itemListSchema, jsonLdScript, webPageSchema } from '../../lib/json-ld';
+import { marketingHeroImages } from '../../data/marketing-hero-images';
 
 const meta = pageMeta({
   title: 'Resources',
@@ -37,6 +38,7 @@ const ld = jsonLdScript([
   }),
   ...(listItems.length ? [itemListSchema(`${BRAND_NAME} resources`, listItems)] : []),
 ]);
+
 ---
 
 <BaseLayout meta={meta} jsonLd={ld}>
@@ -44,6 +46,8 @@ const ld = jsonLdScript([
     eyebrow="Resources"
     title="Resources"
     description="Long-form guides for regulated export, EU-GMP and QP expectations, GDP logistics, and EU market strategy."
+    backgroundImage={marketingHeroImages.resources.src}
+    backgroundImageAlt={marketingHeroImages.resources.alt}
   />
   <div class="marketing-container py-9 pb-[72px]">
     {

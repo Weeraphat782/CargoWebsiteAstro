@@ -15,6 +15,7 @@ import {
 import { pageMeta } from '../../../lib/page-meta';
 import { absoluteUrl, BRAND_NAME } from '../../../lib/site';
 import { itemListSchema, jsonLdScript, webPageSchema } from '../../../lib/json-ld';
+import { marketingHeroImages } from '../../../data/marketing-hero-images';
 
 export async function getStaticPaths() {
   const rows = await getPublishedArticlesList();
@@ -72,6 +73,8 @@ const nextUrl =
     eyebrow="Newsroom"
     title={`Newsroom — Page ${pageNum}`}
     description="Company announcements, route updates and logistics industry news."
+    backgroundImage={marketingHeroImages.newsroom.src}
+    backgroundImageAlt={marketingHeroImages.newsroom.alt}
   />
   <div class="marketing-container py-12 pb-[72px]">
     <div class="grid gap-[22px] sm:grid-cols-2 lg:grid-cols-3">
