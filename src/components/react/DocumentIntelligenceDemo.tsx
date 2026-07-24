@@ -78,9 +78,16 @@ export default function DocumentIntelligenceDemo() {
       }
       setResult(data);
       setPhase('results');
-    } catch {
+    } catch (err) {
       setPhase('upload');
-      setError('Network error. Please try again.');
+      const msg = err instanceof Error ? err.message : '';
+      if (msg.includes('Failed to fetch') || msg.includes('NetworkError')) {
+        setError(
+          'Could not reach the document check service. Ensure Exportation-Tracker is running on port 3001, use http://localhost:4321 (not 127.0.0.1 unless both match), and check the browser console for CORS errors.'
+        );
+      } else {
+        setError('Network error. Please try again.');
+      }
     }
   };
 
