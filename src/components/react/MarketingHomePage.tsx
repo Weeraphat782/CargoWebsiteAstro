@@ -105,7 +105,7 @@ export default function MarketingHomePageClient() {
               className="flex flex-col overflow-hidden rounded-[var(--radius-md)] border border-[var(--line)] bg-white text-left transition hover:shadow-[var(--shadow-2)]"
             >
               <div className="relative h-[150px]">
-                <img src={s.imageUrl} alt={s.title} className="h-full w-full object-cover" loading="lazy" decoding="async" fetchPriority="low" />
+                <img src={s.imageUrl} alt={s.title} className="h-full w-full object-cover" loading="eager" decoding="async" fetchPriority="auto" />
                 <span
                   className="absolute left-3 top-3 flex h-[34px] w-[34px] items-center justify-center rounded-[3px] text-white shadow-md"
                   style={{ background: 'var(--navy-700)' }}
