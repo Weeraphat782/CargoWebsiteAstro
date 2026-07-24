@@ -2,6 +2,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import NewsCard from '../../components/NewsCard.astro';
 import NewsroomPagination from '../../components/NewsroomPagination.astro';
+import MarketingPageHero from '../../components/MarketingPageHero.astro';
 import { ContinueExploring } from '../../components/react/ContinueExploring';
 import {
   getPublishedArticlesList,
@@ -19,6 +20,7 @@ const rows = await getPublishedArticlesList();
 const allArticles = mapNewsroomListArticles(rows);
 const totalPages = newsroomListTotalPages(allArticles.length);
 const pageArticles = allArticles.slice(0, NEWSROOM_PAGE_SIZE);
+const [featured, ...restArticles] = pageArticles;
 
 const meta = pageMeta({
   title: 'Newsroom',
@@ -42,32 +44,45 @@ const ld = jsonLdScript([
 ]);
 
 const nextUrl = totalPages > 1 ? absoluteUrl(newsroomListPagePath(2)) : undefined;
-const reviewed = new Date().toISOString().slice(0, 10);
 ---
 
 <BaseLayout meta={meta} jsonLd={ld} nextUrl={nextUrl}>
-  <section class="mx-auto max-w-5xl px-4 py-16 sm:px-6 lg:px-8">
-    <header>
-      <p class="text-sm text-neutral-500">Last updated: {reviewed}</p>
-      <h1 class="mt-2 text-3xl font-bold text-neutral-900 sm:text-4xl">Newsroom</h1>
-      <p class="mt-4 text-neutral-600">Company announcements, route updates, and logistics industry news.</p>
-    </header>
-    <div class="mt-10 space-y-8">
-      {pageArticles.length === 0 ? (
-        <p class="py-8 text-center text-neutral-400">No articles published yet.</p>
+  <MarketingPageHero
+    eyebrow="Newsroom"
+    title="Newsroom"
+    description="Company announcements, route updates and logistics industry news."
+  />
+  <div class="marketing-container py-12 pb-[72px]">
+    {
+      pageArticles.length === 0 ? (
+        <p class="py-8 text-center" style="color: #9aa2aa;">No articles published yet.</p>
       ) : (
-        pageArticles.map((item) => (
-          <NewsCard
-            slug={item.slug}
-            title={item.title}
-            date={item.date}
-            excerpt={item.excerpt}
-            imageUrl={item.imageUrl}
-          />
-        ))
-      )}
-    </div>
+        <>
+          {featured && (
+            <NewsCard
+              slug={featured.slug}
+              title={featured.title}
+              date={featured.date}
+              excerpt={featured.excerpt}
+              imageUrl={featured.imageUrl}
+              featured
+            />
+          )}
+          <div class="mt-9 grid gap-[22px] sm:grid-cols-2 lg:grid-cols-3">
+            {restArticles.map((item) => (
+              <NewsCard
+                slug={item.slug}
+                title={item.title}
+                date={item.date}
+                excerpt={item.excerpt}
+                imageUrl={item.imageUrl}
+              />
+            ))}
+          </div>
+        </>
+      )
+    }
     <NewsroomPagination currentPage={currentPage} totalPages={totalPages} />
     <ContinueExploring client:visible />
-  </section>
+  </div>
 </BaseLayout>

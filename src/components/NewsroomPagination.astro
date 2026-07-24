@@ -14,32 +14,18 @@ const nextPage = currentPage < totalPages ? currentPage + 1 : null;
 
 {
   totalPages > 1 && (
-    <nav
-      class="mt-12 flex flex-wrap items-center justify-center gap-2 border-t border-neutral-200 pt-8"
-      aria-label="Newsroom pagination"
-    >
+    <nav class="mt-11 flex flex-wrap items-center justify-center gap-1.5" aria-label="Newsroom pagination">
       {prevPage ? (
-        <a
-          href={newsroomListPagePath(prevPage)}
-          class="inline-flex min-h-[44px] items-center rounded-lg border border-neutral-200 px-4 py-2 text-sm font-medium text-neutral-700 hover:bg-neutral-50"
-        >
+        <a href={newsroomListPagePath(prevPage)} class="page-btn px-3" style="color: #9aa2aa;">
           Previous
         </a>
       ) : (
-        <span class="inline-flex min-h-[44px] cursor-not-allowed items-center rounded-lg border border-neutral-100 px-4 py-2 text-sm text-neutral-300">
-          Previous
-        </span>
+        <span class="page-btn px-3 opacity-40">Previous</span>
       )}
       {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
         <a
           href={newsroomListPagePath(page)}
-          class:list={[
-            'inline-flex h-10 min-w-[2.5rem] items-center justify-center rounded-lg px-3 text-sm font-medium',
-            page === currentPage
-              ? 'text-white'
-              : 'border border-neutral-200 text-neutral-700 hover:bg-neutral-50',
-          ]}
-          style={page === currentPage ? { backgroundColor: 'var(--color-primary-ref)' } : undefined}
+          class:list={['page-btn', page === currentPage && 'current']}
           aria-current={page === currentPage ? 'page' : undefined}
         >
           {page}
@@ -48,14 +34,13 @@ const nextPage = currentPage < totalPages ? currentPage + 1 : null;
       {nextPage ? (
         <a
           href={newsroomListPagePath(nextPage)}
-          class="inline-flex min-h-[44px] items-center rounded-lg border border-neutral-200 px-4 py-2 text-sm font-medium text-neutral-700 hover:bg-neutral-50"
+          class="page-btn border-0 px-3 font-semibold"
+          style="color: var(--navy-700);"
         >
           Next
         </a>
       ) : (
-        <span class="inline-flex min-h-[44px] cursor-not-allowed items-center rounded-lg border border-neutral-100 px-4 py-2 text-sm text-neutral-300">
-          Next
-        </span>
+        <span class="page-btn px-3 opacity-40">Next</span>
       )}
     </nav>
   )

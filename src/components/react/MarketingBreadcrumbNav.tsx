@@ -33,8 +33,8 @@ export function MarketingBreadcrumbNav() {
   }
 
   return (
-    <nav aria-label="Breadcrumb" className="border-b border-neutral-100 bg-white">
-      <div className="mx-auto max-w-7xl px-4 py-3 sm:px-6 lg:px-8">
+    <nav aria-label="Breadcrumb" className="border-b border-[var(--line)] bg-white">
+      <div className="marketing-container py-3">
         <ol className="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-neutral-600">
           {items.map((item, idx) => (
             <li key={item.href} className="flex items-center gap-2">

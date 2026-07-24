@@ -2,20 +2,31 @@ import * as React from 'react';
 import { cn } from '@/lib/utils';
 
 type ButtonProps = React.ComponentProps<'button'> & {
-  variant?: 'default' | 'outline' | 'ghost';
-  size?: 'default' | 'icon';
+  variant?: 'primary' | 'secondary' | 'ghost' | 'outline';
+  size?: 'sm' | 'default' | 'lg';
 };
 
-export function Button({ className, variant = 'default', size = 'default', ...props }: ButtonProps) {
-  const base = 'inline-flex items-center justify-center rounded-md text-sm font-medium transition disabled:opacity-50';
+export function Button({
+  className,
+  variant = 'primary',
+  size = 'default',
+  ...props
+}: ButtonProps) {
+  const base =
+    'inline-flex items-center justify-center gap-2 font-semibold transition disabled:opacity-50 rounded-[var(--radius-sm)] cursor-pointer';
   const variants = {
-    default: 'bg-neutral-900 text-white hover:bg-neutral-800',
-    outline: 'border border-neutral-200 bg-white hover:bg-neutral-50',
-    ghost: 'hover:bg-neutral-100',
+    primary: 'bg-[var(--green-500)] text-white hover:bg-[var(--green-600)]',
+    secondary: 'bg-[var(--navy-700)] text-white hover:bg-[#123c66]',
+    ghost: 'bg-transparent text-[var(--navy-700)] hover:bg-[var(--paper-muted)]',
+    outline:
+      'border border-[var(--line-strong)] text-[var(--navy-700)] bg-white hover:border-[var(--navy-700)]',
   };
   const sizes = {
-    default: 'h-9 px-4 py-2',
-    icon: 'h-9 w-9',
+    sm: 'text-[13px] px-3.5 py-1.5',
+    default: 'text-[15px] px-6 py-3',
+    lg: 'text-base px-7 py-3.5',
   };
-  return <button className={cn(base, variants[variant], sizes[size], className)} {...props} />;
+  return (
+    <button className={cn(base, variants[variant], sizes[size], className)} {...props} />
+  );
 }

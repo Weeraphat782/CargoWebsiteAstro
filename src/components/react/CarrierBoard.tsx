@@ -3,20 +3,22 @@
 import React, { useState } from 'react';
 import type { CarrierBoardDisplayItem } from '@/types/carrier-board';
 
-const ACCENT = '#5BBF21';
+function carrierLogoSlug(carrier: string): string {
+  return carrier.toLowerCase();
+}
 
 function CarrierLogo({ carrier }: { carrier: string }) {
   const [failed, setFailed] = useState(false);
   if (failed) {
     return (
-      <span className="text-xs font-black text-neutral-900 uppercase tracking-tighter sm:text-xs">
+      <span className="font-display text-[11px] font-bold uppercase tracking-tight text-neutral-900">
         {carrier}
       </span>
     );
   }
   return (
     <img
-      src={`/images/carriers/logo-${carrier.toLowerCase()}.png`}
+      src={`/images/carriers/logo-${carrierLogoSlug(carrier)}.png`}
       alt={carrier}
       width={96}
       height={56}
@@ -35,80 +37,53 @@ interface CarrierBoardProps {
 // ponytail: routes refresh on marketing rebuild, not realtime in-browser
 export default function CarrierBoard({ items }: CarrierBoardProps) {
   return (
-    <div className="mx-auto w-full lg:ml-auto animate-fade-in-up stagger-1">
-      <div className="overflow-hidden rounded-xl border border-white/10 bg-black/50 backdrop-blur-xl shadow-2xl">
-        <div
-          className="h-0.5 w-full"
-          style={{ background: `linear-gradient(90deg, ${ACCENT}, #86ef6c, ${ACCENT})` }}
-        />
-        <div className="bg-white/5 px-4 py-2.5 flex items-center justify-between border-b border-white/5">
-          <div className="flex items-center gap-3">
-            <div className="flex h-2 w-2 relative">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75" style={{ backgroundColor: ACCENT }} />
-              <span className="relative inline-flex rounded-full h-2 w-2" style={{ backgroundColor: ACCENT }} />
-            </div>
-            <h3 className="text-sm font-bold tracking-[0.2em] text-white/90 uppercase font-mono">
-              Live Shipping Status
-            </h3>
-          </div>
-          <div className="text-[10px] font-mono text-neutral-500 uppercase tracking-widest sm:text-xs">
-            Real-Time Feed
-          </div>
+    <div className="w-full">
+      <div
+        className="overflow-hidden rounded-[var(--radius-lg)] border border-white/14 shadow-[0_24px_60px_rgba(0,0,0,0.35)] backdrop-blur-md"
+        style={{ background: 'rgba(9,26,45,0.82)' }}
+      >
+        <div className="flex items-center justify-between border-b border-white/12 px-[18px] py-3.5">
+          <span className="font-display inline-flex items-center gap-2 text-[13px] font-semibold uppercase tracking-[0.06em] text-[#e6eef6]">
+            <span
+              className="inline-flex h-2 w-2 rounded-full"
+              style={{ background: 'var(--green-500)', boxShadow: '0 0 0 3px rgba(111,190,68,0.25)' }}
+            />
+            Live Shipping Status
+          </span>
+          <span className="font-mono text-[10.5px] uppercase tracking-[0.1em] text-[#7a97b8]">Real-time feed</span>
         </div>
 
-        <div className="grid grid-cols-12 gap-2 px-3 py-2 border-b border-white/5 bg-white/5 text-[10px] font-bold uppercase tracking-wider text-neutral-400 sm:px-4 sm:text-xs">
-          <div className="col-span-5">Destination</div>
-          <div className="col-span-4 text-center">Carrier</div>
-          <div className="col-span-3 text-right">Status</div>
+        <div className="grid grid-cols-[1fr_auto_auto] gap-x-3.5 gap-y-0.5 px-[18px] py-1.5 font-mono text-[10px] uppercase tracking-[0.1em] text-[#6b86a6]">
+          <span>Destination</span>
+          <span>Carrier</span>
+          <span className="text-right">Status</span>
         </div>
 
-        <div className="divide-y divide-white/5">
+        <div>
           {items.map((item) => (
             <div
               key={item.id}
-              className="grid grid-cols-12 gap-2 px-4 py-2.5 items-center hover:bg-white/5 transition-colors group"
+              className="grid grid-cols-[1fr_auto_auto] items-center gap-3.5 border-t border-white/[0.06] px-[18px] py-2.5"
             >
-              <div className="col-span-5 flex flex-col min-w-0">
-                <span className="text-sm font-bold text-white transition-colors truncate group-hover:text-[var(--color-accent-ref)]">
-                  {item.country}
-                </span>
-                <span className="text-[10px] text-neutral-400 font-mono truncate italic sm:text-xs">
-                  {item.city}
-                </span>
+              <div>
+                <div className="text-sm font-semibold text-white">{item.country}</div>
+                <div className="text-[11.5px] italic text-[#7a97b8]">{item.city}</div>
               </div>
-
-              <div className="col-span-4 flex justify-center">
-                <div className="relative w-16 h-10 bg-white/90 rounded-md flex items-center justify-center border border-white/20 shadow-sm px-2 py-1.5 sm:w-24 sm:h-14 sm:px-3 sm:py-2">
-                  <CarrierLogo carrier={item.carrier} />
-                </div>
+              <div className="relative flex h-10 w-16 items-center justify-center rounded-[var(--radius-sm)] border border-white/20 bg-white/90 px-2 py-1 sm:h-14 sm:w-24">
+                <CarrierLogo carrier={item.carrier} />
               </div>
-
-              <div className="col-span-3 text-right flex flex-col items-end">
-                <div className="flex items-center gap-2">
-                  <span
-                    className={`text-xs font-mono font-bold uppercase tracking-tighter ${item.status === 'Available' ? '' : 'text-red-500'}`}
-                    style={item.status === 'Available' ? { color: ACCENT } : undefined}
-                  >
-                    {item.status}
-                  </span>
-                  <div
-                    className={`h-2 w-2 rounded-full ${item.status === 'Suspended' ? 'animate-pulse' : ''}`}
-                    style={
-                      item.status === 'Available'
-                        ? { backgroundColor: ACCENT, boxShadow: `0 0 8px ${ACCENT}99` }
-                        : { backgroundColor: '#ef4444', boxShadow: '0 0 8px rgba(239,68,68,0.6)' }
-                    }
-                  />
-                </div>
-              </div>
+              <span
+                className="whitespace-nowrap text-right text-[10.5px] font-bold uppercase tracking-[0.08em]"
+                style={{ color: item.status === 'Available' ? 'var(--green-light)' : '#ef4444' }}
+              >
+                ● {item.status}
+              </span>
             </div>
           ))}
         </div>
 
-        <div className="bg-black/20 px-3 py-2 border-t border-white/5 sm:px-4">
-          <p className="text-[10px] text-neutral-500 text-center font-mono uppercase tracking-[0.1em] sm:text-xs">
-            * Subject to active flight schedules and regional restrictions
-          </p>
+        <div className="border-t border-white/10 px-[18px] py-2 font-mono text-[10px] uppercase tracking-[0.08em] text-[#6b86a6]">
+          ✦ Subject to active flight schedules &amp; regional restrictions
         </div>
       </div>
     </div>

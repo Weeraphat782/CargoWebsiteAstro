@@ -1,18 +1,22 @@
 ---
 const pinnedAnnouncement = {
-  title: 'QC Lab Testing Now Available — request lab tests and track COA results online in the Export Portal',
+  title: 'QC Lab Testing now available — request lab tests and track COA results online in the Export Portal',
   href: '/services#qc-lab-testing',
 };
 ---
 
 <div
-  class="flex min-h-[40px] items-center justify-center border-b border-white/20 px-6 py-2 text-center text-sm font-medium text-white"
-  style="background-color: var(--color-primary-ref)"
+  class="flex min-h-[40px] items-center justify-center px-5 py-2 text-center text-[13px] text-white"
+  style="background-color: var(--navy-950)"
 >
-  <span class="flex items-center gap-2 line-clamp-1">
-    <span class="font-semibold" style="color: var(--color-accent-ref)">New:&nbsp;</span>
-    {pinnedAnnouncement.title}{' '}
-    <a href={pinnedAnnouncement.href} class="shrink-0 font-bold underline underline-offset-2" style="color: var(--color-accent-ref)">
+  <span class="flex flex-wrap items-center justify-center gap-1 line-clamp-2 sm:line-clamp-1">
+    <span class="font-bold" style="color: var(--green-light)">New:</span>
+    {pinnedAnnouncement.title}
+    <a
+      href={pinnedAnnouncement.href}
+      class="shrink-0 font-semibold underline underline-offset-2"
+      style="color: var(--green-light)"
+    >
       Read more →
     </a>
   </span>

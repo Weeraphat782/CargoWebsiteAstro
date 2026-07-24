@@ -2,6 +2,7 @@
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import NewsCard from '../../../components/NewsCard.astro';
 import NewsroomPagination from '../../../components/NewsroomPagination.astro';
+import MarketingPageHero from '../../../components/MarketingPageHero.astro';
 import { ContinueExploring } from '../../../components/react/ContinueExploring';
 import {
   getPublishedArticlesList,
@@ -64,18 +65,16 @@ const ld = jsonLdScript([
 const prevUrl = absoluteUrl(newsroomListPagePath(pageNum - 1));
 const nextUrl =
   pageNum < totalPages ? absoluteUrl(newsroomListPagePath(pageNum + 1)) : undefined;
-const reviewed = new Date().toISOString().slice(0, 10);
 ---
 
 <BaseLayout meta={meta} jsonLd={ld} prevUrl={prevUrl} nextUrl={nextUrl}>
-  <section class="mx-auto max-w-5xl px-4 py-16 sm:px-6 lg:px-8">
-    <header>
-      <p class="text-sm text-neutral-500">Last updated: {reviewed}</p>
-      <h1 class="mt-2 text-3xl font-bold text-neutral-900 sm:text-4xl">Newsroom</h1>
-      <p class="mt-4 text-neutral-600">Company announcements, route updates, and logistics industry news.</p>
-      <p class="mt-2 text-sm text-neutral-500">Page {pageNum} of {totalPages}</p>
-    </header>
-    <div class="mt-10 space-y-8">
+  <MarketingPageHero
+    eyebrow="Newsroom"
+    title={`Newsroom — Page ${pageNum}`}
+    description="Company announcements, route updates and logistics industry news."
+  />
+  <div class="marketing-container py-12 pb-[72px]">
+    <div class="grid gap-[22px] sm:grid-cols-2 lg:grid-cols-3">
       {pageArticles.map((item) => (
         <NewsCard
           slug={item.slug}
@@ -88,5 +87,5 @@ const reviewed = new Date().toISOString().slice(0, 10);
     </div>
     <NewsroomPagination currentPage={pageNum} totalPages={totalPages} />
     <ContinueExploring client:visible />
-  </section>
+  </div>
 </BaseLayout>

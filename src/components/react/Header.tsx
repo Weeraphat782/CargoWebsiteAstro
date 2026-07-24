@@ -15,14 +15,17 @@ const navLinks = [
   { href: '/contact', label: 'Contact Us' },
 ];
 
+function isActive(pathname: string, href: string) {
+  if (href === '/') return pathname === '/';
+  return pathname === href || pathname.startsWith(`${href}/`);
+}
+
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
+  const [pathname, setPathname] = useState('/');
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 24);
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    setPathname(window.location.pathname);
   }, []);
 
   useEffect(() => {
@@ -37,49 +40,44 @@ export default function Header() {
   }, [mobileMenuOpen]);
 
   return (
-    <header
-      className={`transition-all duration-300 ${
-        scrolled
-          ? 'bg-white/90 backdrop-blur-md shadow-md border-b border-neutral-200/60'
-          : 'bg-white border-b border-neutral-200'
-      }`}
-    >
-      <div className="mx-auto flex max-w-7xl items-center justify-between gap-8 px-6 py-3 sm:px-8 lg:px-10">
+    <header className="sticky top-0 z-50 border-b border-[var(--line)] bg-white">
+      <div className="marketing-container flex h-[70px] items-center gap-6">
         <a href="/" className="flex shrink-0 items-center">
-          <img
-            src="/logo.png"
-            alt={`${BRAND_NAME} logo`}
-            width={360}
-            height={112}
-            className="h-10 w-auto sm:h-12 lg:h-14 xl:h-[60px]"
-          />
+          <img src="/logo.png" alt={`${BRAND_NAME} logo`} width={220} height={68} className="h-[34px] w-auto" />
         </a>
 
-        <nav className="hidden items-center gap-8 md:flex">
-          {navLinks.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              className="nav-link inline-block text-sm font-medium"
-              style={{ color: 'var(--color-primary-ref)' }}
-            >
-              {link.label}
-            </a>
-          ))}
+        <nav className="ml-auto hidden items-center gap-1 md:flex">
+          {navLinks.map((link) => {
+            const active = isActive(pathname, link.href);
+            return (
+              <a
+                key={link.href}
+                href={link.href}
+                className="font-display px-3.5 py-2 text-[14.5px] font-semibold transition-colors"
+                style={{
+                  color: active ? 'var(--navy-700)' : 'var(--muted)',
+                  borderBottom: active ? '2px solid var(--navy-700)' : '2px solid transparent',
+                  marginBottom: '-2px',
+                }}
+              >
+                {link.label}
+              </a>
+            );
+          })}
         </nav>
 
-        <div className="flex items-center gap-3 sm:gap-4">
+        <div className="flex items-center gap-2.5 sm:gap-2.5">
           <a
             href={registerUrl}
-            className="hidden rounded-lg border px-4 py-2 text-sm font-semibold transition-all duration-200 hover:shadow-sm sm:inline-block"
-            style={{ borderColor: 'var(--color-primary-ref)', color: 'var(--color-primary-ref)' }}
+            className="hidden rounded-[var(--radius-sm)] border-[1.5px] px-4 py-1.5 text-sm font-semibold sm:inline-block"
+            style={{ borderColor: 'var(--line-strong)', color: 'var(--navy-700)' }}
           >
             Register
           </a>
           <a
             href={loginUrl}
-            className="hidden rounded-lg px-4 py-2 text-sm font-semibold text-white transition-all duration-200 hover:opacity-90 sm:inline-block"
-            style={{ backgroundColor: 'var(--color-accent-ref)' }}
+            className="hidden rounded-[var(--radius-sm)] px-[17px] py-2 text-sm font-semibold text-white sm:inline-block"
+            style={{ backgroundColor: 'var(--green-500)' }}
           >
             Login
           </a>
@@ -87,8 +85,8 @@ export default function Header() {
           <button
             type="button"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="flex h-11 w-11 items-center justify-center rounded-lg transition hover:bg-neutral-100 md:hidden"
-            style={{ color: 'var(--color-primary-ref)' }}
+            className="flex h-11 w-11 items-center justify-center rounded-[var(--radius-sm)] md:hidden"
+            style={{ color: 'var(--navy-700)' }}
             aria-label="Toggle menu"
             aria-expanded={mobileMenuOpen}
           >
@@ -103,35 +101,39 @@ export default function Header() {
         </div>
       </div>
 
-      <div
-        className={`overflow-hidden transition-[max-height,opacity] duration-300 ease-out md:hidden border-b border-neutral-200 ${
-          mobileMenuOpen ? 'max-h-[calc(100dvh-9rem)] opacity-100' : 'max-h-0 opacity-0'
-        }`}
-      >
-        <div className="max-h-[calc(100dvh-9rem)] overflow-y-auto border-t border-neutral-200 bg-white/95 px-4 py-6">
-          <nav className="flex flex-col gap-1">
+      {mobileMenuOpen && (
+        <div className="border-t border-[var(--line)] bg-white md:hidden">
+          <nav className="marketing-container flex flex-col gap-1 py-4">
             {navLinks.map((link) => (
               <a
                 key={link.href}
                 href={link.href}
                 onClick={() => setMobileMenuOpen(false)}
-                className="flex min-h-[44px] items-center rounded-lg px-4 py-3.5 text-sm font-medium hover:bg-neutral-50"
-                style={{ color: 'var(--color-primary-ref)' }}
+                className="font-display min-h-[44px] px-2 py-3 text-sm font-semibold"
+                style={{ color: 'var(--navy-700)' }}
               >
                 {link.label}
               </a>
             ))}
-            <div className="mt-3 flex gap-2 border-t border-neutral-100 pt-3">
-              <a href={registerUrl} className="flex min-h-[44px] flex-1 items-center justify-center rounded-lg border px-4 py-3 text-sm font-semibold" style={{ borderColor: 'var(--color-primary-ref)', color: 'var(--color-primary-ref)' }}>
+            <div className="mt-2 flex gap-2 border-t border-[var(--line)] pt-3">
+              <a
+                href={registerUrl}
+                className="flex min-h-[44px] flex-1 items-center justify-center rounded-[var(--radius-sm)] border text-sm font-semibold"
+                style={{ borderColor: 'var(--line-strong)', color: 'var(--navy-700)' }}
+              >
                 Register
               </a>
-              <a href={loginUrl} className="flex min-h-[44px] flex-1 items-center justify-center rounded-lg px-4 py-3 text-sm font-semibold text-white" style={{ backgroundColor: 'var(--color-accent-ref)' }}>
+              <a
+                href={loginUrl}
+                className="flex min-h-[44px] flex-1 items-center justify-center rounded-[var(--radius-sm)] text-sm font-semibold text-white"
+                style={{ backgroundColor: 'var(--green-500)' }}
+              >
                 Login
               </a>
             </div>
           </nav>
         </div>
-      </div>
+      )}
     </header>
   );
 }

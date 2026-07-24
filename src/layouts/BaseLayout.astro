@@ -34,7 +34,7 @@ const gtmId = import.meta.env.PUBLIC_GTM_ID?.trim();
     <link rel="preconnect" href="https://pub-8bcc4f3b024b4819ba737865d58e9664.r2.dev" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700;800&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <title>{meta.title} | {BRAND_NAME}</title>
     <meta name="description" content={meta.description} />
     <meta name="robots" content={meta.robots} />
@@ -71,7 +71,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       )
     }
   </head>
-  <body class="font-sans min-h-screen flex flex-col bg-white text-neutral-900">
+  <body class="font-sans min-h-screen flex flex-col text-[var(--ink)]" style="background: var(--paper);">
     {
       gtmId && (
         <noscript>

@@ -3,9 +3,13 @@
 import { useState, type FormEvent } from 'react';
 import { Loader2 } from 'lucide-react';
 import { trackFormSubmit } from '@/lib/analytics';
+import { Button } from '@/components/ui/button';
 
 const CONTACT_API =
   import.meta.env.PUBLIC_CONTACT_API_URL || 'https://cargo.omgexp.com/api/contact';
+
+const fieldClass =
+  'mt-1.5 block w-full rounded-[var(--radius-sm)] border border-[var(--line-strong)] px-3 py-2.5 text-[15px] disabled:opacity-60';
 
 export default function ContactForm() {
   const [loading, setLoading] = useState(false);
@@ -52,54 +56,67 @@ export default function ContactForm() {
   }
 
   return (
-    <form className="mt-8 space-y-6" onSubmit={onSubmit}>
+    <form className="space-y-5" onSubmit={onSubmit}>
       {success && (
-        <div className="rounded-md border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-800" role="status">
-          Thank you — we received your message and will respond within one business day.
+        <div
+          className="flex gap-3 rounded-[3px] border-l-4 px-4 py-4"
+          style={{ background: '#eaf6e0', borderColor: '#4a9c2d' }}
+          role="status"
+        >
+          <div>
+            <div className="text-[15px] font-bold" style={{ color: '#2f6b1c' }}>
+              Message sent
+            </div>
+            <div className="text-sm" style={{ color: '#2b3138' }}>
+              Thanks — our team will respond within one business day.
+            </div>
+          </div>
         </div>
       )}
       {error && (
-        <div className="rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800" role="alert">
+        <div className="rounded-[3px] border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800" role="alert">
           {error}
         </div>
       )}
-      <div className="grid gap-6 sm:grid-cols-2">
-        <div>
-          <label htmlFor="name" className="block text-sm font-medium text-neutral-700">Name</label>
-          <input id="name" name="name" type="text" required disabled={loading} autoComplete="name" className="mt-1 block w-full rounded-xl border border-neutral-200 px-4 py-3 text-sm" />
-        </div>
-        <div>
-          <label htmlFor="email" className="block text-sm font-medium text-neutral-700">Email</label>
-          <input id="email" name="email" type="email" required disabled={loading} autoComplete="email" className="mt-1 block w-full rounded-xl border border-neutral-200 px-4 py-3 text-sm" />
-        </div>
+      <div className="grid gap-4 sm:grid-cols-2">
+        <label className="block text-[13px] font-semibold" style={{ color: '#2b3138' }}>
+          Name
+          <input id="name" name="name" type="text" required disabled={loading} autoComplete="name" className={fieldClass} />
+        </label>
+        <label className="block text-[13px] font-semibold" style={{ color: '#2b3138' }}>
+          Email
+          <input id="email" name="email" type="email" required disabled={loading} autoComplete="email" className={fieldClass} />
+        </label>
+        <label className="block text-[13px] font-semibold sm:col-span-1" style={{ color: '#2b3138' }}>
+          Company
+          <input id="company" name="company" type="text" disabled={loading} className={fieldClass} />
+        </label>
+        <label className="block text-[13px] font-semibold" style={{ color: '#2b3138' }}>
+          Inquiry Type
+          <select id="inquiry" name="inquiry" disabled={loading} className={fieldClass}>
+            <option value="">Select service…</option>
+            <option value="air-freight">Specialized Air Freight</option>
+            <option value="customs">Shipping & Customs</option>
+            <option value="warehousing">GDP Warehousing</option>
+            <option value="controlled-temp">Controlled Temperature Transport</option>
+            <option value="qc-lab">QC Lab Testing</option>
+            <option value="other">Other</option>
+          </select>
+        </label>
+        <label className="block text-[13px] font-semibold sm:col-span-2" style={{ color: '#2b3138' }}>
+          Message
+          <textarea id="message" name="message" rows={4} required disabled={loading} className={fieldClass} />
+        </label>
       </div>
-      <div>
-        <label htmlFor="company" className="block text-sm font-medium text-neutral-700">Company</label>
-        <input id="company" name="company" type="text" disabled={loading} className="mt-1 block w-full rounded-xl border border-neutral-200 px-4 py-3 text-sm" />
-      </div>
-      <div>
-        <label htmlFor="inquiry" className="block text-sm font-medium text-neutral-700">Inquiry Type</label>
-        <select id="inquiry" name="inquiry" disabled={loading} className="mt-1 block w-full rounded-xl border border-neutral-200 px-4 py-3 text-sm">
-          <option value="">Select service...</option>
-          <option value="air-freight">Specialized Air Freight</option>
-          <option value="customs">Shipping & Customs</option>
-          <option value="warehousing">GDP Warehousing</option>
-          <option value="controlled-temp">Controlled Temperature Transport</option>
-          <option value="other">Other</option>
-        </select>
-      </div>
-      <div>
-        <label htmlFor="message" className="block text-sm font-medium text-neutral-700">Message</label>
-        <textarea id="message" name="message" rows={5} required disabled={loading} className="mt-1 block w-full rounded-xl border border-neutral-200 px-4 py-3 text-sm" />
-      </div>
-      <button
-        type="submit"
-        disabled={loading}
-        className="flex min-h-[48px] items-center justify-center gap-2 rounded-xl px-8 py-3 text-sm font-semibold text-white disabled:opacity-60"
-        style={{ backgroundColor: 'var(--color-accent-ref)' }}
-      >
-        {loading ? <><Loader2 className="h-5 w-5 animate-spin" /> Sending…</> : 'Submit Request'}
-      </button>
+      <Button type="submit" disabled={loading} size="default">
+        {loading ? (
+          <>
+            <Loader2 className="h-4 w-4 animate-spin" /> Sending…
+          </>
+        ) : (
+          <>Submit Request →</>
+        )}
+      </Button>
     </form>
   );
 }

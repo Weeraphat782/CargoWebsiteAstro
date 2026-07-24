@@ -1,6 +1,6 @@
 'use client';
 
-import { BRAND_NAME } from '@/lib/site';
+import { BRAND_NAME, APP_URL } from '@/lib/site';
 import { trackCtaClick } from '@/lib/analytics';
 
 const navLinks = [
@@ -21,33 +21,35 @@ const serviceLinks = [
 
 export default function Footer() {
   return (
-    <footer style={{ backgroundColor: 'var(--color-primary-ref)' }}>
-      <div className="h-0.5 w-full" style={{ background: 'linear-gradient(90deg, var(--color-accent-ref), #86ef6c, var(--color-accent-ref))' }} />
-      <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-16 lg:px-8">
-        <div className="grid gap-8 lg:grid-cols-3 sm:gap-12">
+    <footer className="mt-auto text-[var(--hero-muted)]" style={{ backgroundColor: 'var(--navy-950)' }}>
+      <div className="marketing-container pb-0 pt-[52px]">
+        <div className="grid gap-10 border-b border-white/10 pb-9 lg:grid-cols-[1.4fr_1fr_1fr]">
           <div>
-            <a href="/" className="inline-block mb-4">
-              <img src="/logo.png" alt={`${BRAND_NAME} logo`} width={220} height={68} className="h-12 w-auto brightness-0 invert" />
-            </a>
-            <p className="mt-4 text-sm text-white/70 leading-relaxed max-w-xs">
-              Specialized air freight and global logistics for time-sensitive, temperature-controlled, and compliance-critical cargo.
+            <img src="/logo.png" alt={`${BRAND_NAME} logo`} width={220} height={68} className="h-8 w-auto brightness-0 invert" />
+            <p className="mt-4 max-w-[300px] text-[13.5px] leading-relaxed" style={{ color: '#8fb4d8' }}>
+              Specialized air freight and global logistics for time-sensitive, temperature-controlled, and
+              compliance-critical cargo.
             </p>
           </div>
           <div>
-            <h3 className="text-xs font-bold uppercase tracking-widest text-white/50 mb-4">Navigation</h3>
-            <nav className="flex flex-col gap-2">
+            <div className="font-display mb-4 text-[13px] font-bold uppercase tracking-[0.06em] text-white">
+              Navigation
+            </div>
+            <nav className="flex flex-col gap-2.5 text-sm">
               {navLinks.map((link) => (
-                <a key={link.href} href={link.href} className="inline-flex min-h-[44px] items-center text-sm text-white/80 hover:text-white">
+                <a key={link.href} href={link.href} className="hover:text-white">
                   {link.label}
                 </a>
               ))}
             </nav>
           </div>
           <div>
-            <h3 className="text-xs font-bold uppercase tracking-widest text-white/50 mb-4">Services</h3>
-            <nav className="flex flex-col gap-2 mb-8">
+            <div className="font-display mb-4 text-[13px] font-bold uppercase tracking-[0.06em] text-white">
+              Services
+            </div>
+            <nav className="mb-6 flex flex-col gap-2.5 text-sm">
               {serviceLinks.map((link) => (
-                <a key={link.href} href={link.href} className="inline-flex min-h-[44px] items-center text-sm text-white/80 hover:text-white">
+                <a key={link.href} href={link.href} className="hover:text-white">
                   {link.label}
                 </a>
               ))}
@@ -55,16 +57,16 @@ export default function Footer() {
             <a
               href="/contact"
               onClick={() => trackCtaClick('Request a Quote', 'footer')}
-              className="inline-flex min-h-[44px] items-center gap-2 rounded-lg px-5 py-2.5 text-sm font-semibold text-white"
-              style={{ backgroundColor: 'var(--color-accent-ref)' }}
+              className="inline-flex rounded-[var(--radius-sm)] px-5 py-2.5 text-sm font-semibold text-white"
+              style={{ backgroundColor: 'var(--green-500)' }}
             >
               Request a Quote
             </a>
           </div>
         </div>
-        <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-8 sm:flex-row">
-          <p className="text-xs text-white/50">&copy; {new Date().getFullYear()} OMG Experience Co., Ltd. All rights reserved.</p>
-          <p className="text-xs text-white/30">Supported by the National Innovation Agency (NIA), Thailand</p>
+        <div className="flex flex-col items-center justify-between gap-3 py-8 text-xs sm:flex-row" style={{ color: '#8fb4d8' }}>
+          <p>&copy; {new Date().getFullYear()} OMG Experience Co., Ltd. All rights reserved.</p>
+          <p style={{ color: 'rgba(143,180,216,0.6)' }}>Supported by the National Innovation Agency (NIA), Thailand</p>
         </div>
       </div>
     </footer>

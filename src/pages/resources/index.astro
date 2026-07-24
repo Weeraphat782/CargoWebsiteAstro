@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import MarketingPageHero from '../../components/MarketingPageHero.astro';
 import ResourcesList from '../../components/react/ResourcesList';
 import { getPublishedResources } from '../../lib/newsroom-data';
 import { pageMeta } from '../../lib/page-meta';
@@ -36,25 +37,21 @@ const ld = jsonLdScript([
   }),
   ...(listItems.length ? [itemListSchema(`${BRAND_NAME} resources`, listItems)] : []),
 ]);
-
-const reviewed = new Date().toISOString().slice(0, 10);
 ---
 
 <BaseLayout meta={meta} jsonLd={ld}>
-  <section class="mx-auto max-w-5xl px-4 py-16 sm:px-6 lg:px-8">
-    <header>
-      <p class="text-sm text-neutral-500">Last updated: {reviewed}</p>
-      <h1 class="mt-2 text-3xl font-bold text-neutral-900 sm:text-4xl">Resources</h1>
-      <p class="mt-4 text-neutral-600">
-        Long-form guides for regulated export, EU GMP and QP expectations, GDP logistics, and EU market strategy.
-      </p>
-    </header>
-    <div class="mt-10">
-      {resources.length === 0 ? (
-        <p class="py-8 text-center text-neutral-400">No published guides yet.</p>
+  <MarketingPageHero
+    eyebrow="Resources"
+    title="Resources"
+    description="Long-form guides for regulated export, EU-GMP and QP expectations, GDP logistics, and EU market strategy."
+  />
+  <div class="marketing-container py-9 pb-[72px]">
+    {
+      resources.length === 0 ? (
+        <p class="py-8 text-center" style="color: #9aa2aa;">No published guides yet.</p>
       ) : (
         <ResourcesList client:visible resources={resources} allTags={allTags} />
-      )}
-    </div>
-  </section>
+      )
+    }
+  </div>
 </BaseLayout>

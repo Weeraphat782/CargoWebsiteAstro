@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700;800&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:'Public Sans',system-ui,sans-serif;color:#16191c;background:#f8f9fa;-webkit-font-smoothing:antialiased}
+  ::selection{background:#6FBE44;color:#fff}
+  a{color:#184878;text-decoration:none}
+  a:hover{color:#2c6fac}
+  @keyframes toastIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+  ::-webkit-scrollbar{width:10px;height:10px}
+  ::-webkit-scrollbar-thumb{background:#c4cad0;border-radius:0}
+  ::-webkit-scrollbar-thumb:hover{background:#9aa2aa}
+</style>
+</helmet>
+
+<div style="min-height:100vh">
+
+  <!-- TOP BAR -->
+  <header style="position:sticky;top:0;z-index:40;background:#fff;border-bottom:1px solid #e2e6ea;height:68px;display:flex;align-items:center;padding:0 32px;gap:32px">
+    <img src="uploads/logo.png" alt="OMGEXP" style="height:34px;width:auto;display:block" />
+    <div style="width:1px;height:26px;background:#e2e6ea"></div>
+    <span style="font-family:'Barlow',sans-serif;font-weight:600;font-size:15px;letter-spacing:.02em;color:#5c656e;text-transform:uppercase">Design System</span>
+    <nav style="margin-left:auto;display:flex;align-items:center;gap:28px">
+      <a href="#foundations" style="font-size:14px;font-weight:600;color:#444c54">Foundations</a>
+      <a href="#components" style="font-size:14px;font-weight:600;color:#444c54">Components</a>
+      <a href="#patterns" style="font-size:14px;font-weight:600;color:#444c54">Patterns</a>
+      <a href="#tokens-code" style="display:inline-flex;align-items:center;gap:8px;background:#6FBE44;color:#fff;font-weight:600;font-size:14px;padding:9px 16px;border-radius:2px">Get tokens</a>
+    </nav>
+  </header>
+
+  <!-- HERO -->
+  <section style="background:linear-gradient(115deg,#0d2c4d 0%,#184878 55%,#1f5990 100%);color:#fff;padding:64px 32px 72px;position:relative;overflow:hidden">
+    <div style="position:absolute;right:-60px;top:-40px;width:420px;height:420px;border:2px solid rgba(111,190,68,.18);border-radius:999px"></div>
+    <div style="position:absolute;right:80px;bottom:-120px;width:300px;height:300px;border:2px solid rgba(255,255,255,.06);border-radius:999px"></div>
+    <div style="max-width:1200px;margin:0 auto;position:relative">
+      <h1 style="font-family:'Barlow',sans-serif;font-weight:800;font-size:56px;line-height:1.05;letter-spacing:-.01em;margin:0 0 16px;max-width:760px">The building blocks for shipping, tracking &amp; trade.</h1>
+      <p style="font-size:19px;line-height:1.55;color:#c2d6ea;max-width:620px">A single source of truth for designers and engineers — color, type, spacing and battle-tested components, ready to compose customer-facing logistics experiences.</p>
+    </div>
+  </section>
+
+  <!-- BODY -->
+  <div style="max-width:1200px;margin:0 auto;padding:0 32px;display:grid;grid-template-columns:212px 1fr;gap:48px;align-items:start">
+
+    <!-- SIDEBAR -->
+    <aside style="position:sticky;top:92px;padding:40px 0;display:flex;flex-direction:column;gap:4px;max-height:calc(100vh - 92px);overflow:auto">
+      <div style="font-family:'Barlow',sans-serif;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#9aa2aa;padding:10px 12px 6px">Foundations</div>
+      <a href="#colors" style="font-size:14px;font-weight:500;color:#444c54;padding:7px 12px;border-left:2px solid #e2e6ea">Color palette</a>
+      <a href="#typography" style="font-size:14px;font-weight:500;color:#444c54;padding:7px 12px;border-left:2px solid #e2e6ea">Typography</a>
+      <a href="#spacing" style="font-size:14px;font-weight:500;color:#444c54;padding:7px 12px;border-left:2px solid #e2e6ea">Spacing</a>
+      <a href="#radius" style="font-size:14px;font-weight:500;color:#444c54;padding:7px 12px;border-left:2px solid #e2e6ea">Radius</a>
+      <a href="#elevation" style="font-size:14px;font-weight:500;color:#444c54;padding:7px 12px;border-left:2px solid #e2e6ea">Elevation</a>
+      <a href="#icons" style="font-size:14px;font-weight:500;color:#444c54;padding:7px 12px;border-left:2px solid #e2e6ea">Iconography</a>
+      <a href="#imagery" style="font-size:14px;font-weight:500;color:#444c54;padding:7px 12px;border-left:2px solid #e2e6ea">Imagery</a>
+      <div style="font-family:'Barlow',sans-serif;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#9aa2aa;padding:16px 12px 6px">Components</div>
+      <a href="#buttons" style="font-size:14px;font-weight:500;color:#444c54;padding:7px 12px;border-left:2px solid #e2e6ea">Buttons</a>
+      <a href="#forms" style="font-size:14px;font-weight:500;color:#444c54;padding:7px 12px;border-left:2px solid #e2e6ea">Form inputs</a>
+      <a href="#search" style="font-size:14px;font-weight:500;color:#444c54;padding:7px 12px;border-left:2px solid #e2e6ea">Search &amp; tracking</a>
+      <a href="#badges" style="font-size:14px;font-weight:500;color:#444c54;padding:7px 12px;border-left:2px solid #e2e6ea">Badges &amp; tags</a>
+      <a href="#alerts" style="font-size:14px;font-weight:500;color:#444c54;padding:7px 12px;border-left:2px solid #e2e6ea">Alerts &amp; banners</a>
+      <a href="#cards" style="font-size:14px;font-weight:500;color:#444c54;padding:7px 12px;border-left:2px solid #e2e6ea">Cards</a>
+      <a href="#tabs" style="font-size:14px;font-weight:500;color:#444c54;padding:7px 12px;border-left:2px solid #e2e6ea">Tabs</a>
+      <a href="#tiles" style="font-size:14px;font-weight:500;color:#444c54;padding:7px 12px;border-left:2px solid #e2e6ea">Service tiles</a>
+      <a href="#nav" style="font-size:14px;font-weight:500;color:#444c54;padding:7px 12px;border-left:2px solid #e2e6ea">Navigation</a>
+      <a href="#footer" style="font-size:14px;font-weight:500;color:#444c54;padding:7px 12px;border-left:2px solid #e2e6ea">Footer</a>
+      <div style="font-family:'Barlow',sans-serif;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#9aa2aa;padding:16px 12px 6px">Guidance</div>
+      <a href="#patterns" style="font-size:14px;font-weight:500;color:#444c54;padding:7px 12px;border-left:2px solid #e2e6ea">In context</a>
+      <a href="#tokens-code" style="font-size:14px;font-weight:500;color:#444c54;padding:7px 12px;border-left:2px solid #e2e6ea">Tokens as code</a>
+    </aside>
+
+    <!-- MAIN -->
+    <main style="padding:40px 0 96px;min-width:0">
+
+      <!-- ============ FOUNDATIONS ============ -->
+      <div id="foundations"></div>
+
+      <!-- COLORS -->
+      <section id="colors" style="scroll-margin-top:92px;margin-bottom:72px">
+        <div style="font-family:'Barlow',sans-serif;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#6FBE44;margin-bottom:8px">Foundations</div>
+        <h2 style="font-family:'Barlow',sans-serif;font-weight:700;font-size:34px;color:#0d2c4d;margin-bottom:10px">Color palette</h2>
+        <p style="font-size:16px;line-height:1.6;color:#5c656e;max-width:640px;margin-bottom:8px">Navy carries structure and trust; green signals action and momentum. Click any swatch to copy its hex value. Maintain 4.5:1 contrast for text.</p>
+        <p style="font-size:14px;color:#7a838c;margin-bottom:28px">Base steps are marked with a dot. Use 700 for primary surfaces, 500 for interactive, 50–100 for tints.</p>
+
+        <sc-for list="{{ colorScales }}" as="scale" hint-placeholder-count="4">
+          <div style="margin-bottom:28px">
+            <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:10px">
+              <span style="font-family:'Barlow',sans-serif;font-weight:600;font-size:16px;color:#16191c">{{ scale.name }}</span>
+              <span style="font-size:13px;color:#9aa2aa">{{ scale.role }}</span>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:8px">
+              <sc-for list="{{ scale.steps }}" as="step" hint-placeholder-count="9">
+                <button onClick="{{ step.copy }}" title="Copy {{ step.hex }}" style="text-align:left;border:1px solid #e2e6ea;background:#fff;border-radius:3px;overflow:hidden;cursor:pointer;padding:0;transition:transform .08s,box-shadow .12s" style-hover="transform:translateY(-2px);box-shadow:0 6px 16px rgba(13,44,77,.14)">
+                  <div style="height:56px;background:{{ step.hex }};position:relative">
+                    <sc-if value="{{ step.isBase }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;top:6px;right:6px;width:7px;height:7px;border-radius:999px;background:{{ step.dot }}"></span></sc-if>
+                  </div>
+                  <div style="padding:7px 8px">
+                    <div style="font-size:12px;font-weight:600;color:#16191c">{{ step.shade }}</div>
+                    <div style="font-size:11px;color:#7a838c;font-family:'Barlow',monospace">{{ step.hex }}</div>
+                  </div>
+                </button>
+              </sc-for>
+            </div>
+          </div>
+        </sc-for>
+
+        <div style="font-family:'Barlow',sans-serif;font-weight:600;font-size:16px;color:#16191c;margin:8px 0 12px">Semantic</div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px">
+          <sc-for list="{{ semanticColors }}" as="s" hint-placeholder-count="4">
+            <button onClick="{{ s.copy }}" style="display:flex;align-items:center;gap:12px;border:1px solid #e2e6ea;background:#fff;border-radius:3px;padding:12px;cursor:pointer;text-align:left" style-hover="border-color:#c4cad0">
+              <span style="width:38px;height:38px;border-radius:3px;background:{{ s.hex }};flex:none"></span>
+              <span>
+                <span style="display:block;font-size:14px;font-weight:600;color:#16191c">{{ s.name }}</span>
+                <span style="display:block;font-size:12px;color:#7a838c;font-family:monospace">{{ s.hex }}</span>
+              </span>
+            </button>
+          </sc-for>
+        </div>
+      </section>
+
+      <!-- TYPOGRAPHY -->
+      <section id="typography" style="scroll-margin-top:92px;margin-bottom:72px">
+        <div style="font-family:'Barlow',sans-serif;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#6FBE44;margin-bottom:8px">Foundations</div>
+        <h2 style="font-family:'Barlow',sans-serif;font-weight:700;font-size:34px;color:#0d2c4d;margin-bottom:10px">Typography</h2>
+        <p style="font-size:16px;line-height:1.6;color:#5c656e;max-width:640px;margin-bottom:24px"><strong style="color:#16191c">Barlow</strong> handles display and headings — condensed, confident, engineered. <strong style="color:#16191c">Public Sans</strong> keeps body copy legible at density.</p>
+        <div style="border:1px solid #e2e6ea;border-radius:4px;background:#fff;overflow:hidden">
+          <sc-for list="{{ typeScale }}" as="t" hint-placeholder-count="7">
+            <div style="display:grid;grid-template-columns:150px 1fr;gap:24px;padding:18px 24px;border-bottom:1px solid #f1f3f5;align-items:baseline">
+              <div>
+                <div style="font-size:13px;font-weight:600;color:#16191c">{{ t.label }}</div>
+                <div style="font-size:12px;color:#7a838c;font-family:monospace">{{ t.spec }}</div>
+              </div>
+              <div style="font-family:{{ t.family }};font-weight:{{ t.weight }};font-size:{{ t.px }};line-height:1.15;color:#16191c;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ t.sample }}</div>
+            </div>
+          </sc-for>
+        </div>
+      </section>
+
+      <!-- SPACING -->
+      <section id="spacing" style="scroll-margin-top:92px;margin-bottom:72px">
+        <div style="font-family:'Barlow',sans-serif;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#6FBE44;margin-bottom:8px">Foundations</div>
+        <h2 style="font-family:'Barlow',sans-serif;font-weight:700;font-size:34px;color:#0d2c4d;margin-bottom:10px">Spacing scale</h2>
+        <p style="font-size:16px;line-height:1.6;color:#5c656e;max-width:640px;margin-bottom:24px">A 4px base grid. Use the smaller steps inside components, larger steps between sections. Consistent rhythm keeps dense logistics UIs scannable.</p>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <sc-for list="{{ spacingScale }}" as="sp" hint-placeholder-count="8">
+            <div style="display:grid;grid-template-columns:70px 60px 1fr;gap:16px;align-items:center;background:#fff;border:1px solid #e2e6ea;border-radius:3px;padding:10px 14px">
+              <span style="font-family:monospace;font-size:13px;font-weight:600;color:#184878">{{ sp.token }}</span>
+              <span style="font-size:13px;color:#7a838c">{{ sp.px }}</span>
+              <span style="height:16px;background:#6FBE44;border-radius:2px;width:{{ sp.px }}"></span>
+            </div>
+          </sc-for>
+        </div>
+      </section>
+
+      <!-- RADIUS + ELEVATION -->
+      <section id="radius" style="scroll-margin-top:92px;margin-bottom:48px">
+        <div style="font-family:'Barlow',sans-serif;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#6FBE44;margin-bottom:8px">Foundations</div>
+        <h2 style="font-family:'Barlow',sans-serif;font-weight:700;font-size:34px;color:#0d2c4d;margin-bottom:10px">Radius</h2>
+        <p style="font-size:16px;line-height:1.6;color:#5c656e;max-width:640px;margin-bottom:24px">Corners stay tight and industrial. Sharp and sm dominate; pill is reserved for tags and toggles.</p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px">
+          <sc-for list="{{ radiusScale }}" as="r" hint-placeholder-count="5">
+            <div style="background:#fff;border:1px solid #e2e6ea;border-radius:4px;padding:16px;text-align:center">
+              <div style="height:70px;background:#e6eef6;border:1.5px solid #184878;border-radius:{{ r.px }};margin-bottom:12px"></div>
+              <div style="font-family:monospace;font-size:13px;font-weight:600;color:#184878">{{ r.token }}</div>
+              <div style="font-size:12px;color:#7a838c">{{ r.px }}</div>
+            </div>
+          </sc-for>
+        </div>
+      </section>
+
+      <section id="elevation" style="scroll-margin-top:92px;margin-bottom:72px">
+        <h3 style="font-family:'Barlow',sans-serif;font-weight:700;font-size:24px;color:#0d2c4d;margin-bottom:8px">Elevation</h3>
+        <p style="font-size:16px;line-height:1.6;color:#5c656e;max-width:640px;margin-bottom:24px">Shadows are cool-toned and restrained — used to lift interactive surfaces, dropdowns and floating actions.</p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:24px;background:#eef1f4;border:1px solid #e2e6ea;border-radius:4px;padding:32px">
+          <sc-for list="{{ shadowScale }}" as="sh" hint-placeholder-count="4">
+            <div style="text-align:center">
+              <div style="height:90px;background:#fff;border-radius:4px;box-shadow:{{ sh.css }};margin-bottom:12px"></div>
+              <div style="font-family:monospace;font-size:13px;font-weight:600;color:#184878">{{ sh.token }}</div>
+            </div>
+          </sc-for>
+        </div>
+      </section>
+
+      <!-- ICONS -->
+      <section id="icons" style="scroll-margin-top:92px;margin-bottom:80px">
+        <div style="font-family:'Barlow',sans-serif;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#6FBE44;margin-bottom:8px">Foundations</div>
+        <h2 style="font-family:'Barlow',sans-serif;font-weight:700;font-size:34px;color:#0d2c4d;margin-bottom:10px">Iconography</h2>
+        <p style="font-size:16px;line-height:1.6;color:#5c656e;max-width:640px;margin-bottom:24px">A 24px line set at 1.75 stroke, drawn on a consistent grid. Currentcolor-driven, so they inherit text color anywhere.</p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(112px,1fr));gap:12px">
+          <div style="background:#fff;border:1px solid #e2e6ea;border-radius:3px;padding:18px 8px;text-align:center;color:#184878">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M1 4h13v11H1z"/><path d="M14 8h4l3 3v4h-7z"/><circle cx="5.5" cy="17.5" r="1.8"/><circle cx="17.5" cy="17.5" r="1.8"/></svg>
+            <div style="font-size:12px;color:#5c656e;margin-top:10px">truck</div>
+          </div>
+          <div style="background:#fff;border:1px solid #e2e6ea;border-radius:3px;padding:18px 8px;text-align:center;color:#184878">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14 14.8V5a2 2 0 10-4 0v9.8a4 4 0 104 0z"/><path d="M12 8v6"/></svg>
+            <div style="font-size:12px;color:#5c656e;margin-top:10px">cold-chain</div>
+          </div>
+          <div style="background:#fff;border:1px solid #e2e6ea;border-radius:3px;padding:18px 8px;text-align:center;color:#184878">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12l-9 3-9-3 4-2 5 1 5-4 2 1-3 3z"/></svg>
+            <div style="font-size:12px;color:#5c656e;margin-top:10px">air</div>
+          </div>
+          <div style="background:#fff;border:1px solid #e2e6ea;border-radius:3px;padding:18px 8px;text-align:center;color:#184878">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4-3 6.6-7 8-4-1.4-7-4-7-8V6z"/><path d="M9 12l2 2 4-4"/></svg>
+            <div style="font-size:12px;color:#5c656e;margin-top:10px">customs</div>
+          </div>
+          <div style="background:#fff;border:1px solid #e2e6ea;border-radius:3px;padding:18px 8px;text-align:center;color:#184878">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-5.5 7-11a7 7 0 10-14 0c0 5.5 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+            <div style="font-size:12px;color:#5c656e;margin-top:10px">location</div>
+          </div>
+          <div style="background:#fff;border:1px solid #e2e6ea;border-radius:3px;padding:18px 8px;text-align:center;color:#184878">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="1.5"/><path d="M3 9h18M8 2v4M16 2v4"/></svg>
+            <div style="font-size:12px;color:#5c656e;margin-top:10px">schedule</div>
+          </div>
+          <div style="background:#fff;border:1px solid #e2e6ea;border-radius:3px;padding:18px 8px;text-align:center;color:#184878">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>
+            <div style="font-size:12px;color:#5c656e;margin-top:10px">search</div>
+          </div>
+          <div style="background:#fff;border:1px solid #e2e6ea;border-radius:3px;padding:18px 8px;text-align:center;color:#184878">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+            <div style="font-size:12px;color:#5c656e;margin-top:10px">check</div>
+          </div>
+          <div style="background:#fff;border:1px solid #e2e6ea;border-radius:3px;padding:18px 8px;text-align:center;color:#184878">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 3.9L1.8 18a1.5 1.5 0 001.3 2.2h17.8a1.5 1.5 0 001.3-2.2L13.7 3.9a1.6 1.6 0 00-2.8 0z"/><path d="M12 9v5M12 17.5v.01"/></svg>
+            <div style="font-size:12px;color:#5c656e;margin-top:10px">alert</div>
+          </div>
+          <div style="background:#fff;border:1px solid #e2e6ea;border-radius:3px;padding:18px 8px;text-align:center;color:#184878">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+            <div style="font-size:12px;color:#5c656e;margin-top:10px">chevron</div>
+          </div>
+          <div style="background:#fff;border:1px solid #e2e6ea;border-radius:3px;padding:18px 8px;text-align:center;color:#184878">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+            <div style="font-size:12px;color:#5c656e;margin-top:10px">transit-time</div>
+          </div>
+          <div style="background:#fff;border:1px solid #e2e6ea;border-radius:3px;padding:18px 8px;text-align:center;color:#184878">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v4H4zM6 8v12h12V8M9 12h6"/></svg>
+            <div style="font-size:12px;color:#5c656e;margin-top:10px">parcel</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- IMAGERY -->
+      <section id="imagery" style="scroll-margin-top:92px;margin-bottom:80px">
+        <div style="font-family:'Barlow',sans-serif;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#6FBE44;margin-bottom:8px">Foundations</div>
+        <h2 style="font-family:'Barlow',sans-serif;font-weight:700;font-size:34px;color:#0d2c4d;margin-bottom:10px">Imagery</h2>
+        <p style="font-size:16px;line-height:1.6;color:#5c656e;max-width:640px;margin-bottom:24px">Real operations, real scale — aircraft, air-cargo terminals, temperature-controlled fleets and the Bangkok team behind them. Photos crop wide and confident. Over navy, apply a gradient scrim so white text always clears 4.5:1.</p>
+
+        <!-- Full-bleed feature with scrim -->
+        <div style="position:relative;border-radius:6px;overflow:hidden;height:320px;margin-bottom:20px">
+          <img src="https://images.unsplash.com/photo-1774698078446-59299e016718?auto=format&fit=crop&w=1400&q=70" alt="Cargo aircraft loading" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" />
+          <div style="position:absolute;inset:0;background:linear-gradient(90deg,rgba(13,44,77,.88) 0%,rgba(13,44,77,.55) 45%,rgba(13,44,77,.1) 100%)"></div>
+          <div style="position:relative;height:100%;display:flex;flex-direction:column;justify-content:flex-end;padding:36px 40px;color:#fff;max-width:560px">
+            <span style="display:inline-block;background:#6FBE44;color:#fff;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:5px 11px;border-radius:2px;align-self:flex-start;margin-bottom:14px">Air freight</span>
+            <h3 style="font-family:'Barlow',sans-serif;font-weight:800;font-size:30px;line-height:1.1;margin-bottom:8px">Air freight capacity on every major lane</h3>
+            <p style="font-size:15px;color:#c2d6ea;line-height:1.55">Daily uplift from Bangkok to 200+ destinations, with the visibility to plan around disruption before it reaches your freight.</p>
+          </div>
+        </div>
+
+        <!-- Ratio + duotone examples -->
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:16px">
+          <div>
+            <div style="border-radius:4px;overflow:hidden;aspect-ratio:4/3;background:#e2e6ea"><img src="https://images.unsplash.com/photo-1604140969696-0c495a16f300?auto=format&fit=crop&w=600&q=70" alt="Cargo aircraft at airport" style="width:100%;height:100%;object-fit:cover;display:block" /></div>
+            <div style="font-size:12px;color:#7a838c;font-family:monospace;margin-top:8px">4 : 3 · standard</div>
+          </div>
+          <div>
+            <div style="border-radius:4px;overflow:hidden;aspect-ratio:4/3;background:#e2e6ea;position:relative"><img src="https://images.unsplash.com/photo-1770656284038-a6f8e9bf4ae8?auto=format&fit=crop&w=600&q=70" alt="Refrigerated truck" style="width:100%;height:100%;object-fit:cover;display:block;filter:grayscale(1)" /><div style="position:absolute;inset:0;background:#184878;mix-blend-mode:screen;opacity:.55"></div><div style="position:absolute;inset:0;background:#6FBE44;mix-blend-mode:multiply;opacity:.25"></div></div>
+            <div style="font-size:12px;color:#7a838c;font-family:monospace;margin-top:8px">navy duotone</div>
+          </div>
+          <div>
+            <div style="border-radius:4px;overflow:hidden;aspect-ratio:4/3;background:#e2e6ea"><img src="https://images.unsplash.com/photo-1665600292329-abab212a031f?auto=format&fit=crop&w=600&q=70" alt="Air cargo aircraft loading" style="width:100%;height:100%;object-fit:cover;display:block" /></div>
+            <div style="font-size:12px;color:#7a838c;font-family:monospace;margin-top:8px">4 : 3 · standard</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ COMPONENTS ============ -->
+      <div id="components"></div>
+
+      <!-- BUTTONS -->
+      <section id="buttons" style="scroll-margin-top:92px;margin-bottom:72px">
+        <div style="font-family:'Barlow',sans-serif;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#6FBE44;margin-bottom:8px">Components</div>
+        <h2 style="font-family:'Barlow',sans-serif;font-weight:700;font-size:34px;color:#0d2c4d;margin-bottom:10px">Buttons</h2>
+        <p style="font-size:16px;line-height:1.6;color:#5c656e;max-width:640px;margin-bottom:24px">Green primary for the single most important action per view. Navy secondary and outline for alternatives. Ghost for low-emphasis inline actions.</p>
+        <div style="background:#fff;border:1px solid #e2e6ea;border-radius:4px;padding:28px">
+          <div style="display:flex;flex-wrap:wrap;gap:14px;align-items:center;margin-bottom:22px">
+            <button style="background:#6FBE44;color:#fff;font-weight:600;font-size:15px;font-family:'Public Sans';padding:11px 22px;border:none;border-radius:2px;cursor:pointer" style-hover="background:#5ea337">Book now</button>
+            <button style="background:#184878;color:#fff;font-weight:600;font-size:15px;padding:11px 22px;border:none;border-radius:2px;cursor:pointer" style-hover="background:#123c66">Get a quote</button>
+            <button style="background:#fff;color:#184878;font-weight:600;font-size:15px;padding:10px 21px;border:1.5px solid #184878;border-radius:2px;cursor:pointer" style-hover="background:#e6eef6">Explore network</button>
+            <button style="background:transparent;color:#184878;font-weight:600;font-size:15px;padding:11px 12px;border:none;border-radius:2px;cursor:pointer;display:inline-flex;align-items:center;gap:6px" style-hover="color:#2c6fac">Learn more
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </button>
+            <button disabled style="background:#e2e6ea;color:#9aa2aa;font-weight:600;font-size:15px;padding:11px 22px;border:none;border-radius:2px;cursor:not-allowed">Disabled</button>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;gap:14px;align-items:center;padding-top:22px;border-top:1px solid #f1f3f5">
+            <button style="background:#6FBE44;color:#fff;font-weight:600;font-size:13px;padding:7px 14px;border:none;border-radius:2px;cursor:pointer">Small</button>
+            <button style="background:#6FBE44;color:#fff;font-weight:600;font-size:15px;padding:11px 22px;border:none;border-radius:2px;cursor:pointer">Medium</button>
+            <button style="background:#6FBE44;color:#fff;font-weight:600;font-size:17px;padding:14px 30px;border:none;border-radius:2px;cursor:pointer">Large</button>
+            <button style="background:#184878;color:#fff;font-weight:600;font-size:15px;padding:11px 20px;border:none;border-radius:2px;cursor:pointer;display:inline-flex;align-items:center;gap:8px">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>
+              Track shipment</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- FORMS -->
+      <section id="forms" style="scroll-margin-top:92px;margin-bottom:72px">
+        <div style="font-family:'Barlow',sans-serif;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#6FBE44;margin-bottom:8px">Components</div>
+        <h2 style="font-family:'Barlow',sans-serif;font-weight:700;font-size:34px;color:#0d2c4d;margin-bottom:10px">Form inputs</h2>
+        <p style="font-size:16px;line-height:1.6;color:#5c656e;max-width:640px;margin-bottom:24px">All controls share a 44px min hit target, navy focus ring and clear labels. Everything below is live — type and toggle.</p>
+        <div style="background:#fff;border:1px solid #e2e6ea;border-radius:4px;padding:28px;display:grid;grid-template-columns:1fr 1fr;gap:24px">
+          <label style="display:block">
+            <span style="display:block;font-size:13px;font-weight:600;color:#2b3138;margin-bottom:6px">Origin airport</span>
+            <input type="text" placeholder="e.g. Bangkok (BKK)" style="width:100%;font-family:'Public Sans';font-size:15px;padding:11px 13px;border:1px solid #c4cad0;border-radius:2px;color:#16191c;outline:none" style-focus="border-color:#184878;box-shadow:0 0 0 3px rgba(24,72,120,.15)" />
+          </label>
+          <label style="display:block">
+            <span style="display:block;font-size:13px;font-weight:600;color:#2b3138;margin-bottom:6px">Shipment type</span>
+            <select style="width:100%;font-family:'Public Sans';font-size:15px;padding:11px 13px;border:1px solid #c4cad0;border-radius:2px;color:#16191c;outline:none;background:#fff;cursor:pointer" style-focus="border-color:#184878;box-shadow:0 0 0 3px rgba(24,72,120,.15)">
+              <option>General cargo</option><option>Perishable (temp-controlled)</option><option>Pharma / cold-chain</option><option>Dangerous goods</option>
+            </select>
+          </label>
+          <label style="display:block;grid-column:1 / -1">
+            <span style="display:block;font-size:13px;font-weight:600;color:#2b3138;margin-bottom:6px">Special instructions</span>
+            <textarea rows="3" placeholder="Handling notes, hazardous class, temperature range…" style="width:100%;font-family:'Public Sans';font-size:15px;padding:11px 13px;border:1px solid #c4cad0;border-radius:2px;color:#16191c;outline:none;resize:vertical" style-focus="border-color:#184878;box-shadow:0 0 0 3px rgba(24,72,120,.15)"></textarea>
+          </label>
+          <label style="display:block">
+            <span style="display:block;font-size:13px;font-weight:600;color:#2b3138;margin-bottom:6px">Booking reference</span>
+            <input type="text" value="OMG-4471-XT" style="width:100%;font-family:'Public Sans';font-size:15px;padding:11px 13px;border:1.5px solid #6FBE44;border-radius:2px;color:#16191c;outline:none" />
+            <span style="display:inline-flex;align-items:center;gap:5px;font-size:12px;color:#4a9c2d;margin-top:6px;font-weight:600"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Valid reference</span>
+          </label>
+          <label style="display:block">
+            <span style="display:block;font-size:13px;font-weight:600;color:#2b3138;margin-bottom:6px">Weight (kg)</span>
+            <input type="text" value="28,400" style="width:100%;font-family:'Public Sans';font-size:15px;padding:11px 13px;border:1.5px solid #d64545;border-radius:2px;color:#16191c;outline:none;background:#fdf3f3" />
+            <span style="display:block;font-size:12px;color:#d64545;margin-top:6px;font-weight:600">Exceeds single-ULD limit — split across pallets</span>
+          </label>
+
+          <div style="grid-column:1 / -1;display:flex;flex-wrap:wrap;gap:28px;align-items:flex-start;padding-top:20px;border-top:1px solid #f1f3f5">
+            <div>
+              <span style="display:block;font-size:13px;font-weight:600;color:#2b3138;margin-bottom:10px">Add-on services</span>
+              <label style="display:flex;align-items:center;gap:10px;cursor:pointer;margin-bottom:9px">
+                <input type="checkbox" checked style="width:18px;height:18px;accent-color:#6FBE44;cursor:pointer" />
+                <span style="font-size:14px;color:#2b3138">Cargo insurance</span>
+              </label>
+              <label style="display:flex;align-items:center;gap:10px;cursor:pointer;margin-bottom:9px">
+                <input type="checkbox" style="width:18px;height:18px;accent-color:#6FBE44;cursor:pointer" />
+                <span style="font-size:14px;color:#2b3138">Customs clearance</span>
+              </label>
+              <label style="display:flex;align-items:center;gap:10px;cursor:pointer">
+                <input type="checkbox" style="width:18px;height:18px;accent-color:#6FBE44;cursor:pointer" />
+                <span style="font-size:14px;color:#2b3138">Door delivery</span>
+              </label>
+            </div>
+            <div>
+              <span style="display:block;font-size:13px;font-weight:600;color:#2b3138;margin-bottom:10px">Priority</span>
+              <label style="display:flex;align-items:center;gap:10px;cursor:pointer;margin-bottom:9px">
+                <input type="radio" name="prio" checked style="width:18px;height:18px;accent-color:#184878;cursor:pointer" />
+                <span style="font-size:14px;color:#2b3138">Standard</span>
+              </label>
+              <label style="display:flex;align-items:center;gap:10px;cursor:pointer;margin-bottom:9px">
+                <input type="radio" name="prio" style="width:18px;height:18px;accent-color:#184878;cursor:pointer" />
+                <span style="font-size:14px;color:#2b3138">Express</span>
+              </label>
+              <label style="display:flex;align-items:center;gap:10px;cursor:pointer">
+                <input type="radio" name="prio" style="width:18px;height:18px;accent-color:#184878;cursor:pointer" />
+                <span style="font-size:14px;color:#2b3138">Guaranteed</span>
+              </label>
+            </div>
+            <div>
+              <span style="display:block;font-size:13px;font-weight:600;color:#2b3138;margin-bottom:10px">Notifications</span>
+              <button onClick="{{ toggleSwitch }}" role="switch" aria-checked="{{ switchOn }}" style="width:46px;height:26px;border-radius:999px;border:none;cursor:pointer;position:relative;transition:background .15s;background:{{ switchBg }}">
+                <span style="position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:999px;background:#fff;transition:transform .15s;transform:{{ switchKnob }};box-shadow:0 1px 3px rgba(0,0,0,.3)"></span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SEARCH -->
+      <section id="search" style="scroll-margin-top:92px;margin-bottom:72px">
+        <div style="font-family:'Barlow',sans-serif;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#6FBE44;margin-bottom:8px">Components</div>
+        <h2 style="font-family:'Barlow',sans-serif;font-weight:700;font-size:34px;color:#0d2c4d;margin-bottom:10px">Search &amp; tracking</h2>
+        <p style="font-size:16px;line-height:1.6;color:#5c656e;max-width:640px;margin-bottom:24px">The tracking bar is the product's front door. It sits on a white raised card with a segmented mode switch above it.</p>
+        <div style="background:#fff;border:1px solid #e2e6ea;border-radius:4px;box-shadow:0 8px 24px rgba(13,44,77,.08);padding:8px 8px 0;max-width:720px">
+          <div style="display:flex;gap:4px;border-bottom:1px solid #f1f3f5;padding:0 8px">
+            <button onClick="{{ setSearchTab0 }}" style="display:inline-flex;align-items:center;gap:7px;background:none;border:none;font-family:'Public Sans';font-size:14px;font-weight:600;padding:14px 14px;cursor:pointer;border-bottom:3px solid {{ st0border }};color:{{ st0color }}">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>Tracking</button>
+            <button onClick="{{ setSearchTab1 }}" style="display:inline-flex;align-items:center;gap:7px;background:none;border:none;font-family:'Public Sans';font-size:14px;font-weight:600;padding:14px 14px;cursor:pointer;border-bottom:3px solid {{ st1border }};color:{{ st1color }}">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="1.5"/><path d="M3 9h18M8 2v4M16 2v4"/></svg>Schedules</button>
+            <button onClick="{{ setSearchTab2 }}" style="display:inline-flex;align-items:center;gap:7px;background:none;border:none;font-family:'Public Sans';font-size:14px;font-weight:600;padding:14px 14px;cursor:pointer;border-bottom:3px solid {{ st2border }};color:{{ st2color }}">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-5.5 7-11a7 7 0 10-14 0c0 5.5 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>Offices</button>
+          </div>
+          <div style="padding:20px 8px 22px">
+            <div style="font-size:13px;font-weight:600;color:#2b3138;margin-bottom:8px">{{ searchLabel }}</div>
+            <div style="display:flex;gap:10px">
+              <div style="flex:1;position:relative">
+                <span style="position:absolute;left:13px;top:50%;transform:translateY(-50%);color:#9aa2aa;pointer-events:none">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>
+                </span>
+                <input type="text" placeholder="{{ searchPlaceholder }}" style="width:100%;font-family:'Public Sans';font-size:15px;padding:12px 13px 12px 40px;border:1px solid #c4cad0;border-radius:2px;outline:none" style-focus="border-color:#184878;box-shadow:0 0 0 3px rgba(24,72,120,.15)" />
+              </div>
+              <button style="background:#184878;color:#fff;font-weight:600;font-size:15px;padding:0 26px;border:none;border-radius:2px;cursor:pointer;display:inline-flex;align-items:center;gap:8px" style-hover="background:#123c66">Track
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- BADGES -->
+      <section id="badges" style="scroll-margin-top:92px;margin-bottom:72px">
+        <div style="font-family:'Barlow',sans-serif;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#6FBE44;margin-bottom:8px">Components</div>
+        <h2 style="font-family:'Barlow',sans-serif;font-weight:700;font-size:34px;color:#0d2c4d;margin-bottom:10px">Badges &amp; tags</h2>
+        <p style="font-size:16px;line-height:1.6;color:#5c656e;max-width:640px;margin-bottom:24px">Status pills communicate shipment state at a glance. Solid for high-signal, soft for supporting metadata.</p>
+        <div style="background:#fff;border:1px solid #e2e6ea;border-radius:4px;padding:28px;display:flex;flex-direction:column;gap:20px">
+          <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center">
+            <span style="display:inline-flex;align-items:center;gap:6px;background:#eaf6e0;color:#4a9c2d;font-size:12px;font-weight:700;padding:5px 11px;border-radius:999px"><span style="width:7px;height:7px;border-radius:999px;background:#4a9c2d"></span>Delivered</span>
+            <span style="display:inline-flex;align-items:center;gap:6px;background:#e6eef6;color:#184878;font-size:12px;font-weight:700;padding:5px 11px;border-radius:999px"><span style="width:7px;height:7px;border-radius:999px;background:#184878"></span>In transit</span>
+            <span style="display:inline-flex;align-items:center;gap:6px;background:#fff5e0;color:#a9760a;font-size:12px;font-weight:700;padding:5px 11px;border-radius:999px"><span style="width:7px;height:7px;border-radius:999px;background:#e0a209"></span>Delayed</span>
+            <span style="display:inline-flex;align-items:center;gap:6px;background:#fdecec;color:#c23232;font-size:12px;font-weight:700;padding:5px 11px;border-radius:999px"><span style="width:7px;height:7px;border-radius:999px;background:#d64545"></span>Exception</span>
+            <span style="display:inline-flex;align-items:center;gap:6px;background:#f1f3f5;color:#5c656e;font-size:12px;font-weight:700;padding:5px 11px;border-radius:999px">Booked</span>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;padding-top:18px;border-top:1px solid #f1f3f5">
+            <span style="background:#184878;color:#fff;font-size:12px;font-weight:700;padding:5px 11px;border-radius:2px">Priority</span>
+            <span style="background:#6FBE44;color:#fff;font-size:12px;font-weight:700;padding:5px 11px;border-radius:2px">New</span>
+            <span style="border:1px solid #c4cad0;color:#5c656e;font-size:12px;font-weight:600;padding:4px 11px;border-radius:2px">Perishable</span>
+            <span style="border:1px solid #c4cad0;color:#5c656e;font-size:12px;font-weight:600;padding:4px 11px;border-radius:2px">Cold-chain</span>
+            <span style="display:inline-flex;align-items:center;gap:6px;border:1px solid #c4cad0;color:#5c656e;font-size:12px;font-weight:600;padding:4px 8px 4px 11px;border-radius:2px">Bangkok <span style="cursor:pointer;color:#9aa2aa;font-weight:700">×</span></span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ALERTS -->
+      <section id="alerts" style="scroll-margin-top:92px;margin-bottom:72px">
+        <div style="font-family:'Barlow',sans-serif;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#6FBE44;margin-bottom:8px">Components</div>
+        <h2 style="font-family:'Barlow',sans-serif;font-weight:700;font-size:34px;color:#0d2c4d;margin-bottom:10px">Alerts &amp; banners</h2>
+        <p style="font-size:16px;line-height:1.6;color:#5c656e;max-width:640px;margin-bottom:24px">Page-level banners for network advisories; inline alerts for form and booking feedback. A left accent bar carries the semantic color.</p>
+        <div style="display:flex;flex-direction:column;gap:14px">
+          <div style="display:flex;gap:14px;align-items:flex-start;background:#e6eef6;border-left:4px solid #184878;border-radius:2px;padding:16px 18px">
+            <span style="color:#184878;flex:none;margin-top:1px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8v.01"/></svg></span>
+            <div style="flex:1"><div style="font-weight:700;font-size:15px;color:#0d2c4d;margin-bottom:2px">Bangkok (BKK) weather advisory</div><div style="font-size:14px;color:#2b3138;line-height:1.5">Stay up to date with the latest information, tips and guidance for affected flights. <a href="#alerts" style="font-weight:600">Read updates</a></div></div>
+            <span style="cursor:pointer;color:#7a838c;font-weight:700;font-size:18px;line-height:1">×</span>
+          </div>
+          <div style="display:flex;gap:14px;align-items:flex-start;background:#eaf6e0;border-left:4px solid #4a9c2d;border-radius:2px;padding:16px 18px">
+            <span style="color:#4a9c2d;flex:none;margin-top:1px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>
+            <div style="flex:1"><div style="font-weight:700;font-size:15px;color:#2f6b1c;margin-bottom:2px">Booking confirmed</div><div style="font-size:14px;color:#2b3138;line-height:1.5">Reference OMG-4471-XT is confirmed. Documents will be available within 24 hours.</div></div>
+          </div>
+          <div style="display:flex;gap:14px;align-items:flex-start;background:#fff5e0;border-left:4px solid #e0a209;border-radius:2px;padding:16px 18px">
+            <span style="color:#a9760a;flex:none;margin-top:1px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 3.9L1.8 18a1.5 1.5 0 001.3 2.2h17.8a1.5 1.5 0 001.3-2.2L13.7 3.9a1.6 1.6 0 00-2.8 0z"/><path d="M12 9v5M12 17.5v.01"/></svg></span>
+            <div style="flex:1"><div style="font-weight:700;font-size:15px;color:#8a5f08;margin-bottom:2px">Schedule change</div><div style="font-size:14px;color:#2b3138;line-height:1.5">Flight TG-8842 is rescheduled. Revised uplift: 14 Aug.</div></div>
+          </div>
+          <div style="display:flex;gap:14px;align-items:flex-start;background:#fdecec;border-left:4px solid #d64545;border-radius:2px;padding:16px 18px">
+            <span style="color:#c23232;flex:none;margin-top:1px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M15 9l-6 6M9 9l6 6"/></svg></span>
+            <div style="flex:1"><div style="font-weight:700;font-size:15px;color:#a12727;margin-bottom:2px">Customs hold</div><div style="font-size:14px;color:#2b3138;line-height:1.5">AWB 217-44718825 requires additional documentation to clear customs.</div></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CARDS -->
+      <section id="cards" style="scroll-margin-top:92px;margin-bottom:72px">
+        <div style="font-family:'Barlow',sans-serif;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#6FBE44;margin-bottom:8px">Components</div>
+        <h2 style="font-family:'Barlow',sans-serif;font-weight:700;font-size:34px;color:#0d2c4d;margin-bottom:10px">Cards</h2>
+        <p style="font-size:16px;line-height:1.6;color:#5c656e;max-width:640px;margin-bottom:24px">From simple call-to-action panels to media and status cards. Thin borders, a single accent, generous internal padding.</p>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px">
+          <div style="background:#fff;border:1px solid #e2e6ea;border-radius:4px;padding:24px;display:flex;flex-direction:column">
+            <span style="width:44px;height:44px;border-radius:3px;background:#e6eef6;color:#184878;display:flex;align-items:center;justify-content:center;margin-bottom:16px"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg></span>
+            <h4 style="font-family:'Barlow',sans-serif;font-weight:700;font-size:19px;color:#0d2c4d;margin-bottom:8px">How to get started</h4>
+            <p style="font-size:14px;color:#5c656e;line-height:1.55;flex:1;margin-bottom:18px">Place a booking, submit documents, or track your cargo. Step-by-step guides help you find your way around.</p>
+            <button style="align-self:flex-start;background:#fff;color:#184878;font-weight:600;font-size:14px;padding:9px 18px;border:1.5px solid #184878;border-radius:2px;cursor:pointer" style-hover="background:#e6eef6">Get started</button>
+          </div>
+          <div style="background:#fff;border:1px solid #e2e6ea;border-radius:4px;padding:24px;display:flex;flex-direction:column">
+            <span style="width:44px;height:44px;border-radius:3px;background:#eaf6e0;color:#4a9c2d;display:flex;align-items:center;justify-content:center;margin-bottom:16px"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="1.5"/><path d="M3 9h18M8 2v4M16 2v4"/></svg></span>
+            <h4 style="font-family:'Barlow',sans-serif;font-weight:700;font-size:19px;color:#0d2c4d;margin-bottom:8px">Ready to book?</h4>
+            <p style="font-size:14px;color:#5c656e;line-height:1.55;flex:1;margin-bottom:18px">Sign up to book, manage and pay your shipments online and access a suite of products designed to simplify your supply chain.</p>
+            <button style="align-self:flex-start;background:#6FBE44;color:#fff;font-weight:600;font-size:14px;padding:10px 18px;border:none;border-radius:2px;cursor:pointer" style-hover="background:#5ea337">Register now</button>
+          </div>
+          <div style="background:#fff;border:1px solid #e2e6ea;border-radius:4px;overflow:hidden;display:flex;flex-direction:column">
+            <div style="height:120px;position:relative">
+              <img src="https://images.unsplash.com/photo-1573205485246-ee99bb898ff6?auto=format&fit=crop&w=600&q=70" alt="Warehouse" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" />
+              <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(13,44,77,.15),rgba(13,44,77,.45))"></div>
+              <span style="position:absolute;top:12px;left:12px;background:#6FBE44;color:#fff;font-size:11px;font-weight:700;padding:4px 9px;border-radius:2px">Insight</span>
+            </div>
+            <div style="padding:20px;flex:1;display:flex;flex-direction:column">
+              <div style="font-size:12px;color:#9aa2aa;font-weight:600;margin-bottom:6px">23 Jul 2026 · 4 min read</div>
+              <h4 style="font-family:'Barlow',sans-serif;font-weight:700;font-size:18px;color:#0d2c4d;line-height:1.25;margin-bottom:14px">Building resilient supply chains for lifestyle brands</h4>
+              <a href="#cards" style="margin-top:auto;font-size:14px;font-weight:600;display:inline-flex;align-items:center;gap:6px">Read article <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+            </div>
+          </div>
+        </div>
+        <div style="background:#fff;border:1px solid #e2e6ea;border-radius:4px;padding:20px 24px;margin-top:20px;display:flex;align-items:center;gap:20px">
+          <span style="width:48px;height:48px;border-radius:3px;background:#e6eef6;color:#184878;display:flex;align-items:center;justify-content:center;flex:none"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M1 4h13v11H1z"/><path d="M14 8h4l3 3v4h-7z"/><circle cx="5.5" cy="17.5" r="1.8"/><circle cx="17.5" cy="17.5" r="1.8"/></svg></span>
+          <div style="flex:1">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:3px"><span style="font-family:'Barlow',sans-serif;font-weight:700;font-size:16px;color:#0d2c4d">AWB 217-44718825</span><span style="background:#e6eef6;color:#184878;font-size:11px;font-weight:700;padding:3px 9px;border-radius:999px">In transit</span></div>
+            <div style="font-size:13px;color:#5c656e">Bangkok (BKK) → Frankfurt (FRA) · ETA 14 Aug 2026 · Temp-controlled</div>
+          </div>
+          <button style="background:transparent;color:#184878;font-weight:600;font-size:14px;padding:9px 16px;border:1.5px solid #184878;border-radius:2px;cursor:pointer" style-hover="background:#e6eef6">View details</button>
+        </div>
+        <div style="display:grid;grid-template-columns:1.1fr 1fr;gap:0;margin-top:20px;background:#fff;border:1px solid #e2e6ea;border-radius:4px;overflow:hidden">
+          <div style="padding:36px 34px;display:flex;flex-direction:column;justify-content:center">
+            <span style="font-family:'Barlow',sans-serif;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#6FBE44;margin-bottom:10px">Feature card</span>
+            <h4 style="font-family:'Barlow',sans-serif;font-weight:700;font-size:26px;color:#0d2c4d;line-height:1.15;margin-bottom:12px">The OMGEXP Air Network</h4>
+            <p style="font-size:15px;color:#5c656e;line-height:1.6;margin-bottom:20px">A new standard for reliability — direct uplift and consolidation out of Bangkok, connecting Southeast Asia to Europe and North America with market-leading transit times.</p>
+            <button style="align-self:flex-start;background:#184878;color:#fff;font-weight:600;font-size:14px;padding:11px 20px;border:none;border-radius:2px;cursor:pointer" style-hover="background:#123c66">Explore our network</button>
+          </div>
+          <div style="position:relative;min-height:240px"><img src="https://images.unsplash.com/photo-1713947507314-4b71ea085d31?auto=format&fit=crop&w=700&q=70" alt="OMGEXP Bangkok team at work" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" /></div>
+        </div>
+      </section>
+
+      <!-- TABS -->
+      <section id="tabs" style="scroll-margin-top:92px;margin-bottom:72px">
+        <div style="font-family:'Barlow',sans-serif;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#6FBE44;margin-bottom:8px">Components</div>
+        <h2 style="font-family:'Barlow',sans-serif;font-weight:700;font-size:34px;color:#0d2c4d;margin-bottom:10px">Tabs</h2>
+        <p style="font-size:16px;line-height:1.6;color:#5c656e;max-width:640px;margin-bottom:24px">Underline tabs organize related content within a page. Fully interactive — click through the panels.</p>
+        <div style="background:#fff;border:1px solid #e2e6ea;border-radius:4px;overflow:hidden">
+          <div style="display:flex;gap:2px;border-bottom:1px solid #e2e6ea;padding:0 12px">
+            <sc-for list="{{ tabs }}" as="tab" hint-placeholder-count="4">
+              <button onClick="{{ tab.select }}" style="background:none;border:none;font-family:'Public Sans';font-size:15px;font-weight:600;padding:16px 18px;cursor:pointer;border-bottom:3px solid {{ tab.border }};color:{{ tab.color }};margin-bottom:-1px">{{ tab.label }}</button>
+            </sc-for>
+          </div>
+          <div style="padding:28px 24px;min-height:120px">
+            <h4 style="font-family:'Barlow',sans-serif;font-weight:700;font-size:20px;color:#0d2c4d;margin-bottom:8px">{{ activePanel.title }}</h4>
+            <p style="font-size:15px;color:#5c656e;line-height:1.6;max-width:560px">{{ activePanel.body }}</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- SERVICE TILES -->
+      <section id="tiles" style="scroll-margin-top:92px;margin-bottom:72px">
+        <div style="font-family:'Barlow',sans-serif;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#6FBE44;margin-bottom:8px">Components</div>
+        <h2 style="font-family:'Barlow',sans-serif;font-weight:700;font-size:34px;color:#0d2c4d;margin-bottom:10px">Service tiles</h2>
+        <p style="font-size:16px;line-height:1.6;color:#5c656e;max-width:640px;margin-bottom:24px">The signature grid from the homepage — an illustrated tile per service, hover-lifting on a soft-tint header block over a white body.</p>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px">
+          <sc-for list="{{ tiles }}" as="tile" hint-placeholder-count="4">
+            <div style="background:#fff;border:1px solid #e2e6ea;border-radius:4px;overflow:hidden;cursor:pointer;transition:transform .1s,box-shadow .14s" style-hover="transform:translateY(-3px);box-shadow:0 10px 26px rgba(13,44,77,.13)">
+              <div style="height:96px;background:{{ tile.bg }};display:flex;align-items:center;justify-content:center;color:{{ tile.icon }}">{{ tile.svg }}</div>
+              <div style="padding:16px">
+                <div style="font-family:'Barlow',sans-serif;font-weight:700;font-size:16px;color:#0d2c4d;margin-bottom:5px">{{ tile.title }}</div>
+                <div style="font-size:13px;color:#5c656e;line-height:1.5">{{ tile.desc }}</div>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </section>
+
+      <!-- NAVIGATION -->
+      <section id="nav" style="scroll-margin-top:92px;margin-bottom:72px">
+        <div style="font-family:'Barlow',sans-serif;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#6FBE44;margin-bottom:8px">Components</div>
+        <h2 style="font-family:'Barlow',sans-serif;font-weight:700;font-size:34px;color:#0d2c4d;margin-bottom:10px">Navigation header</h2>
+        <p style="font-size:16px;line-height:1.6;color:#5c656e;max-width:640px;margin-bottom:24px">Two-tier header: a utility row (assistant, notifications, support, account) over the primary product menu.</p>
+        <div style="border:1px solid #e2e6ea;border-radius:4px;overflow:hidden;background:#fff">
+          <div style="display:flex;align-items:center;padding:12px 20px;border-bottom:1px solid #f1f3f5;gap:24px">
+            <img src="uploads/logo.png" alt="OMGEXP" style="height:26px;width:auto" />
+            <div style="margin-left:auto;display:flex;align-items:center;gap:20px;font-size:13px;font-weight:600;color:#444c54">
+              <span style="display:inline-flex;align-items:center;gap:6px;border:1px solid #c4cad0;padding:6px 12px;border-radius:2px;cursor:pointer">Ask OMGEXP</span>
+              <span style="cursor:pointer">EN</span>
+              <span style="cursor:pointer">Notifications</span>
+              <span style="cursor:pointer">Support</span>
+              <span style="cursor:pointer">Contact us</span>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;padding:0 20px;gap:4px">
+            <span style="font-size:14px;font-weight:600;color:#184878;padding:14px 12px;border-bottom:3px solid #6FBE44;cursor:pointer">Prices</span>
+            <span style="font-size:14px;font-weight:600;color:#444c54;padding:14px 12px;cursor:pointer">Book</span>
+            <span style="font-size:14px;font-weight:600;color:#444c54;padding:14px 12px;cursor:pointer">Schedules</span>
+            <span style="font-size:14px;font-weight:600;color:#444c54;padding:14px 12px;cursor:pointer">Tracking</span>
+            <span style="font-size:14px;font-weight:600;color:#444c54;padding:14px 12px;cursor:pointer">Manage</span>
+            <span style="font-size:14px;font-weight:600;color:#444c54;padding:14px 12px;cursor:pointer">Services</span>
+            <div style="margin-left:auto;display:flex;align-items:center;gap:12px">
+              <span style="font-size:14px;font-weight:600;color:#184878;cursor:pointer">Register</span>
+              <button style="background:#6FBE44;color:#fff;font-weight:600;font-size:14px;padding:8px 18px;border:none;border-radius:2px;cursor:pointer">Login</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- FOOTER COMPONENT -->
+      <section id="footer" style="scroll-margin-top:92px;margin-bottom:80px">
+        <div style="font-family:'Barlow',sans-serif;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#6FBE44;margin-bottom:8px">Components</div>
+        <h2 style="font-family:'Barlow',sans-serif;font-weight:700;font-size:34px;color:#0d2c4d;margin-bottom:10px">Footer</h2>
+        <p style="font-size:16px;line-height:1.6;color:#5c656e;max-width:640px;margin-bottom:24px">Navy multi-column footer with link groups and a legal row. Restated below in-context at full width.</p>
+        <div style="background:#0d2c4d;border-radius:4px;padding:40px 36px;color:#c2d6ea">
+          <div style="display:grid;grid-template-columns:1.2fr 1fr 1fr 1fr;gap:32px;padding-bottom:32px;border-bottom:1px solid rgba(255,255,255,.12)">
+            <div>
+              <img src="uploads/logo.png" alt="OMGEXP" style="height:30px;width:auto;filter:brightness(0) invert(1)" />
+              <p style="font-size:13px;line-height:1.6;color:#8fb4d8;margin-top:16px;max-width:230px">An air freight forwarder moving temperature-sensitive and general cargo out of Thailand to 200+ destinations.</p>
+            </div>
+            <div>
+              <div style="color:#fff;font-family:'Barlow',sans-serif;font-weight:700;font-size:14px;margin-bottom:14px">Plan &amp; book</div>
+              <div style="display:flex;flex-direction:column;gap:9px;font-size:13px"><span style="cursor:pointer;color:#c2d6ea">Prices</span><span style="cursor:pointer;color:#c2d6ea">Book</span><span style="cursor:pointer;color:#c2d6ea">Shipment tracking</span><span style="cursor:pointer;color:#c2d6ea">Flight schedules</span></div>
+            </div>
+            <div>
+              <div style="color:#fff;font-family:'Barlow',sans-serif;font-weight:700;font-size:14px;margin-bottom:14px">Logistics</div>
+              <div style="display:flex;flex-direction:column;gap:9px;font-size:13px"><span style="cursor:pointer;color:#c2d6ea">Air freight</span><span style="cursor:pointer;color:#c2d6ea">Temp-controlled trucking</span><span style="cursor:pointer;color:#c2d6ea">Customs clearance</span><span style="cursor:pointer;color:#c2d6ea">Warehousing</span></div>
+            </div>
+            <div>
+              <div style="color:#fff;font-family:'Barlow',sans-serif;font-weight:700;font-size:14px;margin-bottom:14px">About</div>
+              <div style="display:flex;flex-direction:column;gap:9px;font-size:13px"><span style="cursor:pointer;color:#c2d6ea">Careers</span><span style="cursor:pointer;color:#c2d6ea">Investors</span><span style="cursor:pointer;color:#c2d6ea">Press</span><span style="cursor:pointer;color:#c2d6ea">Sustainability</span></div>
+            </div>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;gap:20px;padding-top:20px;font-size:12px;color:#8fb4d8"><span>© 2026 OMGEXP</span><span style="cursor:pointer">Terms &amp; conditions</span><span style="cursor:pointer">Privacy notification</span><span style="cursor:pointer">Cookie policy</span></div>
+        </div>
+      </section>
+
+      <!-- ============ PATTERNS / IN CONTEXT ============ -->
+      <section id="patterns" style="scroll-margin-top:92px;margin-bottom:72px">
+        <div style="font-family:'Barlow',sans-serif;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#6FBE44;margin-bottom:8px">Guidance</div>
+        <h2 style="font-family:'Barlow',sans-serif;font-weight:700;font-size:34px;color:#0d2c4d;margin-bottom:10px">Components in context</h2>
+        <p style="font-size:16px;line-height:1.6;color:#5c656e;max-width:640px;margin-bottom:24px">A composed homepage hero showing tokens and components working together — the outcome the system is built for.</p>
+        <div style="border:1px solid #e2e6ea;border-radius:6px;overflow:hidden;box-shadow:0 12px 34px rgba(13,44,77,.12)">
+          <div style="padding:44px 40px 88px;color:#fff;position:relative">
+            <img src="https://images.unsplash.com/photo-1774698078446-59299e016718?auto=format&fit=crop&w=1400&q=70" alt="Cargo aircraft" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" />
+            <div style="position:absolute;inset:0;background:linear-gradient(115deg,rgba(13,44,77,.94),rgba(24,72,120,.8) 55%,rgba(31,89,144,.55))"></div>
+            <div style="position:relative;z-index:1">
+              <h3 style="font-family:'Barlow',sans-serif;font-weight:800;font-size:38px;line-height:1.05;max-width:520px;margin-bottom:14px">Go the distance with seamless air freight</h3>
+              <p style="font-size:16px;color:#dbe7f3;max-width:480px;line-height:1.55;margin-bottom:22px">Move time-critical and temperature-sensitive cargo by air — daily uplift from Bangkok to 200+ destinations worldwide.</p>
+              <div style="display:flex;gap:12px">
+                <button style="background:#6FBE44;color:#fff;font-weight:600;font-size:15px;padding:11px 22px;border:none;border-radius:2px;cursor:pointer">Explore our services</button>
+                <button style="background:rgba(255,255,255,.12);color:#fff;font-weight:600;font-size:15px;padding:11px 22px;border:1px solid rgba(255,255,255,.4);border-radius:2px;cursor:pointer">Contact us</button>
+              </div>
+            </div>
+          </div>
+          <div style="padding:0 40px">
+            <div style="background:#fff;border:1px solid #e2e6ea;border-radius:4px;box-shadow:0 10px 30px rgba(13,44,77,.14);margin-top:-40px;padding:8px 8px 0">
+              <div style="display:flex;gap:6px;border-bottom:1px solid #f1f3f5;padding:0 8px">
+                <span style="display:inline-flex;align-items:center;gap:7px;font-size:14px;font-weight:600;padding:13px 12px;border-bottom:3px solid #6FBE44;color:#184878"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>Tracking</span>
+                <span style="display:inline-flex;align-items:center;gap:7px;font-size:14px;font-weight:600;padding:13px 12px;color:#7a838c">Schedules</span>
+                <span style="display:inline-flex;align-items:center;gap:7px;font-size:14px;font-weight:600;padding:13px 12px;color:#7a838c">Offices</span>
+              </div>
+              <div style="display:flex;gap:10px;padding:16px 8px 18px">
+                <div style="flex:1;position:relative">
+                  <span style="position:absolute;left:12px;top:50%;transform:translateY(-50%);color:#9aa2aa"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg></span>
+                  <input type="text" placeholder="AWB number or parcel ID" style="width:100%;font-family:'Public Sans';font-size:15px;padding:11px 13px 11px 38px;border:1px solid #c4cad0;border-radius:2px;outline:none" style-focus="border-color:#184878;box-shadow:0 0 0 3px rgba(24,72,120,.15)" />
+                </div>
+                <button style="background:#184878;color:#fff;font-weight:600;font-size:15px;padding:0 24px;border:none;border-radius:2px;cursor:pointer">Track</button>
+              </div>
+            </div>
+          </div>
+          <div style="padding:32px 40px 40px">
+            <div style="display:flex;gap:14px;align-items:flex-start;background:#e6eef6;border-left:4px solid #184878;border-radius:2px;padding:14px 16px;margin-bottom:24px">
+              <span style="color:#184878;flex:none;margin-top:1px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8v.01"/></svg></span>
+              <div style="font-size:14px;color:#2b3138;line-height:1.5"><strong style="color:#0d2c4d">Bangkok (BKK) advisory.</strong> Stay up to date with our latest information, tips and guidance. <a href="#patterns" style="font-weight:600">Read updates</a></div>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px">
+              <div style="background:#fff;border:1px solid #e2e6ea;border-radius:4px;overflow:hidden"><div style="height:80px;background:#e6eef6;display:flex;align-items:center;justify-content:center;color:#184878"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12l-9 3-9-3 4-2 5 1 5-4 2 1-3 3z"/></svg></div><div style="padding:14px"><div style="font-family:'Barlow';font-weight:700;font-size:15px;color:#0d2c4d;margin-bottom:4px">Air Freight</div><div style="font-size:12px;color:#5c656e;line-height:1.5">Daily uplift, guaranteed capacity.</div></div></div>
+              <div style="background:#fff;border:1px solid #e2e6ea;border-radius:4px;overflow:hidden"><div style="height:80px;background:#eaf6e0;display:flex;align-items:center;justify-content:center;color:#4a9c2d"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M1 4h13v11H1z"/><path d="M14 8h4l3 3v4h-7z"/><circle cx="5.5" cy="17.5" r="1.8"/><circle cx="17.5" cy="17.5" r="1.8"/></svg></div><div style="padding:14px"><div style="font-family:'Barlow';font-weight:700;font-size:15px;color:#0d2c4d;margin-bottom:4px">Temp Trucking</div><div style="font-size:12px;color:#5c656e;line-height:1.5">Refrigerated road feeder service.</div></div></div>
+              <div style="background:#fff;border:1px solid #e2e6ea;border-radius:4px;overflow:hidden"><div style="height:80px;background:#e6eef6;display:flex;align-items:center;justify-content:center;color:#184878"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4-3 6.6-7 8-4-1.4-7-4-7-8V6z"/><path d="M9 12l2 2 4-4"/></svg></div><div style="padding:14px"><div style="font-family:'Barlow';font-weight:700;font-size:15px;color:#0d2c4d;margin-bottom:4px">Customs</div><div style="font-size:12px;color:#5c656e;line-height:1.5">Clearance and compliance.</div></div></div>
+              <div style="background:#fff;border:1px solid #e2e6ea;border-radius:4px;overflow:hidden"><div style="height:80px;background:#eaf6e0;display:flex;align-items:center;justify-content:center;color:#4a9c2d"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-5.5 7-11a7 7 0 10-14 0c0 5.5 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg></div><div style="padding:14px"><div style="font-family:'Barlow';font-weight:700;font-size:15px;color:#0d2c4d;margin-bottom:4px">OMGEXP Go</div><div style="font-size:12px;color:#5c656e;line-height:1.5">Door-to-door air + trucking.</div></div></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TOKENS AS CODE -->
+      <section id="tokens-code" style="scroll-margin-top:92px;margin-bottom:40px">
+        <div style="font-family:'Barlow',sans-serif;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#6FBE44;margin-bottom:8px">Guidance</div>
+        <h2 style="font-family:'Barlow',sans-serif;font-weight:700;font-size:34px;color:#0d2c4d;margin-bottom:10px">Tokens as code</h2>
+        <p style="font-size:16px;line-height:1.6;color:#5c656e;max-width:640px;margin-bottom:20px">Drop these CSS custom properties into your root stylesheet. Names mirror the swatches above.</p>
+        <div style="background:#0d2c4d;border-radius:4px;padding:24px 26px;overflow:auto">
+          <pre style="font-family:'Barlow',ui-monospace,monospace;font-size:13.5px;line-height:1.7;color:#c2d6ea;margin:0;white-space:pre"><span style="color:#7a97b8">:root {</span>
+  <span style="color:#8fb4d8">/* brand */</span>
+  --color-navy-700: <span style="color:#8ccd6a">#184878</span>;   <span style="color:#6b86a6">/* primary */</span>
+  --color-navy-500: <span style="color:#8ccd6a">#2c6fac</span>;   <span style="color:#6b86a6">/* interactive */</span>
+  --color-green-500: <span style="color:#8ccd6a">#6fbe44</span>;  <span style="color:#6b86a6">/* action */</span>
+  --color-green-600: <span style="color:#8ccd6a">#5ea337</span>;  <span style="color:#6b86a6">/* action:hover */</span>
+  <span style="color:#8fb4d8">/* neutrals */</span>
+  --color-ink:       <span style="color:#8ccd6a">#16191c</span>;
+  --color-muted:     <span style="color:#8ccd6a">#5c656e</span>;
+  --color-border:    <span style="color:#8ccd6a">#e2e6ea</span>;
+  --color-surface:   <span style="color:#8ccd6a">#ffffff</span>;
+  --color-canvas:    <span style="color:#8ccd6a">#f8f9fa</span>;
+  <span style="color:#8fb4d8">/* type */</span>
+  --font-display: <span style="color:#8ccd6a">"Barlow"</span>, sans-serif;
+  --font-body:    <span style="color:#8ccd6a">"Public Sans"</span>, sans-serif;
+  <span style="color:#8fb4d8">/* scale (4px grid) */</span>
+  --space-1: 4px;  --space-2: 8px;  --space-3: 12px;
+  --space-4: 16px; --space-6: 24px; --space-8: 32px;
+  <span style="color:#8fb4d8">/* radius */</span>
+  --radius-sm: 2px; --radius-md: 4px; --radius-lg: 8px;
+  <span style="color:#8fb4d8">/* elevation */</span>
+  --shadow-md: 0 4px 14px rgba(13,44,77,.10);
+<span style="color:#7a97b8">}</span></pre>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- TOAST -->
+  <sc-if value="{{ copied }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed;bottom:28px;left:50%;transform:translateX(-50%);background:#0d2c4d;color:#fff;font-size:14px;font-weight:600;padding:12px 20px;border-radius:3px;box-shadow:0 10px 30px rgba(13,44,77,.35);z-index:100;animation:toastIn .18s ease;display:flex;align-items:center;gap:10px">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#6FBE44" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+      Copied {{ copied }}
+    </div>
+  </sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { activeTab: 0, searchTab: 0, switchOn: true, copied: null };
+
+  copyHex(hex) {
+    try { navigator.clipboard && navigator.clipboard.writeText(hex); } catch(e){}
+    this.setState({ copied: hex });
+    clearTimeout(this._t);
+    this._t = setTimeout(() => this.setState({ copied: null }), 1400);
+  }
+
+  makeScale(name, role, base, steps) {
+    const dot = ['50','100','200','300'].includes(base) ? '#184878' : '#ffffff';
+    return {
+      name, role,
+      steps: steps.map(([shade, hex]) => ({
+        shade, hex,
+        isBase: shade === base,
+        dot,
+        copy: () => this.copyHex(hex),
+      })),
+    };
+  }
+
+  renderVals() {
+    const navy = this.makeScale('Navy', 'primary · structure', '700', [
+      ['50','#f2f6fb'],['100','#e6eef6'],['200','#c2d6ea'],['300','#8fb4d8'],
+      ['400','#5a92c4'],['500','#2c6fac'],['600','#1f5990'],['700','#184878'],
+      ['800','#123c66'],['900','#0d2c4d'],
+    ]);
+    const green = this.makeScale('Green', 'secondary · action', '500', [
+      ['50','#f4fbee'],['100','#eaf6e0'],['200','#d0eabc'],['300','#aedb93'],
+      ['400','#8ccd6a'],['500','#6fbe44'],['600','#5ea337'],['700','#4a8a2d'],['800','#396b22'],
+    ]);
+    const neutral = this.makeScale('Neutral', 'text · surfaces · borders', '0', [
+      ['50','#f8f9fa'],['100','#f1f3f5'],['200','#e2e6ea'],['300','#c4cad0'],
+      ['400','#9aa2aa'],['500','#7a838c'],['600','#5c656e'],['700','#444c54'],
+      ['800','#2b3138'],['900','#16191c'],
+    ]);
+
+    const semanticColors = [
+      { name: 'Success', hex: '#4a9c2d' },
+      { name: 'Warning', hex: '#e0a209' },
+      { name: 'Error', hex: '#d64545' },
+      { name: 'Info', hex: '#2c6fac' },
+    ].map(s => ({ ...s, copy: () => this.copyHex(s.hex) }));
+
+    const typeScale = [
+      { label: 'Display', spec: 'Barlow 800 · 56/60', family: "'Barlow',sans-serif", weight: 800, px: '48px', sample: 'Go the distance' },
+      { label: 'Heading 1', spec: 'Barlow 700 · 34px', family: "'Barlow',sans-serif", weight: 700, px: '34px', sample: 'Logistics services & solutions' },
+      { label: 'Heading 2', spec: 'Barlow 700 · 26px', family: "'Barlow',sans-serif", weight: 700, px: '26px', sample: 'The OMGEXP Air Network' },
+      { label: 'Heading 3', spec: 'Barlow 600 · 20px', family: "'Barlow',sans-serif", weight: 600, px: '20px', sample: 'Ready to book your cargo?' },
+      { label: 'Body large', spec: 'Public Sans 400 · 18px', family: "'Public Sans',sans-serif", weight: 400, px: '18px', sample: 'Daily uplift from Bangkok to 200+ destinations.' },
+      { label: 'Body', spec: 'Public Sans 400 · 16px', family: "'Public Sans',sans-serif", weight: 400, px: '16px', sample: 'Track shipments, manage bookings and pay online.' },
+      { label: 'Caption', spec: 'Public Sans 600 · 12px', family: "'Public Sans',sans-serif", weight: 600, px: '12px', sample: 'ETA 14 AUG 2026 · TEMP-CONTROLLED' },
+    ];
+
+    const spacingScale = [
+      { token: 'space-1', px: '4px' }, { token: 'space-2', px: '8px' },
+      { token: 'space-3', px: '12px' }, { token: 'space-4', px: '16px' },
+      { token: 'space-5', px: '20px' }, { token: 'space-6', px: '24px' },
+      { token: 'space-8', px: '32px' }, { token: 'space-10', px: '40px' },
+      { token: 'space-12', px: '48px' }, { token: 'space-16', px: '64px' },
+    ];
+
+    const radiusScale = [
+      { token: 'radius-none', px: '0px' }, { token: 'radius-sm', px: '2px' },
+      { token: 'radius-md', px: '4px' }, { token: 'radius-lg', px: '8px' },
+      { token: 'radius-pill', px: '999px' },
+    ];
+
+    const shadowScale = [
+      { token: 'shadow-sm', css: '0 1px 2px rgba(13,44,77,.08)' },
+      { token: 'shadow-md', css: '0 4px 14px rgba(13,44,77,.10)' },
+      { token: 'shadow-lg', css: '0 10px 28px rgba(13,44,77,.14)' },
+      { token: 'shadow-xl', css: '0 20px 48px rgba(13,44,77,.20)' },
+    ];
+
+    // Tabs demo
+    const tabData = [
+      { label: 'Air freight', title: 'Air freight', body: 'Airport-to-airport and door-to-door air freight with daily uplift from Bangkok, guaranteed capacity and predictable transit times, backed by real-time visibility.' },
+      { label: 'Trucking', title: 'Temperature-controlled trucking', body: 'Refrigerated and ambient road feeder service linking airports to your door across Thailand and the region, with live temperature logging.' },
+      { label: 'Customs', title: 'Customs & cargo protection', body: 'Customs clearance, compliance and cargo insurance that keep goods moving and protected across every border.' },
+      { label: 'Manage', title: 'Supply chain management', body: 'A single control tower to orchestrate suppliers, inventory and orders — with the data to act before disruption hits.' },
+    ];
+    const tabs = tabData.map((t, i) => ({
+      label: t.label,
+      select: () => this.setState({ activeTab: i }),
+      border: this.state.activeTab === i ? '#6FBE44' : 'transparent',
+      color: this.state.activeTab === i ? '#184878' : '#7a838c',
+    }));
+    const activePanel = tabData[this.state.activeTab];
+
+    // Search tabs
+    const stLabels = ['Enter your tracking reference', 'Search flight schedules', 'Find a local office'];
+    const stPh = ['AWB number or parcel ID', 'From airport → To airport', 'City or country'];
+    const mk = (i) => this.state.searchTab === i;
+    const R = React.createElement;
+    const tileSvg = (path) => R('svg', { width: 38, height: 38, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 1.7, strokeLinecap: 'round', strokeLinejoin: 'round' },
+      path.map((d, k) => d.c ? R('circle', { key: k, cx: d.c[0], cy: d.c[1], r: d.c[2] }) : R('path', { key: k, d })));
+    const tiles = [
+      { title: 'Air Freight', desc: 'Daily uplift and guaranteed capacity from Bangkok worldwide.', bg: '#e6eef6', icon: '#184878', svg: tileSvg(['M21 12l-9 3-9-3 4-2 5 1 5-4 2 1-3 3z']) },
+      { title: 'Temp-Controlled Trucking', desc: 'Refrigerated road feeder service from airport to your door.', bg: '#eaf6e0', icon: '#4a9c2d', svg: tileSvg(['M1 4h13v11H1z', 'M14 8h4l3 3v4h-7z', { c: [5.5, 17.5, 1.8] }, { c: [17.5, 17.5, 1.8] }]) },
+      { title: 'Customs Clearance', desc: 'Import and export clearance, fully compliant end to end.', bg: '#e6eef6', icon: '#184878', svg: tileSvg(['M12 3l7 3v6c0 4-3 6.6-7 8-4-1.4-7-4-7-8V6z', 'M9 12l2 2 4-4']) },
+      { title: 'OMGEXP Go', desc: 'Book door-to-door air and trucking in one platform.', bg: '#eaf6e0', icon: '#4a9c2d', svg: tileSvg(['M12 21s7-5.5 7-11a7 7 0 10-14 0c0 5.5 7 11 7 11z', { c: [12, 10, 2.5] }]) },
+    ];
+
+    return {
+      colorScales: [navy, green, neutral],
+      semanticColors,
+      typeScale, spacingScale, radiusScale, shadowScale,
+      tabs, activePanel, tiles,
+      copied: this.state.copied,
+
+      // switch
+      toggleSwitch: () => this.setState(s => ({ switchOn: !s.switchOn })),
+      switchOn: this.state.switchOn,
+      switchBg: this.state.switchOn ? '#6FBE44' : '#c4cad0',
+      switchKnob: this.state.switchOn ? 'translateX(20px)' : 'translateX(0)',
+
+      // search tabs
+      setSearchTab0: () => this.setState({ searchTab: 0 }),
+      setSearchTab1: () => this.setState({ searchTab: 1 }),
+      setSearchTab2: () => this.setState({ searchTab: 2 }),
+      st0border: mk(0) ? '#6FBE44' : 'transparent', st0color: mk(0) ? '#184878' : '#7a838c',
+      st1border: mk(1) ? '#6FBE44' : 'transparent', st1color: mk(1) ? '#184878' : '#7a838c',
+      st2border: mk(2) ? '#6FBE44' : 'transparent', st2color: mk(2) ? '#184878' : '#7a838c',
+      searchLabel: stLabels[this.state.searchTab],
+      searchPlaceholder: stPh[this.state.searchTab],
+    };
+  }
+}
+</script>
+</body>
+</html>
