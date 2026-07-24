@@ -27,13 +27,7 @@ const components: Components = {
         <h4 className="mt-4 mb-2 text-lg font-semibold text-neutral-900">{children}</h4>
     ),
     a: ({ href, children }) => (
-        <a
-            href={href}
-            className="font-medium underline"
-            style={{ color: "var(--color-primary-ref)" }}
-            target="_blank"
-            rel="noopener noreferrer"
-        >
+        <a href={href} target="_blank" rel="noopener noreferrer">
             {children}
         </a>
     ),
@@ -56,7 +50,7 @@ export function MarkdownBody({
     className?: string;
 }) {
     return (
-        <div className={`max-w-none ${className}`}>
+        <div className={`prose-marketing max-w-none ${className}`}>
             <ReactMarkdown remarkPlugins={[remarkGfm]} components={components}>
                 {content}
             </ReactMarkdown>

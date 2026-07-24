@@ -1,4 +1,6 @@
 ---
+const STORAGE_KEY = 'omgexp-topbar-dismissed';
+
 const pinnedAnnouncement = {
   title: 'QC Lab Testing now available — request lab tests and track COA results online in the Export Portal',
   href: '/services#qc-lab-testing',
@@ -6,18 +8,59 @@ const pinnedAnnouncement = {
 ---
 
 <div
-  class="flex min-h-[40px] items-center justify-center px-5 py-2 text-center text-[13px] text-white"
-  style="background-color: var(--navy-950)"
+  id="omgexp-top-bar"
+  class="relative flex min-h-[40px] items-center justify-center gap-3 px-10 py-2 text-center text-[13px] text-white"
+  style="background-color: var(--info-bg); color: var(--navy-950); border-bottom: 1px solid rgba(24, 72, 120, 0.12);"
+  role="status"
 >
+  <svg
+    class="hidden shrink-0 sm:block"
+    width="18"
+    height="18"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    aria-hidden="true"
+    style="color: var(--navy-700);"
+  >
+    <circle cx="12" cy="12" r="9" />
+    <path d="M12 10v6M12 7h.01" />
+  </svg>
   <span class="flex flex-wrap items-center justify-center gap-1 line-clamp-2 sm:line-clamp-1">
-    <span class="font-bold" style="color: var(--green-light)">New:</span>
+    <span class="font-bold" style="color: var(--navy-700);">New:</span>
     {pinnedAnnouncement.title}
     <a
       href={pinnedAnnouncement.href}
       class="shrink-0 font-semibold underline underline-offset-2"
-      style="color: var(--green-light)"
+      style="color: var(--navy-700);"
     >
       Read more →
     </a>
   </span>
+  <button
+    type="button"
+    id="omgexp-top-bar-dismiss"
+    class="absolute right-3 top-1/2 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-[var(--radius-sm)] text-[var(--navy-700)] hover:bg-white/60"
+    aria-label="Dismiss announcement"
+  >
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true">
+      <path d="M18 6L6 18M6 6l12 12" />
+    </svg>
+  </button>
 </div>
+
+<script define:vars={{ STORAGE_KEY }}>
+  const bar = document.getElementById('omgexp-top-bar');
+  const dismiss = document.getElementById('omgexp-top-bar-dismiss');
+  if (localStorage.getItem(STORAGE_KEY)) {
+    bar?.remove();
+  } else {
+    dismiss?.addEventListener('click', () => {
+      localStorage.setItem(STORAGE_KEY, '1');
+      bar?.remove();
+    });
+  }
+</script>

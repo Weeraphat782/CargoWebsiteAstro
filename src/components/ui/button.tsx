@@ -19,7 +19,7 @@ export function Button({
     secondary: 'bg-[var(--navy-700)] text-white hover:bg-[#123c66]',
     ghost: 'bg-transparent text-[var(--navy-700)] hover:bg-[var(--paper-muted)]',
     outline:
-      'border border-[var(--line-strong)] text-[var(--navy-700)] bg-white hover:border-[var(--navy-700)]',
+      'border border-[var(--navy-700)] text-[var(--navy-700)] bg-white hover:bg-[var(--paper-muted)]',
   };
   const sizes = {
     sm: 'text-[13px] px-3.5 py-1.5',

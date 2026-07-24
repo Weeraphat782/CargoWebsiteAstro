@@ -7,6 +7,25 @@ function carrierLogoSlug(carrier: string): string {
   return carrier.toLowerCase();
 }
 
+function StatusPill({ status }: { status: string }) {
+  const available = status === 'Available';
+  return (
+    <span
+      className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.06em]"
+      style={{
+        background: available ? 'rgba(234,246,224,0.18)' : 'rgba(253,236,236,0.18)',
+        color: available ? '#8ccd6a' : '#fca5a5',
+      }}
+    >
+      <span
+        className="h-1.5 w-1.5 shrink-0 rounded-full"
+        style={{ background: available ? '#4a9c2d' : '#d64545' }}
+      />
+      {status}
+    </span>
+  );
+}
+
 function CarrierLogo({ carrier }: { carrier: string }) {
   const [failed, setFailed] = useState(false);
   if (failed) {
@@ -72,12 +91,9 @@ export default function CarrierBoard({ items }: CarrierBoardProps) {
               <div className="relative flex h-10 w-16 items-center justify-center rounded-[var(--radius-sm)] border border-white/20 bg-white/90 px-2 py-1 sm:h-14 sm:w-24">
                 <CarrierLogo carrier={item.carrier} />
               </div>
-              <span
-                className="whitespace-nowrap text-right text-[10.5px] font-bold uppercase tracking-[0.08em]"
-                style={{ color: item.status === 'Available' ? 'var(--green-light)' : '#ef4444' }}
-              >
-                ● {item.status}
-              </span>
+              <div className="flex justify-end">
+                <StatusPill status={item.status} />
+              </div>
             </div>
           ))}
         </div>

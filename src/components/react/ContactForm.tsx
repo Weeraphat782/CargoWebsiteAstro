@@ -1,15 +1,15 @@
 'use client';
 
 import { useState, type FormEvent } from 'react';
-import { Loader2 } from 'lucide-react';
 import { trackFormSubmit } from '@/lib/analytics';
 import { Button } from '@/components/ui/button';
+import { MarketingAlert, SpinnerIcon } from '@/components/ui/marketing-alert';
 
 const CONTACT_API =
   import.meta.env.PUBLIC_CONTACT_API_URL || 'https://cargo.omgexp.com/api/contact';
 
 const fieldClass =
-  'mt-1.5 block w-full rounded-[var(--radius-sm)] border border-[var(--line-strong)] px-3 py-2.5 text-[15px] disabled:opacity-60';
+  'mt-1.5 block min-h-[44px] w-full rounded-[var(--radius-sm)] border border-[var(--line-strong)] px-3 py-2.5 text-[15px] disabled:opacity-60';
 
 export default function ContactForm() {
   const [loading, setLoading] = useState(false);
@@ -58,25 +58,14 @@ export default function ContactForm() {
   return (
     <form className="space-y-5" onSubmit={onSubmit}>
       {success && (
-        <div
-          className="flex gap-3 rounded-[3px] border-l-4 px-4 py-4"
-          style={{ background: '#eaf6e0', borderColor: '#4a9c2d' }}
-          role="status"
-        >
-          <div>
-            <div className="text-[15px] font-bold" style={{ color: '#2f6b1c' }}>
-              Message sent
-            </div>
-            <div className="text-sm" style={{ color: '#2b3138' }}>
-              Thanks — our team will respond within one business day.
-            </div>
-          </div>
-        </div>
+        <MarketingAlert variant="success" title="Message sent">
+          Thanks — our team will respond within one business day.
+        </MarketingAlert>
       )}
       {error && (
-        <div className="rounded-[3px] border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800" role="alert">
+        <MarketingAlert variant="error" title="Could not send message">
           {error}
-        </div>
+        </MarketingAlert>
       )}
       <div className="grid gap-4 sm:grid-cols-2">
         <label className="block text-[13px] font-semibold" style={{ color: '#2b3138' }}>
@@ -105,13 +94,13 @@ export default function ContactForm() {
         </label>
         <label className="block text-[13px] font-semibold sm:col-span-2" style={{ color: '#2b3138' }}>
           Message
-          <textarea id="message" name="message" rows={4} required disabled={loading} className={fieldClass} />
+          <textarea id="message" name="message" rows={4} required disabled={loading} className={`${fieldClass} min-h-[120px]`} />
         </label>
       </div>
       <Button type="submit" disabled={loading} size="default">
         {loading ? (
           <>
-            <Loader2 className="h-4 w-4 animate-spin" /> Sending…
+            <SpinnerIcon /> Sending…
           </>
         ) : (
           <>Submit Request →</>
