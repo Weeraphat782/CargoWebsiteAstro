@@ -7,12 +7,9 @@ import PartnerSection from '@/components/react/PartnerSection';
 import { trackCtaClick } from '@/lib/analytics';
 import CarrierBoard from '@/components/react/CarrierBoard';
 import { destinationRegions } from '@/data/marketing-destinations';
-import { unsplashHeroImage } from '@/data/marketing-hero-images';
 import type { CarrierBoardDisplayItem } from '@/types/carrier-board';
-
-const HOME_HERO_ID = 'photo-1774698078446-59299e016718';
-const HERO_IMAGE = unsplashHeroImage(HOME_HERO_ID, 1900);
-const HERO_SRCSET = `${unsplashHeroImage(HOME_HERO_ID, 640)} 640w, ${unsplashHeroImage(HOME_HERO_ID, 1280)} 1280w, ${HERO_IMAGE} 1900w`;
+import { HeroBackground } from '@/components/react/HeroBackground';
+import DocumentIntelligenceDemo from '@/components/react/DocumentIntelligenceDemo';
 
 const homeServices = homeServiceOrder.map((id) => serviceById(id)).filter((s): s is NonNullable<typeof s> => !!s);
 
@@ -63,23 +60,7 @@ export default function MarketingHomePageClient({ carrierItems }: MarketingHomeP
     <div>
       {/* Hero */}
       <section className="relative overflow-hidden text-white" style={{ background: 'var(--navy-950)' }}>
-        <img
-          src={HERO_IMAGE}
-          srcSet={HERO_SRCSET}
-          sizes="100vw"
-          alt="Cargo aircraft"
-          className="absolute inset-0 h-full w-full object-cover opacity-60"
-          loading="eager"
-          fetchPriority="high"
-          decoding="async"
-        />
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              'linear-gradient(105deg,rgba(13,44,77,.72) 0%,rgba(13,44,77,.58) 42%,rgba(13,44,77,.35) 100%)',
-          }}
-        />
+        <HeroBackground />
         <div className="marketing-container relative grid items-center gap-12 py-16 lg:grid-cols-[1.05fr_0.95fr] lg:py-[72px]">
           <div>
             <span
@@ -229,15 +210,7 @@ export default function MarketingHomePageClient({ carrierItems }: MarketingHomeP
       {/* AI Edge */}
       <section className="border-y border-[#eef1f4] bg-[var(--paper-muted)]">
         <div className="marketing-container grid items-center gap-14 py-16 lg:grid-cols-2">
-          <div className="overflow-hidden rounded-lg border border-[var(--line)] bg-white shadow-[0_20px_50px_rgba(13,44,77,0.14)]">
-            <div className="flex h-[34px] items-center gap-1.5 border-b border-[var(--line)] bg-[#eef1f4] px-3">
-              <span className="h-2.5 w-2.5 rounded-full bg-[#e05c54]" />
-              <span className="h-2.5 w-2.5 rounded-full bg-[#e6a209]" />
-              <span className="h-2.5 w-2.5 rounded-full bg-[#4a9c2d]" />
-              <span className="ml-3 font-mono text-[11px] text-[#9aa2aa]">app.omgexp.com</span>
-            </div>
-            <img src="/images/ai-edge.jpg" alt="Export portal dashboard" className="block h-[280px] w-full object-cover" loading="eager" decoding="async" />
-          </div>
+          <DocumentIntelligenceDemo />
           <div>
             <div className="accent-bar mb-4" />
             <h2 className="font-display text-[32px] font-bold leading-tight" style={{ color: 'var(--navy-950)' }}>
