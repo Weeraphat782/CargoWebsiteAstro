@@ -21,3 +21,15 @@ export const destinationRegions = [
     dests: [{ country: 'South Africa', city: 'Johannesburg' }],
   },
 ] as const;
+
+/** Unique destination countries — single source for stats + schema areaServed. */
+export const destinationCountryNames = [
+  ...new Set(destinationRegions.flatMap((r) => r.dests.map((d) => d.country))),
+] as const;
+
+export function serviceAreaCountries(): { '@type': 'Country'; name: string }[] {
+  return [
+    { '@type': 'Country', name: 'Thailand' },
+    ...destinationCountryNames.map((name) => ({ '@type': 'Country', name })),
+  ];
+}

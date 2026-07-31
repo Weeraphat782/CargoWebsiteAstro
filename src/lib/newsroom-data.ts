@@ -132,6 +132,11 @@ function capListByByteSize(rows: NewsListRow[]): NewsListRow[] {
   return capped;
 }
 
+/** ponytail: drop duplicate CMS slugs with millisecond suffix until Supabase 301 is set */
+function isTimestampSlug(slug: string): boolean {
+  return /-\d{13}$/.test(slug);
+}
+
 export async function getPublishedArticlesList(): Promise<NewsListRow[]> {
   const supabase = getSupabase();
   if (!supabase) return [];
@@ -143,7 +148,9 @@ export async function getPublishedArticlesList(): Promise<NewsListRow[]> {
     .order('published_at', { ascending: false })
     .limit(100);
   if (error) return [];
-  return capListByByteSize(((data ?? []) as RawListRow[]).map(sanitizeListRow));
+  return capListByByteSize(
+    ((data ?? []) as RawListRow[]).map(sanitizeListRow).filter((r) => !isTimestampSlug(r.slug)),
+  );
 }
 
 export async function getArticleBySlug(slug: string): Promise<NewsArticleRow | null> {

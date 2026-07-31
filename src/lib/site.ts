@@ -1,9 +1,15 @@
 /** Canonical site URL and brand constants for SEO / GEO. */
 export const BRAND_NAME = 'OMG Experience';
 export const BRAND_SHORT = 'OMG Experience';
-export const BRAND_LEGAL_NAME = 'OMG Experience';
+export const BRAND_LEGAL_NAME = 'OMG Experience Co., Ltd.';
 export const DEFAULT_AUTHOR_NAME = 'Editorial Team, OMG Experience';
 export const CONTACT_EMAIL = 'cargo@omgexp.com';
+export const CONTACT_PHONE_DISPLAY = '02-630-4600-1';
+export const CONTACT_PHONE_E164 = '+6626304600';
+export const CONTACT_STREET = '10/12-13 Convent Road, Silom';
+export const CONTACT_LOCALITY = 'Bang Rak, Bangkok';
+export const CONTACT_POSTAL_CODE = '10500';
+export const CONTACT_REGION = 'Bangkok';
 export const CONTACT_LOCATION = 'Bangkok, Thailand';
 
 /** Next.js app (auth, portal, contact API). */

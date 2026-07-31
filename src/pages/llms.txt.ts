@@ -1,6 +1,6 @@
 import type { APIRoute } from 'astro';
 import { getPublishedArticlesList, getPublishedResources } from '@/lib/newsroom-data';
-import { absoluteUrl, BRAND_NAME, BRAND_LEGAL_NAME } from '@/lib/site';
+import { absoluteUrl, APP_URL, BRAND_NAME, BRAND_LEGAL_NAME, CONTACT_EMAIL, CONTACT_PHONE_DISPLAY, CONTACT_PHONE_E164 } from '@/lib/site';
 
 export const GET: APIRoute = async () => {
   const base = absoluteUrl('');
@@ -30,6 +30,8 @@ export const GET: APIRoute = async () => {
 - Type: Organization (logistics / air freight)
 - Website: [${BRAND_NAME}](${base}/)
 - Legal name: ${BRAND_LEGAL_NAME}
+- Email: ${CONTACT_EMAIL}
+- Phone: ${CONTACT_PHONE_DISPLAY} (${CONTACT_PHONE_E164})
 
 ## Key pages
 - [Homepage](${base}/)
@@ -38,6 +40,7 @@ export const GET: APIRoute = async () => {
 - [Resources](${base}/resources)
 - [About](${base}/about)
 - [Contact](${base}/contact)
+- [Export Portal login](${APP_URL}/site/login)
 
 ${pillarLines}## Machine-readable endpoints
 - [RSS feed](${base}/feed.xml)

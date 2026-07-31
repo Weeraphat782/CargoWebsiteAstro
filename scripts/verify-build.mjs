@@ -14,7 +14,6 @@ if (!existsSync(indexPath)) {
 const failures = [];
 const noindex = process.env.PUBLIC_NOINDEX !== 'false';
 const siteBase = (process.env.PUBLIC_SITE_URL || 'https://www.omgcargo.tech').replace(/\/$/, '');
-const brandSuffix = ' | OMG Experience';
 
 function fail(msg) {
   failures.push(msg);
@@ -48,12 +47,13 @@ function decodeHtmlEntities(s) {
     .replace(/&gt;/g, '>');
 }
 
+/** Expected canonical URL for a dist HTML file (non-trailing-slash). */
 function distPathToUrl(htmlPath) {
   let rel = htmlPath.replace(dist, '').replace(/\\/g, '/');
   if (rel.endsWith('/index.html')) rel = rel.slice(0, -'/index.html'.length) || '/';
   else if (rel.endsWith('.html')) rel = rel.slice(0, -5);
   if (!rel.startsWith('/')) rel = `/${rel}`;
-  if (rel !== '/') rel += '/';
+  if (rel === '/') return siteBase;
   return `${siteBase}${rel}`;
 }
 
@@ -71,7 +71,7 @@ function parseSitemapLocs() {
     }
   }
   const locs = new Set();
-  for (const m of xml.matchAll(/<loc>([^<]+)<\/loc>/g)) locs.add(m[1].replace(/\/$/, ''));
+  for (const m of xml.matchAll(/<loc>([^<]+)<\/loc>/g)) locs.add(m[1]);
   return locs;
 }
 
@@ -151,7 +151,7 @@ for (const img of walkImages(join(dist, 'images'))) {
 }
 
 const htmlFiles = walkHtml(dist);
-const indexableUrls = new Set();
+const indexableCanonicals = new Set();
 const descriptions = new Map();
 
 for (const htmlPath of htmlFiles) {
@@ -169,20 +169,29 @@ for (const htmlPath of htmlFiles) {
     fail(`placeholder token in ${rel}`);
   }
 
+  if (html.includes('href="#"')) {
+    fail(`${rel}: placeholder href="#" in production HTML`);
+  }
+
+  const gtmCount = (html.match(/googletagmanager\.com\/gtm\.js/g) ?? []).length;
+  if (gtmCount > 1) {
+    fail(`${rel}: GTM container loaded ${gtmCount} times (expected ≤1)`);
+  }
+
   const robotsMatch = html.match(/<meta name="robots" content="([^"]+)"/i);
   const isIndexable = !robotsMatch?.[1]?.includes('noindex');
-  const pageUrl = distPathToUrl(htmlPath).replace(/\/$/, '');
-
-  if (isIndexable) indexableUrls.add(pageUrl);
 
   const canonicals = [...html.matchAll(/<link rel="canonical" href="([^"]+)"/gi)];
   if (canonicals.length !== 1) {
     fail(`${rel}: expected 1 canonical, got ${canonicals.length}`);
-  } else if (!noindex) {
-    const expected = distPathToUrl(htmlPath);
+  } else {
     const canon = canonicals[0][1];
-    if (canon !== expected && canon.replace(/\/$/, '') !== pageUrl) {
-      fail(`${rel}: canonical mismatch ${canon} vs ${expected}`);
+    if (isIndexable) indexableCanonicals.add(canon);
+    if (!noindex && isIndexable) {
+      const expected = distPathToUrl(htmlPath);
+      if (canon !== expected) {
+        fail(`${rel}: canonical mismatch ${canon} vs ${expected}`);
+      }
     }
   }
 
@@ -235,13 +244,20 @@ if (!existsSync(notFoundPath)) {
 
 if (!noindex) {
   const sitemapLocs = parseSitemapLocs();
-  const missing = [...indexableUrls].filter((u) => !sitemapLocs.has(u));
-  const extra = [...sitemapLocs].filter((u) => !indexableUrls.has(u));
-  if (missing.length) fail(`sitemap missing indexable URLs: ${missing.slice(0, 3).join(', ')}${missing.length > 3 ? '…' : ''}`);
-  if (extra.length) fail(`sitemap extra URLs: ${extra.slice(0, 3).join(', ')}${extra.length > 3 ? '…' : ''}`);
+  for (const loc of sitemapLocs) {
+    if (/-\d{13}/.test(loc)) fail(`sitemap slug with timestamp: ${loc}`);
+  }
+  const missing = [...indexableCanonicals].filter((u) => !sitemapLocs.has(u));
+  const extra = [...sitemapLocs].filter((u) => !indexableCanonicals.has(u));
+  if (missing.length) {
+    fail(`sitemap missing indexable URLs: ${missing.slice(0, 3).join(', ')}${missing.length > 3 ? '…' : ''}`);
+  }
+  if (extra.length) {
+    fail(`sitemap extra URLs: ${extra.slice(0, 3).join(', ')}${extra.length > 3 ? '…' : ''}`);
+  }
 }
 
-let checkCount = htmlFiles.length + 12;
+const checkCount = htmlFiles.length + 12;
 if (failures.length) {
   console.error(`FAILED (${failures.length}) of ~${checkCount} checks:`);
   for (const f of failures) console.error(`  - ${f}`);
@@ -249,5 +265,5 @@ if (failures.length) {
 }
 
 console.log(
-  `OK: ${htmlFiles.length} pages — login, contact+attribution, robots, RSS, AI robots, og-default, images, canonical, h1, JSON-LD, og, 404, sitemap`,
+  `OK: ${htmlFiles.length} pages — login, contact+attribution, robots, RSS, AI robots, og-default, images, canonical, h1, JSON-LD, og, 404, sitemap, no href="#"`,
 );

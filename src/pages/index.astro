@@ -10,7 +10,6 @@ import {
   getHeroBgMode,
   HERO_FALLBACK_IMAGE,
   HERO_POSTER_SRC,
-  HERO_VIDEO_SRC,
 } from '../lib/hero';
 
 const meta = pageMeta({
@@ -37,10 +36,7 @@ const ld = jsonLdScript([
   <Fragment slot="head">
     {
       heroMode === 'video' ? (
-        <>
-          <link rel="preload" href={HERO_VIDEO_SRC} as="video" type="video/mp4" />
-          <link rel="preload" href={HERO_POSTER_SRC} as="image" />
-        </>
+        <link rel="preload" href={HERO_POSTER_SRC} as="image" />
       ) : (
         <link rel="preload" href={HERO_FALLBACK_IMAGE} as="image" />
       )

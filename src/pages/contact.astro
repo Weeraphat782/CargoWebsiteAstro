@@ -5,7 +5,7 @@ import MarketingIcon from '../components/MarketingIcon.astro';
 import ContactForm from '../components/react/ContactForm';
 import { pageMeta } from '../lib/page-meta';
 import { breadcrumbListSchema, jsonLdScript, webPageSchema } from '../lib/json-ld';
-import { APP_URL, BRAND_NAME } from '../lib/site';
+import { APP_URL, BRAND_NAME, CONTACT_EMAIL, CONTACT_PHONE_DISPLAY, CONTACT_PHONE_E164, CONTACT_STREET, CONTACT_LOCALITY, CONTACT_POSTAL_CODE } from '../lib/site';
 import { marketingHeroImages } from '../data/marketing-hero-images';
 
 const meta = pageMeta({
@@ -55,12 +55,26 @@ const loginUrl = `${APP_URL}/site/login`;
             class="flex h-[42px] w-[42px] shrink-0 items-center justify-center rounded-[3px]"
             style="background: #e6eef6; color: var(--navy-700);"
           >
+            <MarketingIcon name="lines" />
+          </span>
+          <div>
+            <div class="text-[12px] font-bold uppercase tracking-[0.06em]" style="color: #9aa2aa;">Phone</div>
+            <a href={`tel:${CONTACT_PHONE_E164}`} class="font-semibold" style="color: var(--navy-700);">
+              {CONTACT_PHONE_DISPLAY}
+            </a>
+          </div>
+        </div>
+        <div class="flex gap-3.5">
+          <span
+            class="flex h-[42px] w-[42px] shrink-0 items-center justify-center rounded-[3px]"
+            style="background: #e6eef6; color: var(--navy-700);"
+          >
             <MarketingIcon name="mail" />
           </span>
           <div>
             <div class="text-[12px] font-bold uppercase tracking-[0.06em]" style="color: #9aa2aa;">Email</div>
-            <a href="mailto:cargo@omgexp.com" class="font-semibold" style="color: var(--navy-700);">
-              cargo@omgexp.com
+            <a href={`mailto:${CONTACT_EMAIL}`} class="font-semibold" style="color: var(--navy-700);">
+              {CONTACT_EMAIL}
             </a>
           </div>
         </div>
@@ -72,8 +86,11 @@ const loginUrl = `${APP_URL}/site/login`;
             <MarketingIcon name="pin" />
           </span>
           <div>
-            <div class="text-[12px] font-bold uppercase tracking-[0.06em]" style="color: #9aa2aa;">Location</div>
-            <div class="font-semibold text-[var(--ink)]">Bangkok, Thailand</div>
+            <div class="text-[12px] font-bold uppercase tracking-[0.06em]" style="color: #9aa2aa;">Address</div>
+            <div class="font-semibold text-[var(--ink)]">
+              {CONTACT_STREET}<br />
+              {CONTACT_LOCALITY} {CONTACT_POSTAL_CODE}
+            </div>
           </div>
         </div>
         <div class="flex gap-3.5">

@@ -1,6 +1,6 @@
 /** Build a hotlink URL for Unsplash CDN (requires ixlib or many legacy photo IDs 404). */
-export function unsplashHeroImage(photoId: string, width = 1800): string {
-  return `https://images.unsplash.com/${photoId}?auto=format&fit=crop&w=${width}&q=72&fm=jpg&ixlib=rb-4.1.0`;
+export function unsplashHeroImage(photoId: string, width = 1600): string {
+  return `https://images.unsplash.com/${photoId}?auto=format&fit=crop&w=${width}&q=72&fm=webp&ixlib=rb-4.1.0`;
 }
 
 /**

@@ -20,16 +20,28 @@ function header(headers, name) {
   return m ? m[1].trim() : '';
 }
 
-// apex → www in one hop
+// apex → www in one hop (query string preserved)
 try {
-  const h = curl(`-o NUL -w "" -D - --max-redirs 0 "${APEX}/"`);
+  const h = curl(`-o NUL -w "" -D - --max-redirs 0 "${APEX}/?fbclid=smoke-test"`);
   const code = h.match(/^HTTP\/[\d.]+ (\d+)/m)?.[1];
   const loc = header(h, 'location');
-  if (code !== '301' || !loc.includes('www.omgcargo.tech')) {
-    fail(`apex redirect: expected 301→www, got ${code} loc=${loc || '(none)'}`);
+  if (code !== '301' || !loc.includes('www.omgcargo.tech') || !loc.includes('fbclid=smoke-test')) {
+    fail(`apex redirect: expected 301→www with fbclid, got ${code} loc=${loc || '(none)'}`);
   }
 } catch (e) {
   fail(`apex redirect check failed: ${e.message}`);
+}
+
+// trailing slash → non-trailing in one hop
+try {
+  const h = curl(`-o NUL -w "" -D - --max-redirs 0 "${ORIGIN}/services/"`);
+  const code = h.match(/^HTTP\/[\d.]+ (\d+)/m)?.[1];
+  const loc = header(h, 'location');
+  if (code !== '301' || loc !== `${ORIGIN}/services`) {
+    fail(`trailing slash redirect: expected 301→/services, got ${code} loc=${loc || '(none)'}`);
+  }
+} catch (e) {
+  fail(`trailing slash check failed: ${e.message}`);
 }
 
 // missing page → 404 (after CloudFront custom error + 404.html deploy)
@@ -82,4 +94,4 @@ if (failures.length) {
   process.exit(1);
 }
 
-console.log('SMOKE OK: apex 301, 404, HSTS, cache-control');
+console.log('SMOKE OK: apex 301+query, trailing slash 301, 404, HSTS, cache-control');

@@ -48,7 +48,7 @@ export function pageMeta(opts: PageMeta) {
     description,
     canonical,
     ogType: opts.article ? 'article' : 'website',
-    ogTitle: title,
+    ogTitle: `${title} | ${BRAND_NAME}`,
     ogDescription: description,
     ogUrl: url,
     ogImage: og,

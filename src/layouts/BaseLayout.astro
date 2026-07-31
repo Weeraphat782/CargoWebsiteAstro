@@ -3,7 +3,6 @@ import '../styles/global.css';
 import TopBar from '../components/TopBar.astro';
 import Header from '../components/react/Header';
 import Footer from '../components/react/Footer';
-import { MarketingBreadcrumbNav } from '../components/react/MarketingBreadcrumbNav';
 import { BRAND_NAME, absoluteUrl } from '../lib/site';
 import type { PageMeta } from '../lib/page-meta';
 import { jsonLdScript, organizationSchema, websiteSchema } from '../lib/json-ld';
@@ -14,13 +13,40 @@ interface Props {
   breadcrumbLd?: string;
   prevUrl?: string;
   nextUrl?: string;
-  /** When false, skip breadcrumb island on home (saves JS). Default true. */
+  /** When false, skip breadcrumb on home (saves markup). Default true. */
   showBreadcrumbNav?: boolean;
 }
 
 const { meta, jsonLd, breadcrumbLd, prevUrl, nextUrl, showBreadcrumbNav = true } = Astro.props;
 const siteLd = jsonLdScript([organizationSchema(), websiteSchema()]);
 const gtmId = import.meta.env.PUBLIC_GTM_ID?.trim();
+
+const SEGMENT_LABELS: Record<string, string> = {
+  about: 'About',
+  contact: 'Contact',
+  services: 'Services',
+  newsroom: 'Newsroom',
+  resources: 'Resources',
+};
+
+function labelForSegment(seg: string): string {
+  return SEGMENT_LABELS[seg] || seg.split('-').map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+}
+
+const pathname = Astro.url.pathname.replace(/\/$/, '') || '/';
+const showBreadcrumb = showBreadcrumbNav && pathname !== '/';
+const breadcrumbItems = showBreadcrumb
+  ? (() => {
+      const segments = pathname.split('/').filter(Boolean);
+      const items: { href: string; label: string }[] = [{ href: '/', label: 'Home' }];
+      let acc = '';
+      for (const seg of segments) {
+        acc += `/${seg}`;
+        items.push({ href: acc, label: labelForSegment(seg) });
+      }
+      return items;
+    })()
+  : [];
 ---
 
 <!doctype html>
@@ -35,6 +61,7 @@ const gtmId = import.meta.env.PUBLIC_GTM_ID?.trim();
     <link rel="manifest" href="/manifest.json" />
     <link rel="alternate" type="application/rss+xml" title={`${BRAND_NAME} Newsroom`} href={absoluteUrl('/feed.xml')} />
     <link rel="preconnect" href="https://pub-8bcc4f3b024b4819ba737865d58e9664.r2.dev" />
+    <link rel="preconnect" href="https://images.unsplash.com" crossorigin />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -104,7 +131,30 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       <Header client:load />
     </div>
     <main class="flex-1 overflow-x-hidden">
-      {showBreadcrumbNav && <MarketingBreadcrumbNav client:visible />}
+      {
+        showBreadcrumb && (
+          <nav aria-label="Breadcrumb" class="border-b border-[var(--line)] bg-white">
+            <div class="marketing-container py-3">
+              <ol class="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-neutral-600">
+                {
+                  breadcrumbItems.map((item, idx) => (
+                    <li class="flex items-center gap-2">
+                      {idx > 0 && <span class="text-neutral-400" aria-hidden="true">/</span>}
+                      {idx === breadcrumbItems.length - 1 ? (
+                        <span class="font-medium text-neutral-900">{item.label}</span>
+                      ) : (
+                        <a href={item.href} class="hover:text-neutral-900 hover:underline">
+                          {item.label}
+                        </a>
+                      )}
+                    </li>
+                  ))
+                }
+              </ol>
+            </div>
+          </nav>
+        )
+      }
       <slot />
     </main>
     <Footer client:load />

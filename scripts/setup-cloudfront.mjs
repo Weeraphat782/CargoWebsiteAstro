@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * One-shot CloudFront setup: apex→www 301, 404 custom errors, security headers.
+ * One-shot CloudFront setup: apex→www 301, trailing-slash 301, 404 custom errors, security headers.
  * Updates the existing viewer-request function (only one allowed per behavior).
  * Local: AWS_PROFILE=omgexp node scripts/setup-cloudfront.mjs
  */
@@ -19,22 +19,41 @@ const FUNCTION_NAME = process.env.CF_VIEWER_FN ?? 'omgexp-marketing-url-rewrite'
 const FUNCTION_CODE = `function handler(event) {
   var request = event.request;
   var host = request.headers.host.value;
-  if (host !== '${CANONICAL_HOST}') {
+  var uri = request.uri;
+  var target = uri.length > 1 && uri.endsWith('/') ? uri.slice(0, -1) : uri;
+  if (host !== '${CANONICAL_HOST}' || target !== uri) {
     return {
       statusCode: 301,
       statusDescription: 'Moved Permanently',
       headers: {
-        location: { value: 'https://${CANONICAL_HOST}' + request.uri },
+        location: { value: 'https://${CANONICAL_HOST}' + target + qs(request) },
       },
     };
   }
-  var uri = request.uri;
   if (uri.endsWith('/')) {
     request.uri = uri + 'index.html';
   } else if (!uri.includes('.')) {
     request.uri = uri + '/index.html';
   }
   return request;
+}
+
+function qs(request) {
+  var q = request.querystring;
+  if (!q) return '';
+  var parts = [];
+  for (var key in q) {
+    if (!Object.prototype.hasOwnProperty.call(q, key)) continue;
+    var entry = q[key];
+    if (entry.multiValue) {
+      for (var i = 0; i < entry.multiValue.length; i++) {
+        parts.push(encodeURIComponent(key) + '=' + encodeURIComponent(entry.multiValue[i].value));
+      }
+    } else if (entry.value !== undefined && entry.value !== '') {
+      parts.push(encodeURIComponent(key) + '=' + encodeURIComponent(entry.value));
+    }
+  }
+  return parts.length ? '?' + parts.join('&') : '';
 }`;
 
 function aws(cmd) {
@@ -58,7 +77,7 @@ writeFileSync(join(dir, 'index.js'), FUNCTION_CODE);
 
 const dev = awsJson(`cloudfront describe-function --name ${FUNCTION_NAME} --stage DEVELOPMENT --output json`);
 awsJson(
-  `cloudfront update-function --name ${FUNCTION_NAME} --if-match ${dev.ETag} --function-config Comment="apex redirect + S3 index rewrite",Runtime=cloudfront-js-2.0 --function-code fileb://${codePath} --output json`,
+  `cloudfront update-function --name ${FUNCTION_NAME} --if-match ${dev.ETag} --function-config Comment="apex redirect + trailing slash + S3 index rewrite",Runtime=cloudfront-js-2.0 --function-code fileb://${codePath} --output json`,
 );
 const devAfter = awsJson(`cloudfront describe-function --name ${FUNCTION_NAME} --stage DEVELOPMENT --output json`);
 awsJson(`cloudfront publish-function --name ${FUNCTION_NAME} --if-match ${devAfter.ETag} --output json`);

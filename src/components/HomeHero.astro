@@ -1,5 +1,6 @@
 ---
 import CarrierBoard from '@/components/react/CarrierBoard';
+import { destinationCountryNames } from '@/data/marketing-destinations';
 import {
   getHeroBgMode,
   HERO_FALLBACK_IMAGE,
@@ -15,6 +16,7 @@ interface Props {
 
 const { carrierItems } = Astro.props;
 const mode = getHeroBgMode();
+const countryCount = destinationCountryNames.length;
 
 const heroGradientVideo =
   'linear-gradient(105deg,rgba(13,44,77,.78) 0%,rgba(13,44,77,.55) 42%,rgba(13,44,77,.32) 100%)';
@@ -33,7 +35,7 @@ const heroGradientImage =
           muted
           loop
           playsinline
-          preload="auto"
+          preload="metadata"
           poster={HERO_POSTER_SRC}
           aria-hidden="true"
         />
@@ -110,7 +112,7 @@ const heroGradientImage =
     <div class="marketing-container grid grid-cols-1 py-7 sm:grid-cols-3">
       {
         [
-          { v: '7+', l: 'Countries Served' },
+          { v: String(countryCount), l: 'Countries Served' },
           { v: 'GDP', l: 'Certified Handling' },
           { v: 'AI', l: 'Document Intelligence' },
         ].map((s, i) => (

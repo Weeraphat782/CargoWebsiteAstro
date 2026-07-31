@@ -3,10 +3,15 @@ import {
   BRAND_NAME,
   BRAND_LEGAL_NAME,
   CONTACT_EMAIL,
-  CONTACT_LOCATION,
+  CONTACT_LOCALITY,
+  CONTACT_PHONE_E164,
+  CONTACT_POSTAL_CODE,
+  CONTACT_REGION,
+  CONTACT_STREET,
   DEFAULT_AUTHOR_NAME,
   getSiteUrl,
 } from "@/lib/site";
+import { serviceAreaCountries } from "@/data/marketing-destinations";
 
 type JsonLdGraph = Record<string, unknown>;
 
@@ -114,15 +119,16 @@ export function organizationSchema(): JsonLdGraph {
     description:
       "Specialized air freight and pharmaceutical-grade logistics for time-sensitive, temperature-controlled, and compliance-critical cargo.",
     email: CONTACT_EMAIL,
+    telephone: CONTACT_PHONE_E164,
     address: {
       "@type": "PostalAddress",
-      addressLocality: CONTACT_LOCATION.split(",")[0]?.trim() || "Bangkok",
+      streetAddress: CONTACT_STREET,
+      addressLocality: CONTACT_LOCALITY,
+      addressRegion: CONTACT_REGION,
+      postalCode: CONTACT_POSTAL_CODE,
       addressCountry: "TH",
     },
-    areaServed: [
-      { "@type": "Country", name: "Thailand" },
-      { "@type": "AdministrativeArea", name: "Southeast Asia" },
-    ],
+    areaServed: serviceAreaCountries(),
     sameAs: [
       "https://www.linkedin.com/company/omgexp",
       "https://x.com/omgexp",
@@ -265,7 +271,7 @@ export function serviceSchemas(
     name: s.title,
     description: s.shortDescription,
     provider: { "@id": `${getSiteUrl()}/#organization` },
-    areaServed: { "@type": "Country", name: "Thailand" },
+    areaServed: serviceAreaCountries(),
     url: absoluteUrl(`/services#${s.id}`),
   }));
 }

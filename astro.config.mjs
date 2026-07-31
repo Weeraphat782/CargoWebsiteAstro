@@ -11,6 +11,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 // https://astro.build/config — static SSG for S3 + CloudFront (ponytail: no adapter)
 export default defineConfig({
   output: 'static',
+  trailingSlash: 'never',
   site: process.env.PUBLIC_SITE_URL || 'https://web.omgexp.com',
   integrations: [react(), sitemap()],
   vite: {
