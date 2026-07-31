@@ -1,0 +1,92 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { pageMeta } from '../lib/page-meta';
+import { breadcrumbListSchema, jsonLdScript, webPageSchema } from '../lib/json-ld';
+import { BRAND_LEGAL_NAME, BRAND_NAME, CONTACT_EMAIL } from '../lib/site';
+
+const meta = pageMeta({
+  title: 'Terms of Service',
+  description:
+    'Terms governing use of the OMG Experience marketing website and general information about our air freight, customs, and logistics services from Bangkok, Thailand.',
+  path: '/terms-of-service',
+});
+
+const ld = jsonLdScript([
+  webPageSchema({
+    path: '/terms-of-service',
+    name: `${BRAND_NAME} Terms of Service`,
+    description: 'Website terms of use for omgcargo.tech.',
+  }),
+]);
+
+const breadcrumbLd = JSON.stringify({
+  '@context': 'https://schema.org',
+  ...breadcrumbListSchema([
+    { name: 'Home', path: '/' },
+    { name: 'Terms of Service', path: '/terms-of-service' },
+  ]),
+});
+
+const updated = '31 July 2026';
+---
+
+<BaseLayout meta={meta} jsonLd={ld} breadcrumbLd={breadcrumbLd}>
+  <div class="marketing-container max-w-3xl py-14 pb-[72px]">
+    <h1 class="font-display text-3xl font-bold" style="color: var(--navy-950);">Terms of Service</h1>
+    <p class="mt-2 text-sm" style="color: var(--muted);">Last updated: {updated}</p>
+
+    <p class="mt-6 text-[15px] leading-relaxed" style="color: var(--ink);">
+      These terms apply to your use of <strong>www.omgcargo.tech</strong>, operated by {BRAND_LEGAL_NAME}. By
+      accessing this site you agree to these terms. If you do not agree, please do not use the website.
+    </p>
+
+    <h2 class="font-display mt-10 text-xl font-bold" style="color: var(--navy-950);">Information only</h2>
+    <p class="mt-3 text-[15px] leading-relaxed" style="color: var(--ink);">
+      Content on this website describes our air freight, customs, GDP warehousing, and cold-chain capabilities in
+      general terms. It is not a binding offer, contract, or guarantee of capacity, routing, pricing, or regulatory
+      approval. Specific shipments are subject to separate quotation, booking, and contract terms.
+    </p>
+
+    <h2 class="font-display mt-10 text-xl font-bold" style="color: var(--navy-950);">Acceptable use</h2>
+    <p class="mt-3 text-[15px] leading-relaxed" style="color: var(--ink);">
+      You must not misuse the site, attempt unauthorised access, introduce malware, scrape content at scale, or use
+      the contact form to send unlawful, abusive, or spam content.
+    </p>
+
+    <h2 class="font-display mt-10 text-xl font-bold" style="color: var(--navy-950);">Intellectual property</h2>
+    <p class="mt-3 text-[15px] leading-relaxed" style="color: var(--ink);">
+      Text, logos, images, and layout on this site are owned by or licensed to OMG Experience unless otherwise
+      credited. You may view and print pages for personal business reference; republication requires our written
+      permission.
+    </p>
+
+    <h2 class="font-display mt-10 text-xl font-bold" style="color: var(--navy-950);">Third-party links</h2>
+    <p class="mt-3 text-[15px] leading-relaxed" style="color: var(--ink);">
+      Links to external sites (including our Export Portal at cargo.omgexp.com) are provided for convenience. We are
+      not responsible for third-party content or policies.
+    </p>
+
+    <h2 class="font-display mt-10 text-xl font-bold" style="color: var(--navy-950);">Disclaimer of liability</h2>
+    <p class="mt-3 text-[15px] leading-relaxed" style="color: var(--ink);">
+      The site is provided "as is". To the fullest extent permitted by law, OMG Experience is not liable for indirect
+      or consequential loss arising from use of this website. Nothing here limits liability that cannot be excluded
+      under applicable law.
+    </p>
+
+    <h2 class="font-display mt-10 text-xl font-bold" style="color: var(--navy-950);">Governing law</h2>
+    <p class="mt-3 text-[15px] leading-relaxed" style="color: var(--ink);">
+      These terms are governed by the laws of Thailand. Disputes shall be subject to the exclusive jurisdiction of
+      the courts of Bangkok, unless mandatory consumer protection rules require otherwise.
+    </p>
+
+    <h2 class="font-display mt-10 text-xl font-bold" style="color: var(--navy-950);">Contact</h2>
+    <p class="mt-3 text-[15px] leading-relaxed" style="color: var(--ink);">
+      Questions about these terms: <a href={`mailto:${CONTACT_EMAIL}`} class="underline">{CONTACT_EMAIL}</a> or
+      <a href="/contact" class="underline">/contact</a>.
+    </p>
+
+    <p class="mt-10 rounded-[var(--radius-md)] border border-[var(--line)] bg-[var(--paper-muted)] p-4 text-sm" style="color: var(--muted);">
+      <strong>Draft notice:</strong> Review with legal counsel before publication as a binding corporate policy.
+    </p>
+  </div>
+</BaseLayout>

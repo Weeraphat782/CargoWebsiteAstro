@@ -7,6 +7,17 @@ function carrierLogoSlug(carrier: string): string {
   return carrier.toLowerCase();
 }
 
+const CARRIER_ALT: Record<string, string> = {
+  TG: 'Thai Airways Cargo',
+  LH: 'Lufthansa Cargo',
+  QR: 'Qatar Airways Cargo',
+  Qantas: 'Qantas Freight',
+};
+
+function carrierAlt(code: string): string {
+  return CARRIER_ALT[code] ?? code;
+}
+
 function StatusPill({ status }: { status: string }) {
   const available = status === 'Available';
   return (
@@ -28,17 +39,18 @@ function StatusPill({ status }: { status: string }) {
 
 function CarrierLogo({ carrier }: { carrier: string }) {
   const [failed, setFailed] = useState(false);
+  const alt = carrierAlt(carrier);
   if (failed) {
     return (
       <span className="font-display text-[11px] font-bold uppercase tracking-tight text-neutral-900">
-        {carrier}
+        {alt}
       </span>
     );
   }
   return (
     <img
       src={`/images/carriers/logo-${carrierLogoSlug(carrier)}.png`}
-      alt={carrier}
+      alt={alt}
       width={96}
       height={56}
       className="absolute inset-0 h-full w-full object-contain p-0.5"
@@ -70,7 +82,7 @@ export default function CarrierBoard({ items }: CarrierBoardProps) {
             />
             Live Shipping Status
           </span>
-          <span className="font-mono text-[10.5px] uppercase tracking-[0.1em] text-[#7a97b8]">Real-time feed</span>
+          <span className="font-mono text-[10.5px] uppercase tracking-[0.1em] text-[#7a97b8]">Route schedule</span>
         </div>
 
         <div className="grid grid-cols-[1fr_auto_auto] gap-x-3.5 gap-y-0.5 px-[18px] py-1.5 font-mono text-[10px] uppercase tracking-[0.1em] text-[#6b86a6]">

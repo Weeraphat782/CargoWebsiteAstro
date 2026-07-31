@@ -44,9 +44,23 @@ try {
   fail(`trailing slash check failed: ${e.message}`);
 }
 
+// timestamp slug → clean slug (OC-28)
+try {
+  const oldSlug = '/newsroom/gacp-good-agricultural-collection-practices-1782094522286';
+  const h = curl(`-o NUL -w "" -D - --max-redirs 0 "${ORIGIN}${oldSlug}"`);
+  const code = h.match(/^HTTP\/[\d.]+ (\d+)/m)?.[1];
+  const loc = header(h, 'location');
+  const expected = `${ORIGIN}/newsroom/gacp-good-agricultural-collection-practices`;
+  if (code !== '301' || loc !== expected) {
+    fail(`timestamp slug redirect: expected 301→${expected}, got ${code} loc=${loc || '(none)'}`);
+  }
+} catch (e) {
+  fail(`timestamp slug check failed: ${e.message}`);
+}
+
 // missing page → 404 (after CloudFront custom error + 404.html deploy)
 try {
-  const h = curl(`"${ORIGIN}/smoke-missing-${Date.now()}"`);
+  const h = curl(`"${ORIGIN}/smoke-missing-page"`);
   const code = h.match(/^HTTP\/[\d.]+ (\d+)/m)?.[1];
   if (code !== '404') fail(`missing page: expected 404, got ${code}`);
 } catch (e) {
@@ -57,6 +71,8 @@ try {
 try {
   const h = curl(`"${ORIGIN}/"`);
   if (!header(h, 'strict-transport-security')) fail('missing Strict-Transport-Security');
+  const hsts = header(h, 'strict-transport-security');
+  if (!/includeSubDomains/i.test(hsts)) fail(`HSTS missing includeSubDomains: ${hsts || '(none)'}`);
 } catch (e) {
   fail(`HSTS check failed: ${e.message}`);
 }
@@ -94,4 +110,4 @@ if (failures.length) {
   process.exit(1);
 }
 
-console.log('SMOKE OK: apex 301+query, trailing slash 301, 404, HSTS, cache-control');
+console.log('SMOKE OK: apex 301+query, trailing slash 301, timestamp slug 301, 404, HSTS+subdomains, cache-control');

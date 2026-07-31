@@ -13,6 +13,8 @@ const meta = pageMeta({
   description:
     'Specialized air freight, shipping & customs, GDP warehousing, and controlled temperature transport—end-to-end logistics from OMG Experience.',
   path: '/services',
+  ogImage: marketingHeroImages.services.og,
+  ogImageAlt: marketingHeroImages.services.alt,
 });
 
 const listItems = services.map((s) => ({
@@ -52,6 +54,23 @@ const breadcrumbLd = JSON.stringify({
     priority
   />
   <div class="marketing-container pb-[72px] pt-4">
+    <aside class="mb-10 rounded-[var(--radius-lg)] border border-[var(--line)] bg-[var(--paper-muted)] p-6 sm:flex sm:items-center sm:justify-between sm:gap-6">
+      <div>
+        <h2 class="font-display text-xl font-bold" style="color: var(--navy-950);">
+          Cannabis &amp; hemp export logistics
+        </h2>
+        <p class="mt-1.5 max-w-xl text-[15px]" style="color: var(--muted);">
+          GACP-aligned air freight from Bangkok with GDP cold chain and EU documentation support.
+        </p>
+      </div>
+      <a
+        href="/services/cannabis-export-logistics"
+        class="mt-4 inline-flex shrink-0 rounded-[var(--radius-sm)] px-5 py-2.5 text-sm font-semibold text-white sm:mt-0"
+        style="background: var(--navy-700);"
+      >
+        View service →
+      </a>
+    </aside>
     {
       services.map((s, i) => {
         const flip = i % 2 === 1;

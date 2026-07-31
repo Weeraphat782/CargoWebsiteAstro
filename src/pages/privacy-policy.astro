@@ -1,0 +1,105 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { pageMeta } from '../lib/page-meta';
+import { breadcrumbListSchema, jsonLdScript, webPageSchema } from '../lib/json-ld';
+import { BRAND_LEGAL_NAME, BRAND_NAME, CONTACT_EMAIL } from '../lib/site';
+
+const meta = pageMeta({
+  title: 'Privacy Policy',
+  description:
+    'How OMG Experience Co., Ltd. collects, uses, and protects personal data from website visitors and contact form submissions under Thailand PDPA.',
+  path: '/privacy-policy',
+});
+
+const ld = jsonLdScript([
+  webPageSchema({
+    path: '/privacy-policy',
+    name: `${BRAND_NAME} Privacy Policy`,
+    description: 'Personal data handling for website visitors and enquiry submissions.',
+  }),
+]);
+
+const breadcrumbLd = JSON.stringify({
+  '@context': 'https://schema.org',
+  ...breadcrumbListSchema([
+    { name: 'Home', path: '/' },
+    { name: 'Privacy Policy', path: '/privacy-policy' },
+  ]),
+});
+
+const updated = '31 July 2026';
+---
+
+<BaseLayout meta={meta} jsonLd={ld} breadcrumbLd={breadcrumbLd}>
+  <div class="marketing-container max-w-3xl py-14 pb-[72px] prose-legal">
+    <h1 class="font-display text-3xl font-bold" style="color: var(--navy-950);">Privacy Policy</h1>
+    <p class="mt-2 text-sm" style="color: var(--muted);">Last updated: {updated}</p>
+
+    <p class="mt-6 text-[15px] leading-relaxed" style="color: var(--ink);">
+      {BRAND_LEGAL_NAME} ("OMG Experience", "we", "us") operates <strong>www.omgcargo.tech</strong>. This notice
+      explains how we collect and use personal data when you visit our website or submit an enquiry. It is intended
+      to meet the transparency requirements of Thailand's Personal Data Protection Act (PDPA) B.E. 2562.
+    </p>
+
+    <h2 class="font-display mt-10 text-xl font-bold" style="color: var(--navy-950);">Data we collect</h2>
+    <ul class="mt-3 list-disc space-y-2 pl-5 text-[15px] leading-relaxed" style="color: var(--ink);">
+      <li>
+        <strong>Contact form:</strong> name, email address, company name, inquiry type, and message content when you
+        submit the form at <a href="/contact" class="underline">/contact</a>.
+      </li>
+      <li>
+        <strong>Marketing attribution:</strong> UTM parameters, advertising click identifiers (e.g. gclid, fbclid),
+        referrer host, and landing page path — stored in your browser's localStorage and sent with form submissions
+        to help us understand how you found us.
+      </li>
+      <li>
+        <strong>Analytics:</strong> usage data collected via Google Tag Manager / Google Analytics, including cookies
+        and similar technologies. See our <a href="/cookie-policy" class="underline">Cookie Policy</a>.
+      </li>
+      <li>
+        <strong>Technical logs:</strong> IP address, browser type, and request metadata processed by our hosting
+        provider (AWS CloudFront) for security and delivery.
+      </li>
+    </ul>
+
+    <h2 class="font-display mt-10 text-xl font-bold" style="color: var(--navy-950);">Why we use it</h2>
+    <ul class="mt-3 list-disc space-y-2 pl-5 text-[15px] leading-relaxed" style="color: var(--ink);">
+      <li>Respond to your freight, customs, or logistics enquiries.</li>
+      <li>Measure website performance and marketing effectiveness.</li>
+      <li>Maintain site security and prevent abuse.</li>
+      <li>Comply with applicable law where required.</li>
+    </ul>
+
+    <h2 class="font-display mt-10 text-xl font-bold" style="color: var(--navy-950);">Legal bases (PDPA)</h2>
+    <p class="mt-3 text-[15px] leading-relaxed" style="color: var(--ink);">
+      We rely on your consent when you submit the contact form, legitimate interest for analytics and site security,
+      and contractual necessity when processing data to prepare quotations or services you request.
+    </p>
+
+    <h2 class="font-display mt-10 text-xl font-bold" style="color: var(--navy-950);">Sharing and transfers</h2>
+    <p class="mt-3 text-[15px] leading-relaxed" style="color: var(--ink);">
+      Enquiry data is stored in our secure database (Supabase) and may be sent to our operations team via email or
+      messaging notifications. Analytics data is processed by Google. We do not sell personal data. Where data is
+      transferred outside Thailand, we apply appropriate safeguards required by law.
+    </p>
+
+    <h2 class="font-display mt-10 text-xl font-bold" style="color: var(--navy-950);">Retention</h2>
+    <p class="mt-3 text-[15px] leading-relaxed" style="color: var(--ink);">
+      Contact submissions are retained for as long as needed to handle your enquiry and any resulting business
+      relationship, typically up to seven years for operational and legal records unless a shorter period applies.
+      Analytics data follows Google's default retention settings configured in our GA4 property.
+    </p>
+
+    <h2 class="font-display mt-10 text-xl font-bold" style="color: var(--navy-950);">Your rights</h2>
+    <p class="mt-3 text-[15px] leading-relaxed" style="color: var(--ink);">
+      Under PDPA you may request access, correction, deletion, restriction, or portability of your personal data,
+      withdraw consent where applicable, and lodge a complaint with the Personal Data Protection Committee of Thailand.
+      Contact us at <a href={`mailto:${CONTACT_EMAIL}`} class="underline">{CONTACT_EMAIL}</a> to exercise these rights.
+    </p>
+
+    <p class="mt-10 rounded-[var(--radius-md)] border border-[var(--line)] bg-[var(--paper-muted)] p-4 text-sm" style="color: var(--muted);">
+      <strong>Draft notice:</strong> This policy is provided for website transparency and should be reviewed by your
+      legal counsel before relying on it for regulatory filings.
+    </p>
+  </div>
+</BaseLayout>

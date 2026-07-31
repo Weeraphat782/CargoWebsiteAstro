@@ -105,6 +105,22 @@ export function jsonLdScript(graph: JsonLdGraph | JsonLdGraph[]) {
   return JSON.stringify(data);
 }
 
+/** Merge site + page + breadcrumb blocks into one @graph script (OC-17). */
+export function mergeJsonLdScripts(...rawBlocks: (string | undefined)[]): string {
+  const nodes: JsonLdGraph[] = [];
+  for (const raw of rawBlocks) {
+    if (!raw?.trim()) continue;
+    const parsed = JSON.parse(raw) as JsonLdGraph & { "@graph"?: JsonLdGraph[] };
+    if (Array.isArray(parsed["@graph"])) {
+      nodes.push(...parsed["@graph"]);
+    } else {
+      const { "@context": _c, ...rest } = parsed;
+      nodes.push(rest);
+    }
+  }
+  return JSON.stringify({ "@context": "https://schema.org", "@graph": nodes });
+}
+
 export function organizationSchema(): JsonLdGraph {
   return {
     "@type": "Organization",

@@ -15,6 +15,7 @@ import { pageMeta } from '../../lib/page-meta';
 import { absoluteUrl, BRAND_NAME } from '../../lib/site';
 import { breadcrumbListSchema, itemListSchema, jsonLdScript, webPageSchema } from '../../lib/json-ld';
 import { marketingHeroImages } from '../../data/marketing-hero-images';
+import R2Preconnect from '../../components/R2Preconnect.astro';
 
 const currentPage = 1;
 const rows = await getPublishedArticlesList();
@@ -28,6 +29,8 @@ const meta = pageMeta({
   description:
     'Company announcements, route updates, and pharmaceutical logistics industry news from OMG Experience — air freight insights from Bangkok for exporters.',
   path: '/newsroom',
+  ogImage: marketingHeroImages.newsroom.og,
+  ogImageAlt: marketingHeroImages.newsroom.alt,
 });
 
 const listItems = pageArticles.map((a) => ({
@@ -57,6 +60,7 @@ const nextUrl = totalPages > 1 ? absoluteUrl(newsroomListPagePath(2)) : undefine
 
 <BaseLayout meta={meta} jsonLd={ld} breadcrumbLd={breadcrumbLd} nextUrl={nextUrl}>
   <Fragment slot="head">
+    <R2Preconnect />
     <link rel="preload" as="image" href={marketingHeroImages.newsroom.src} />
   </Fragment>
   <MarketingPageHero

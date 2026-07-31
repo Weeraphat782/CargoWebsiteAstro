@@ -1,0 +1,237 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import MarketingPageHero from '../../components/MarketingPageHero.astro';
+import { destinationRegions } from '../../data/marketing-destinations';
+import { marketingHeroImages } from '../../data/marketing-hero-images';
+import { pageMeta } from '../../lib/page-meta';
+import { absoluteUrl, BRAND_NAME, getSiteUrl } from '../../lib/site';
+import {
+  breadcrumbListSchema,
+  faqPageSchema,
+  itemListSchema,
+  jsonLdScript,
+  webPageSchema,
+} from '../../lib/json-ld';
+
+const meta = pageMeta({
+  title: 'Cannabis & Hemp Export Logistics',
+  description:
+    'Bangkok air freight for controlled botanical exports — GACP-aligned documentation, GDP cold chain, DTAM reporting, and EU destination lanes from OMG Experience.',
+  path: '/services/cannabis-export-logistics',
+  ogImage: marketingHeroImages.cannabis.og,
+  ogImageAlt: 'Controlled botanical export logistics from Bangkok',
+});
+
+const faqs = [
+  {
+    question: 'Does OMG Experience ship medical cannabis from Thailand?',
+    answer:
+      'We provide air freight, customs coordination, and GDP-aligned handling for controlled botanical exports where shippers hold valid Thai licences and destination import approvals. Eligibility depends on product category, route, and carrier acceptance — contact us with your licence references for a route-specific assessment.',
+  },
+  {
+    question: 'What documentation is typically required?',
+    answer:
+      'Exports under Thailand\'s controlled-herb framework (B.E. 2568) require farm GACP evidence, export permits, DTAM THC traceability reporting where applicable, and destination-specific import documentation. We align shipment files with EU-GMP Annex 7 post-harvest expectations for European lanes. See our resources on Thai licensing and Ph. Eur. alignment.',
+  },
+  {
+    question: 'Which destination regions do you serve?',
+    answer:
+      'Our published destination schedule covers eight countries across Europe, Oceania, and Africa, served from Bangkok (BKK) on scheduled air freight. Final routing depends on carrier capacity, product classification, and import country rules.',
+  },
+  {
+    question: 'How is cold chain maintained?',
+    answer:
+      'Temperature-sensitive botanical material is handled under GDP warehousing and validated cold-chain transport processes described in our GDP cold-chain resource. Monitoring and handover records support import compliance at destination.',
+  },
+];
+
+const routeRows = destinationRegions.flatMap((region) =>
+  region.dests.map((d) => ({ region: region.name, country: d.country, city: d.city })),
+);
+
+const routeListItems = routeRows.map((r) => ({
+  name: `${r.country} (${r.city})`,
+  url: absoluteUrl('/services/cannabis-export-logistics#routes'),
+}));
+
+const serviceLd = {
+  '@type': 'Service',
+  '@id': `${absoluteUrl('/services/cannabis-export-logistics')}#service`,
+  name: 'Cannabis & controlled botanical export logistics',
+  description:
+    'Air freight from Bangkok for GACP-aligned controlled botanical exports with customs, GDP cold chain, and EU destination documentation support.',
+  provider: { '@id': `${getSiteUrl()}/#organization` },
+  areaServed: routeRows.map((r) => ({ '@type': 'Country', name: r.country })),
+  url: absoluteUrl('/services/cannabis-export-logistics'),
+};
+
+const faqLd = faqPageSchema(faqs);
+
+const ld = jsonLdScript([
+  webPageSchema({
+    path: '/services/cannabis-export-logistics',
+    name: 'Cannabis & hemp export logistics from Bangkok',
+    description: meta.description,
+  }),
+  serviceLd,
+  itemListSchema(`${BRAND_NAME} controlled botanical export routes`, routeListItems),
+  ...(faqLd ? [faqLd] : []),
+]);
+
+const breadcrumbLd = JSON.stringify({
+  '@context': 'https://schema.org',
+  ...breadcrumbListSchema([
+    { name: 'Home', path: '/' },
+    { name: 'Services', path: '/services' },
+    { name: 'Cannabis Export Logistics', path: '/services/cannabis-export-logistics' },
+  ]),
+});
+---
+
+<BaseLayout meta={meta} jsonLd={ld} breadcrumbLd={breadcrumbLd}>
+  <Fragment slot="head">
+    <link rel="preload" as="image" href={marketingHeroImages.cannabis.src} />
+  </Fragment>
+  <MarketingPageHero
+    eyebrow="Controlled botanical exports"
+    title="Cannabis &amp; hemp export logistics from Bangkok"
+    description="Air freight, customs, and GDP cold-chain handling for GACP-aligned controlled botanical shipments — with documentation support for EU and Oceania destinations."
+    backgroundImage={marketingHeroImages.cannabis.src}
+    backgroundImageAlt={marketingHeroImages.cannabis.alt}
+    priority
+  />
+
+  <div class="marketing-container pb-[72px] pt-8">
+    <section class="max-w-3xl">
+      <p class="text-lg leading-relaxed" style="color: var(--ink);">
+        <strong>OMG Experience</strong> moves controlled botanical exports from Thailand when shippers hold valid
+        licences and destination import approvals. We combine Bangkok air freight capacity with GDP warehousing,
+        customs coordination, and traceability documentation aligned to Thai B.E. 2568 export rules and EU importer
+        expectations — not generic blog content, but operational logistics with compliance-aware file preparation.
+      </p>
+    </section>
+
+    <section class="mt-10 rounded-[var(--radius-lg)] border border-[var(--line)] bg-[var(--paper-muted)] p-6 sm:p-8">
+      <h2 class="font-display text-lg font-bold" style="color: var(--navy-950);">At a glance</h2>
+      <dl class="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div>
+          <dt class="text-[11px] font-bold uppercase tracking-[0.08em]" style="color: var(--muted);">Origin</dt>
+          <dd class="mt-1 font-semibold" style="color: var(--navy-950);">Bangkok (BKK)</dd>
+        </div>
+        <div>
+          <dt class="text-[11px] font-bold uppercase tracking-[0.08em]" style="color: var(--muted);">Destinations</dt>
+          <dd class="mt-1 font-semibold" style="color: var(--navy-950);">{routeRows.length} published lanes</dd>
+        </div>
+        <div>
+          <dt class="text-[11px] font-bold uppercase tracking-[0.08em]" style="color: var(--muted);">Handling</dt>
+          <dd class="mt-1 font-semibold" style="color: var(--navy-950);">GDP cold chain</dd>
+        </div>
+        <div>
+          <dt class="text-[11px] font-bold uppercase tracking-[0.08em]" style="color: var(--muted);">Traceability</dt>
+          <dd class="mt-1 font-semibold" style="color: var(--navy-950);">GACP + Cantrak-ready</dd>
+        </div>
+      </dl>
+    </section>
+
+    <section id="routes" class="mt-14">
+      <h2 class="font-display text-2xl font-bold" style="color: var(--navy-950);">Export route schedule</h2>
+      <p class="mt-2 max-w-2xl text-[15px]" style="color: var(--muted);">
+        Published destination countries served from Bangkok. Final routing subject to carrier acceptance and import
+        permits.
+      </p>
+      <div class="mt-6 overflow-x-auto rounded-[var(--radius-md)] border border-[var(--line)]">
+        <table class="w-full min-w-[520px] border-collapse text-left text-sm">
+          <thead>
+            <tr class="border-b border-[var(--line)] bg-[var(--paper-muted)]" style="color: var(--navy-700);">
+              <th class="px-4 py-3 font-semibold">Region</th>
+              <th class="px-4 py-3 font-semibold">Country</th>
+              <th class="px-4 py-3 font-semibold">Gateway city</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              routeRows.map((row) => (
+                <tr class="border-b border-[var(--line)] last:border-0">
+                  <td class="px-4 py-3">{row.region}</td>
+                  <td class="px-4 py-3 font-medium">{row.country}</td>
+                  <td class="px-4 py-3">{row.city}</td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="mt-14 max-w-3xl">
+      <h2 class="font-display text-2xl font-bold" style="color: var(--navy-950);">Compliance &amp; documentation</h2>
+      <ul class="mt-4 flex flex-col gap-3 text-[15px] leading-relaxed" style="color: var(--ink);">
+        <li>
+          <a href="/resources/thai-controlled-herb-be2568-export-licensing" class="font-semibold underline" style="color: var(--navy-700);">
+            Thai controlled-herb export licensing (B.E. 2568)
+          </a>
+          — licensing framework context for exporters.
+        </li>
+        <li>
+          <a href="/resources/thc-limits-traceability-dtam-reporting" class="font-semibold underline" style="color: var(--navy-700);">
+            DTAM THC limits &amp; traceability reporting
+          </a>
+          — national reporting expectations.
+        </li>
+        <li>
+          <a href="/resources/thai-gacp-farm-baseline-eu-quality" class="font-semibold underline" style="color: var(--navy-700);">
+            Thai GACP farm baseline for EU quality
+          </a>
+          — farm-level evidence for import dossiers.
+        </li>
+        <li>
+          <a href="/resources/eu-gmp-annex7-post-harvest-manufacturing" class="font-semibold underline" style="color: var(--navy-700);">
+            EU-GMP Annex 7 post-harvest
+          </a>
+          — European post-harvest alignment.
+        </li>
+        <li>
+          <a href="/resources/cantrak-digital-traceability-export-evidence" class="font-semibold underline" style="color: var(--navy-700);">
+            Cantrak digital traceability
+          </a>
+          — export evidence chain support.
+        </li>
+        <li>
+          <a href="/resources/gdp-cold-chain-eu-transit-integrity" class="font-semibold underline" style="color: var(--navy-700);">
+            GDP cold-chain EU transit integrity
+          </a>
+          — temperature-controlled lane handling.
+        </li>
+      </ul>
+    </section>
+
+    <section class="mt-14 max-w-3xl" id="faq">
+      <h2 class="font-display text-2xl font-bold" style="color: var(--navy-950);">Frequently asked questions</h2>
+      <div class="mt-6 flex flex-col gap-6">
+        {
+          faqs.map((f) => (
+            <article>
+              <h3 class="font-display text-lg font-semibold" style="color: var(--navy-950);">{f.question}</h3>
+              <p class="mt-2 text-[15px] leading-relaxed" style="color: var(--ink);">{f.answer}</p>
+            </article>
+          ))
+        }
+      </div>
+    </section>
+
+    <section class="mt-14 rounded-[var(--radius-lg)] border border-[var(--line)] bg-[var(--paper-muted)] p-9 text-center">
+      <h2 class="font-display text-2xl font-bold" style="color: var(--navy-950);">Request a route assessment</h2>
+      <p class="mt-2 text-[15px]" style="color: var(--muted);">
+        Share your licence references, product classification, and destination country. We respond within one business
+        day.
+      </p>
+      <a
+        href="/contact"
+        class="mt-5 inline-flex rounded-[var(--radius-sm)] px-7 py-3 text-[15px] font-semibold text-white"
+        style="background: var(--green-500);"
+      >
+        Request a Quote
+      </a>
+    </section>
+  </div>
+</BaseLayout>

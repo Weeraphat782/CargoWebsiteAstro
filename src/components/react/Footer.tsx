@@ -13,6 +13,7 @@ const navLinks = [
 ];
 
 const serviceLinks = [
+  { href: '/services/cannabis-export-logistics', label: 'Cannabis Export Logistics' },
   { href: '/services#specialized-air-freight', label: 'Air Freight' },
   { href: '/services#shipping-customs', label: 'Customs & Documents' },
   { href: '/services#gdp-warehousing', label: 'GDP Warehousing' },
@@ -74,6 +75,17 @@ export default function Footer() {
         </div>
         <div className="flex flex-col items-center justify-between gap-3 py-8 text-xs sm:flex-row" style={{ color: '#8fb4d8' }}>
           <p>&copy; {new Date().getFullYear()} OMG Experience Co., Ltd. All rights reserved.</p>
+          <nav className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1" aria-label="Legal">
+            <a href="/terms-of-service" className="hover:text-white">
+              Terms of Service
+            </a>
+            <a href="/privacy-policy" className="hover:text-white">
+              Privacy Policy
+            </a>
+            <a href="/cookie-policy" className="hover:text-white">
+              Cookie Policy
+            </a>
+          </nav>
           <p className="text-center sm:text-right" style={{ color: 'rgba(143,180,216,0.6)' }}>
             Supported by the National Innovation Agency (NIA), Thailand
           </p>

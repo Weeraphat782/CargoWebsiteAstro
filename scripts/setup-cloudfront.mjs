@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
- * One-shot CloudFront setup: apex→www 301, trailing-slash 301, 404 custom errors, security headers.
- * Updates the existing viewer-request function (only one allowed per behavior).
+ * One-shot CloudFront setup: apex→www 301, trailing-slash 301, timestamp-slug 301,
+ * 404 custom errors, custom security headers (HSTS includeSubDomains).
  * Local: AWS_PROFILE=omgexp node scripts/setup-cloudfront.mjs
  */
 import { execSync } from 'node:child_process';
@@ -12,7 +12,7 @@ import { join } from 'node:path';
 const distId = process.env.CLOUDFRONT_DISTRIBUTION_ID ?? 'EG4RDROJ9ZNW1';
 const profileFlag = process.env.AWS_PROFILE ? `--profile ${process.env.AWS_PROFILE}` : '';
 const CANONICAL_HOST = 'www.omgcargo.tech';
-const SECURITY_HEADERS_POLICY_ID = '67f7725c-6f97-4210-82d7-5512b31e9d03';
+const SECURITY_POLICY_NAME = 'omgexp-marketing-security';
 /** Existing viewer-request fn — CloudFront allows only one per cache behavior. */
 const FUNCTION_NAME = process.env.CF_VIEWER_FN ?? 'omgexp-marketing-url-rewrite';
 
@@ -20,8 +20,9 @@ const FUNCTION_CODE = `function handler(event) {
   var request = event.request;
   var host = request.headers.host.value;
   var uri = request.uri;
-  var target = uri.length > 1 && uri.endsWith('/') ? uri.slice(0, -1) : uri;
-  if (host !== '${CANONICAL_HOST}' || target !== uri) {
+  var normalized = uri.length > 1 && uri.endsWith('/') ? uri.slice(0, -1) : uri;
+  var target = normalized.replace(/-\\d{13}$/, '');
+  if (host !== '${CANONICAL_HOST}' || uri !== normalized || target !== normalized) {
     return {
       statusCode: 301,
       statusDescription: 'Moved Permanently',
@@ -64,12 +65,47 @@ function awsJson(cmd) {
   return JSON.parse(aws(cmd));
 }
 
-console.log(`Distribution ${distId}`);
-const cfg = awsJson(`cloudfront get-distribution-config --id ${distId} --output json`);
-const etag = cfg.ETag;
-const dist = cfg.DistributionConfig;
+function ensureSecurityHeadersPolicyId() {
+  const list = awsJson('cloudfront list-response-headers-policies --type custom --output json');
+  const items = list.ResponseHeadersPolicyList?.Items ?? [];
+  for (const item of items) {
+    const cfg = item.ResponseHeadersPolicy?.ResponseHeadersPolicyConfig;
+    if (cfg?.Name === SECURITY_POLICY_NAME) {
+      return item.ResponseHeadersPolicy.Id;
+    }
+  }
 
-console.log('Aliases:', dist.Aliases?.Items?.join(', ') || '(none)');
+  const policyDir = mkdtempSync(join(tmpdir(), 'cf-rhp-'));
+  const policyPath = join(policyDir, 'policy.json').replace(/\\/g, '/');
+  writeFileSync(
+    policyPath,
+    JSON.stringify({
+      Name: SECURITY_POLICY_NAME,
+      Comment: 'OMG marketing — HSTS includeSubDomains + nosniff + referrer + frame',
+      SecurityHeadersConfig: {
+        StrictTransportSecurity: {
+          Override: true,
+          IncludeSubdomains: true,
+          Preload: false,
+          AccessControlMaxAgeSec: 31536000,
+        },
+        ContentTypeOptions: { Override: true },
+        FrameOptions: { Override: true, FrameOption: 'SAMEORIGIN' },
+        ReferrerPolicy: { Override: true, ReferrerPolicy: 'strict-origin-when-cross-origin' },
+      },
+    }),
+  );
+  const created = awsJson(
+    `cloudfront create-response-headers-policy --response-headers-policy-config file://${policyPath} --output json`,
+  );
+  rmSync(policyDir, { recursive: true, force: true });
+  const id = created.ResponseHeadersPolicy?.Id;
+  if (!id) throw new Error('create-response-headers-policy returned no Id');
+  console.log('Created response headers policy', SECURITY_POLICY_NAME, id);
+  return id;
+}
+
+console.log(`Distribution ${distId}`);
 
 const dir = mkdtempSync(join(tmpdir(), 'cf-fn-'));
 const codePath = join(dir, 'index.js').replace(/\\/g, '/');
@@ -77,12 +113,21 @@ writeFileSync(join(dir, 'index.js'), FUNCTION_CODE);
 
 const dev = awsJson(`cloudfront describe-function --name ${FUNCTION_NAME} --stage DEVELOPMENT --output json`);
 awsJson(
-  `cloudfront update-function --name ${FUNCTION_NAME} --if-match ${dev.ETag} --function-config Comment="apex redirect + trailing slash + S3 index rewrite",Runtime=cloudfront-js-2.0 --function-code fileb://${codePath} --output json`,
+  `cloudfront update-function --name ${FUNCTION_NAME} --if-match ${dev.ETag} --function-config Comment="apex+slash+timestamp redirect + S3 index rewrite",Runtime=cloudfront-js-2.0 --function-code fileb://${codePath} --output json`,
 );
 const devAfter = awsJson(`cloudfront describe-function --name ${FUNCTION_NAME} --stage DEVELOPMENT --output json`);
 awsJson(`cloudfront publish-function --name ${FUNCTION_NAME} --if-match ${devAfter.ETag} --output json`);
 rmSync(dir, { recursive: true, force: true });
 console.log('Published function', FUNCTION_NAME);
+
+const securityPolicyId = ensureSecurityHeadersPolicyId();
+
+// Fresh ETag — function publish may have changed distribution metadata elsewhere
+const cfg = awsJson(`cloudfront get-distribution-config --id ${distId} --output json`);
+const etag = cfg.ETag;
+const dist = cfg.DistributionConfig;
+
+console.log('Aliases:', dist.Aliases?.Items?.join(', ') || '(none)');
 
 dist.CustomErrorResponses = {
   Quantity: 2,
@@ -91,7 +136,7 @@ dist.CustomErrorResponses = {
     { ErrorCode: 404, ResponsePagePath: '/404.html', ResponseCode: '404', ErrorCachingMinTTL: 60 },
   ],
 };
-dist.DefaultCacheBehavior.ResponseHeadersPolicyId = SECURITY_HEADERS_POLICY_ID;
+dist.DefaultCacheBehavior.ResponseHeadersPolicyId = securityPolicyId;
 
 const distDir = mkdtempSync(join(tmpdir(), 'cf-dist-'));
 const configPath = join(distDir, 'config.json').replace(/\\/g, '/');

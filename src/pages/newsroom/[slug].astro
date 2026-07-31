@@ -13,6 +13,7 @@ import {
   faqPageSchema,
   jsonLdScript,
 } from '../../lib/json-ld';
+import R2Preconnect from '../../components/R2Preconnect.astro';
 
 export async function getStaticPaths() {
   const rows = await getPublishedArticlesList();
@@ -78,6 +79,9 @@ const formattedDate = item.published_at
 ---
 
 <BaseLayout meta={meta} jsonLd={ld} breadcrumbLd={breadcrumbLd}>
+  <Fragment slot="head">
+    <R2Preconnect />
+  </Fragment>
   <article class="mx-auto max-w-3xl px-4 py-16 sm:px-6 lg:px-8">
     <a href="/newsroom" class="mb-8 inline-flex text-sm font-medium" style="color: var(--color-primary-ref)">← Back to Newsroom</a>
     <header>

@@ -16,6 +16,7 @@ import { pageMeta } from '../../../lib/page-meta';
 import { absoluteUrl, BRAND_NAME } from '../../../lib/site';
 import { itemListSchema, jsonLdScript, webPageSchema, breadcrumbListSchema } from '../../../lib/json-ld';
 import { marketingHeroImages } from '../../../data/marketing-hero-images';
+import R2Preconnect from '../../../components/R2Preconnect.astro';
 
 export async function getStaticPaths() {
   const rows = await getPublishedArticlesList();
@@ -78,6 +79,7 @@ const nextUrl =
 
 <BaseLayout meta={meta} jsonLd={ld} breadcrumbLd={breadcrumbLd} prevUrl={prevUrl} nextUrl={nextUrl}>
   <Fragment slot="head">
+    <R2Preconnect />
     <link rel="preload" as="image" href={marketingHeroImages.newsroom.src} />
   </Fragment>
   <MarketingPageHero

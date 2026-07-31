@@ -257,6 +257,20 @@ if (!noindex) {
   }
 }
 
+for (const legal of ['privacy-policy', 'terms-of-service', 'cookie-policy']) {
+  const p = join(dist, legal, 'index.html');
+  if (!existsSync(p)) fail(`missing legal page dist/${legal}/index.html`);
+}
+
+const cannabisPath = join(dist, 'services', 'cannabis-export-logistics', 'index.html');
+if (!existsSync(cannabisPath)) {
+  fail('missing dist/services/cannabis-export-logistics/index.html');
+} else {
+  const cannabisHtml = readFileSync(cannabisPath, 'utf8');
+  if (!cannabisHtml.includes('FAQPage')) fail('cannabis page missing FAQPage JSON-LD');
+  if (!/<table\b/i.test(cannabisHtml)) fail('cannabis page missing route <table>');
+}
+
 const checkCount = htmlFiles.length + 12;
 if (failures.length) {
   console.error(`FAILED (${failures.length}) of ~${checkCount} checks:`);
@@ -265,5 +279,5 @@ if (failures.length) {
 }
 
 console.log(
-  `OK: ${htmlFiles.length} pages — login, contact+attribution, robots, RSS, AI robots, og-default, images, canonical, h1, JSON-LD, og, 404, sitemap, no href="#"`,
+  `OK: ${htmlFiles.length} pages — login, contact+attribution, robots, RSS, AI robots, og-default, images, canonical, h1, JSON-LD, og, 404, sitemap, legal, cannabis FAQ+table`,
 );
