@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, type FormEvent } from 'react';
+import { attributionFields } from '@/lib/attribution';
 import { trackFormSubmit } from '@/lib/analytics';
 import { Button } from '@/components/ui/button';
 import { MarketingAlert, SpinnerIcon } from '@/components/ui/marketing-alert';
@@ -36,16 +37,17 @@ export default function ContactForm() {
           company: String(fd.get('company') ?? '').trim() || undefined,
           inquiryType: String(fd.get('inquiry') ?? '').trim() || undefined,
           message: String(fd.get('message') ?? '').trim(),
+          attribution: attributionFields(),
         }),
       });
 
-      const data = (await res.json().catch(() => ({}))) as { error?: string };
+      const data = (await res.json().catch(() => ({}))) as { error?: string; id?: string };
       if (!res.ok) {
         setError(data.error || 'Something went wrong. Please try again.');
         return;
       }
 
-      trackFormSubmit('contact');
+      trackFormSubmit('contact', data.id);
       setSuccess(true);
       form.reset();
     } catch {

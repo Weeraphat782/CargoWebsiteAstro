@@ -14,7 +14,7 @@ import {
 } from '../../../lib/newsroom-data';
 import { pageMeta } from '../../../lib/page-meta';
 import { absoluteUrl, BRAND_NAME } from '../../../lib/site';
-import { itemListSchema, jsonLdScript, webPageSchema } from '../../../lib/json-ld';
+import { itemListSchema, jsonLdScript, webPageSchema, breadcrumbListSchema } from '../../../lib/json-ld';
 import { marketingHeroImages } from '../../../data/marketing-hero-images';
 
 export async function getStaticPaths() {
@@ -44,7 +44,7 @@ const { pageArticles, pageNum, totalPages } = Astro.props;
 
 const meta = pageMeta({
   title: `Newsroom — Page ${pageNum}`,
-  description: `Page ${pageNum} of company announcements, route updates, and pharmaceutical logistics news from OMG Experience.`,
+  description: `Page ${pageNum} of OMG Experience newsroom — route updates, pharma logistics announcements, and industry analysis for exporters shipping from Thailand.`,
   path: newsroomListPagePath(pageNum),
 });
 
@@ -62,12 +62,21 @@ const ld = jsonLdScript([
   ...(listItems.length ? [itemListSchema(`${BRAND_NAME} news articles`, listItems)] : []),
 ]);
 
+const breadcrumbLd = JSON.stringify({
+  '@context': 'https://schema.org',
+  ...breadcrumbListSchema([
+    { name: 'Home', path: '/' },
+    { name: 'Newsroom', path: '/newsroom' },
+    { name: `Page ${pageNum}`, path: newsroomListPagePath(pageNum) },
+  ]),
+});
+
 const prevUrl = absoluteUrl(newsroomListPagePath(pageNum - 1));
 const nextUrl =
   pageNum < totalPages ? absoluteUrl(newsroomListPagePath(pageNum + 1)) : undefined;
 ---
 
-<BaseLayout meta={meta} jsonLd={ld} prevUrl={prevUrl} nextUrl={nextUrl}>
+<BaseLayout meta={meta} jsonLd={ld} breadcrumbLd={breadcrumbLd} prevUrl={prevUrl} nextUrl={nextUrl}>
   <Fragment slot="head">
     <link rel="preload" as="image" href={marketingHeroImages.newsroom.src} />
   </Fragment>

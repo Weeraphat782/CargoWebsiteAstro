@@ -1,0 +1,33 @@
+---
+interface RelatedItem {
+  slug: string;
+  title: string;
+  hrefPrefix: '/newsroom' | '/resources';
+}
+
+interface Props {
+  items: RelatedItem[];
+  heading?: string;
+}
+
+const { items, heading = 'Continue reading' } = Astro.props;
+---
+
+{items.length > 0 && (
+  <section class="mt-16 border-t border-neutral-200 pt-10">
+    <h2 class="text-lg font-bold text-neutral-900">{heading}</h2>
+    <ul class="mt-4 space-y-3">
+      {items.map((item) => (
+        <li>
+          <a
+            href={`${item.hrefPrefix}/${item.slug}`}
+            class="font-medium hover:underline"
+            style="color: var(--color-primary-ref)"
+          >
+            {item.title} →
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+)}

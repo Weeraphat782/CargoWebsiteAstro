@@ -1,0 +1,85 @@
+#!/usr/bin/env node
+/** Post-deploy smoke — asserts live origin headers and redirects (WS9). */
+import { execSync } from 'node:child_process';
+
+const ORIGIN = (process.env.SMOKE_ORIGIN || 'https://www.omgcargo.tech').replace(/\/$/, '');
+const APEX = process.env.SMOKE_APEX || 'https://omgcargo.tech';
+const failures = [];
+
+function fail(msg) {
+  failures.push(msg);
+}
+
+function curl(args) {
+  return execSync(`curl.exe -sI ${args}`, { encoding: 'utf8' });
+}
+
+function header(headers, name) {
+  const re = new RegExp(`^${name}:\\s*(.+)$`, 'im');
+  const m = headers.match(re);
+  return m ? m[1].trim() : '';
+}
+
+// apex → www in one hop
+try {
+  const h = curl(`-o NUL -w "" -D - --max-redirs 0 "${APEX}/"`);
+  const code = h.match(/^HTTP\/[\d.]+ (\d+)/m)?.[1];
+  const loc = header(h, 'location');
+  if (code !== '301' || !loc.includes('www.omgcargo.tech')) {
+    fail(`apex redirect: expected 301→www, got ${code} loc=${loc || '(none)'}`);
+  }
+} catch (e) {
+  fail(`apex redirect check failed: ${e.message}`);
+}
+
+// missing page → 404 (after CloudFront custom error + 404.html deploy)
+try {
+  const h = curl(`"${ORIGIN}/smoke-missing-${Date.now()}"`);
+  const code = h.match(/^HTTP\/[\d.]+ (\d+)/m)?.[1];
+  if (code !== '404') fail(`missing page: expected 404, got ${code}`);
+} catch (e) {
+  fail(`404 check failed: ${e.message}`);
+}
+
+// security headers on HTML
+try {
+  const h = curl(`"${ORIGIN}/"`);
+  if (!header(h, 'strict-transport-security')) fail('missing Strict-Transport-Security');
+} catch (e) {
+  fail(`HSTS check failed: ${e.message}`);
+}
+
+// cache-control classes
+try {
+  const html = curl(`"${ORIGIN}/"`);
+  const ccHtml = header(html, 'cache-control');
+  if (!/must-revalidate|max-age=0/i.test(ccHtml)) {
+    fail(`HTML cache-control unexpected: ${ccHtml || '(none)'}`);
+  }
+
+  const page = execSync(`curl.exe -s "${ORIGIN}/"`, { encoding: 'utf8' });
+  const asset = page.match(/\/_astro\/[^"']+\.(css|js)/)?.[0];
+  if (asset) {
+    const ah = curl(`"${ORIGIN}${asset}"`);
+    const ccAsset = header(ah, 'cache-control');
+    if (!/immutable|max-age=31536000/i.test(ccAsset)) {
+      fail(`hashed asset cache-control unexpected: ${ccAsset || '(none)'}`);
+    }
+  }
+
+  const ih = curl(`"${ORIGIN}/images/air-freight.jpg"`);
+  const ccImg = header(ih, 'cache-control');
+  if (!/max-age=2592000/i.test(ccImg)) {
+    fail(`image cache-control unexpected: ${ccImg || '(none)'}`);
+  }
+} catch (e) {
+  fail(`cache-control check failed: ${e.message}`);
+}
+
+if (failures.length) {
+  console.error(`SMOKE FAILED (${failures.length}):`);
+  for (const f of failures) console.error(`  - ${f}`);
+  process.exit(1);
+}
+
+console.log('SMOKE OK: apex 301, 404, HSTS, cache-control');

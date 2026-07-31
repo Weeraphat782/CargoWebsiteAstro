@@ -108,6 +108,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       <slot />
     </main>
     <Footer client:load />
+    <script>
+      import { bootAttribution } from '@/lib/attribution-init';
+      bootAttribution();
+    </script>
     <script is:inline>
       if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
       function scrollTopUnlessHash() {
