@@ -25,7 +25,15 @@ export default function Footer() {
       <div className="marketing-container pb-0 pt-[52px]">
         <div className="grid gap-10 border-b border-white/10 pb-9 lg:grid-cols-[1.4fr_1fr_1fr]">
           <div>
-            <img src="/logo.png" alt={`${BRAND_NAME} logo`} width={220} height={68} className="h-8 w-auto brightness-0 invert" />
+            <img
+              src="/logo.png"
+              alt={`${BRAND_NAME} logo`}
+              width={220}
+              height={68}
+              className="h-8 w-auto brightness-0 invert"
+              loading="lazy"
+              decoding="async"
+            />
             <p className="mt-4 max-w-[300px] text-[13.5px] leading-relaxed" style={{ color: '#8fb4d8' }}>
               Specialized air freight and global logistics for time-sensitive, temperature-controlled, and
               compliance-critical cargo.

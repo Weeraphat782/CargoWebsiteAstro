@@ -104,7 +104,15 @@ const teamPhoto =
         </p>
       </div>
       <div class="aspect-[4/3] overflow-hidden rounded-[var(--radius-lg)] border border-[var(--line)]">
-        <img src={teamPhoto} alt="OMGEXP Bangkok team" class="h-full w-full object-cover" loading="lazy" />
+        <img
+          src={teamPhoto}
+          alt="OMGEXP Bangkok team"
+          width={800}
+          height={600}
+          class="h-full w-full object-cover"
+          loading="lazy"
+          decoding="async"
+        />
       </div>
     </div>
 

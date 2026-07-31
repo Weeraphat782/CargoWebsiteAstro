@@ -13,7 +13,7 @@ import {
 } from '../../lib/newsroom-data';
 import { pageMeta } from '../../lib/page-meta';
 import { absoluteUrl, BRAND_NAME } from '../../lib/site';
-import { itemListSchema, jsonLdScript, webPageSchema } from '../../lib/json-ld';
+import { breadcrumbListSchema, itemListSchema, jsonLdScript, webPageSchema } from '../../lib/json-ld';
 import { marketingHeroImages } from '../../data/marketing-hero-images';
 
 const currentPage = 1;
@@ -26,7 +26,7 @@ const [featured, ...restArticles] = pageArticles;
 const meta = pageMeta({
   title: 'Newsroom',
   description:
-    'Company announcements, route updates, and logistics industry news from OMG Experience.',
+    'Latest company announcements, route updates, and pharmaceutical logistics industry news from OMG Experience in Bangkok.',
   path: '/newsroom',
 });
 
@@ -44,10 +44,18 @@ const ld = jsonLdScript([
   ...(listItems.length ? [itemListSchema(`${BRAND_NAME} news articles`, listItems)] : []),
 ]);
 
+const breadcrumbLd = JSON.stringify({
+  '@context': 'https://schema.org',
+  ...breadcrumbListSchema([
+    { name: 'Home', path: '/' },
+    { name: 'Newsroom', path: '/newsroom' },
+  ]),
+});
+
 const nextUrl = totalPages > 1 ? absoluteUrl(newsroomListPagePath(2)) : undefined;
 ---
 
-<BaseLayout meta={meta} jsonLd={ld} nextUrl={nextUrl}>
+<BaseLayout meta={meta} jsonLd={ld} breadcrumbLd={breadcrumbLd} nextUrl={nextUrl}>
   <Fragment slot="head">
     <link rel="preload" as="image" href={marketingHeroImages.newsroom.src} />
   </Fragment>

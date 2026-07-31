@@ -5,7 +5,7 @@ import { ServiceIcon } from '../../components/ServiceIcon';
 import { services } from '../../data/marketing-services';
 import { pageMeta } from '../../lib/page-meta';
 import { absoluteUrl, BRAND_NAME } from '../../lib/site';
-import { itemListSchema, jsonLdScript, webPageSchema } from '../../lib/json-ld';
+import { breadcrumbListSchema, itemListSchema, jsonLdScript, serviceSchemas, webPageSchema } from '../../lib/json-ld';
 import { marketingHeroImages } from '../../data/marketing-hero-images';
 
 const meta = pageMeta({
@@ -27,10 +27,19 @@ const ld = jsonLdScript([
     description: 'Air freight, customs and documents, GDP warehousing, and cold-chain transport.',
   }),
   itemListSchema(`${BRAND_NAME} service lines`, listItems),
+  ...serviceSchemas(services),
 ]);
+
+const breadcrumbLd = JSON.stringify({
+  '@context': 'https://schema.org',
+  ...breadcrumbListSchema([
+    { name: 'Home', path: '/' },
+    { name: 'Services', path: '/services' },
+  ]),
+});
 ---
 
-<BaseLayout meta={meta} jsonLd={ld}>
+<BaseLayout meta={meta} jsonLd={ld} breadcrumbLd={breadcrumbLd}>
   <Fragment slot="head">
     <link rel="preload" as="image" href={marketingHeroImages.services.src} />
   </Fragment>

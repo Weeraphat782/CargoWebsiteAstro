@@ -9,6 +9,7 @@
     "dev": "astro dev",
     "build": "astro build",
     "verify": "node scripts/verify-build.mjs",
+    "optimize-images": "node scripts/optimize-images.mjs",
     "deploy:aws": "node scripts/deploy-aws.mjs",
     "rebuild:cms": "node scripts/trigger-rebuild.mjs",
     "preview": "astro preview",
@@ -35,5 +36,8 @@
     "remark-gfm": "^4.0.1",
     "tailwind-merge": "^3.6.0",
     "tailwindcss": "^4.3.2"
+  },
+  "devDependencies": {
+    "sharp": "^0.35.3"
   }
 }

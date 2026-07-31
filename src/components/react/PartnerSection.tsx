@@ -23,6 +23,8 @@ export default function PartnerSection() {
               width={200}
               height={80}
               className="h-16 w-auto object-contain"
+              loading="lazy"
+              decoding="async"
               onError={() => setNiaLogoError(true)}
             />
           ) : (

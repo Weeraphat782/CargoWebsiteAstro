@@ -49,6 +49,8 @@ export default function Header() {
             width={280}
             height={86}
             className="h-[46px] w-auto sm:h-[48px]"
+            decoding="async"
+            fetchPriority="high"
           />
         </a>
 

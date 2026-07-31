@@ -2,6 +2,8 @@ import {
   absoluteUrl,
   BRAND_NAME,
   BRAND_LEGAL_NAME,
+  CONTACT_EMAIL,
+  CONTACT_LOCATION,
   DEFAULT_AUTHOR_NAME,
   getSiteUrl,
 } from "@/lib/site";
@@ -111,8 +113,10 @@ export function organizationSchema(): JsonLdGraph {
     },
     description:
       "Specialized air freight and pharmaceutical-grade logistics for time-sensitive, temperature-controlled, and compliance-critical cargo.",
+    email: CONTACT_EMAIL,
     address: {
       "@type": "PostalAddress",
+      addressLocality: CONTACT_LOCATION.split(",")[0]?.trim() || "Bangkok",
       addressCountry: "TH",
     },
     areaServed: [
@@ -250,4 +254,18 @@ export function itemListSchema(
       url: item.url,
     })),
   };
+}
+
+export function serviceSchemas(
+  services: { id: string; title: string; shortDescription: string }[],
+): JsonLdGraph[] {
+  return services.map((s) => ({
+    "@type": "Service",
+    "@id": `${getSiteUrl()}/services#${s.id}`,
+    name: s.title,
+    description: s.shortDescription,
+    provider: { "@id": `${getSiteUrl()}/#organization` },
+    areaServed: { "@type": "Country", name: "Thailand" },
+    url: absoluteUrl(`/services#${s.id}`),
+  }));
 }

@@ -4,7 +4,7 @@ import TopBar from '../components/TopBar.astro';
 import Header from '../components/react/Header';
 import Footer from '../components/react/Footer';
 import { MarketingBreadcrumbNav } from '../components/react/MarketingBreadcrumbNav';
-import { BRAND_NAME } from '../lib/site';
+import { BRAND_NAME, absoluteUrl } from '../lib/site';
 import type { PageMeta } from '../lib/page-meta';
 import { jsonLdScript, organizationSchema, websiteSchema } from '../lib/json-ld';
 
@@ -33,6 +33,7 @@ const gtmId = import.meta.env.PUBLIC_GTM_ID?.trim();
     <link rel="shortcut icon" href="/favicon.ico" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/manifest.json" />
+    <link rel="alternate" type="application/rss+xml" title={`${BRAND_NAME} Newsroom`} href={absoluteUrl('/feed.xml')} />
     <link rel="preconnect" href="https://pub-8bcc4f3b024b4819ba737865d58e9664.r2.dev" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />

@@ -3,6 +3,8 @@ export const BRAND_NAME = 'OMG Experience';
 export const BRAND_SHORT = 'OMG Experience';
 export const BRAND_LEGAL_NAME = 'OMG Experience';
 export const DEFAULT_AUTHOR_NAME = 'Editorial Team, OMG Experience';
+export const CONTACT_EMAIL = 'cargo@omgexp.com';
+export const CONTACT_LOCATION = 'Bangkok, Thailand';
 
 /** Next.js app (auth, portal, contact API). */
 export const APP_URL = (
@@ -35,7 +37,7 @@ export function legacyCanonical(path: string): string {
   return `${CANONICAL_BASE}${legacyPath}`;
 }
 
-export const DEFAULT_OG_IMAGE_PATH = '/logo.png';
+export const DEFAULT_OG_IMAGE_PATH = '/og-default.png';
 
 export function getDefaultOgImageUrl(): string {
   return absoluteUrl(DEFAULT_OG_IMAGE_PATH);

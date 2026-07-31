@@ -29,6 +29,8 @@ const imgAlt = backgroundImageAlt ?? title;
       <img
         src={backgroundImage}
         alt={imgAlt}
+        width={1920}
+        height={1080}
         class="absolute inset-0 h-full w-full object-cover"
         style={`opacity: ${imageOpacity};`}
         loading={priority ? 'eager' : 'lazy'}
