@@ -62,7 +62,7 @@ export const marketingHeroImages = {
   cannabis: {
     src: unsplashHeroImage(PHOTOS.cannabis),
     og: unsplashOgImage(PHOTOS.cannabis),
-    alt: 'Air freight logistics for controlled botanical exports',
+    alt: 'Air freight logistics for cannabis and hemp exports',
     page: 'https://unsplash.com/photos/assorted-color-filed-intermodal-containers-tjX_sniNzgQ',
   },
 } as const;

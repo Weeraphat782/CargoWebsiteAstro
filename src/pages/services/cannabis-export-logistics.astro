@@ -16,17 +16,17 @@ import {
 const meta = pageMeta({
   title: 'Cannabis & Hemp Export Logistics',
   description:
-    'Bangkok air freight for controlled botanical exports — GACP-aligned documentation, GDP cold chain, DTAM reporting, and EU destination lanes from OMG Experience.',
+    'Bangkok air freight for cannabis and hemp exports — GACP-aligned documentation, GDP cold chain, DTAM reporting, and EU destination lanes from OMG Experience.',
   path: '/services/cannabis-export-logistics',
   ogImage: marketingHeroImages.cannabis.og,
-  ogImageAlt: 'Controlled botanical export logistics from Bangkok',
+  ogImageAlt: 'Cannabis and hemp export logistics from Bangkok',
 });
 
 const faqs = [
   {
     question: 'Does OMG Experience ship medical cannabis from Thailand?',
     answer:
-      'We provide air freight, customs coordination, and GDP-aligned handling for controlled botanical exports where shippers hold valid Thai licences and destination import approvals. Eligibility depends on product category, route, and carrier acceptance — contact us with your licence references for a route-specific assessment.',
+      'We provide air freight, customs coordination, and GDP-aligned handling for cannabis and hemp exports where shippers hold valid Thai licences and destination import approvals. Eligibility depends on product category, route, and carrier acceptance — contact us with your licence references for a route-specific assessment.',
   },
   {
     question: 'What documentation is typically required?',
@@ -41,7 +41,7 @@ const faqs = [
   {
     question: 'How is cold chain maintained?',
     answer:
-      'Temperature-sensitive botanical material is handled under GDP warehousing and validated cold-chain transport processes described in our GDP cold-chain resource. Monitoring and handover records support import compliance at destination.',
+      'Temperature-sensitive cannabis material is handled under GDP warehousing and validated cold-chain transport processes described in our GDP cold-chain resource. Monitoring and handover records support import compliance at destination.',
   },
 ];
 
@@ -57,9 +57,9 @@ const routeListItems = routeRows.map((r) => ({
 const serviceLd = {
   '@type': 'Service',
   '@id': `${absoluteUrl('/services/cannabis-export-logistics')}#service`,
-  name: 'Cannabis & controlled botanical export logistics',
+  name: 'Cannabis and hemp export logistics',
   description:
-    'Air freight from Bangkok for GACP-aligned controlled botanical exports with customs, GDP cold chain, and EU destination documentation support.',
+    'Air freight from Bangkok for GACP-aligned cannabis and hemp exports with customs, GDP cold chain, and EU destination documentation support.',
   provider: { '@id': `${getSiteUrl()}/#organization` },
   areaServed: routeRows.map((r) => ({ '@type': 'Country', name: r.country })),
   url: absoluteUrl('/services/cannabis-export-logistics'),
@@ -74,7 +74,7 @@ const ld = jsonLdScript([
     description: meta.description,
   }),
   serviceLd,
-  itemListSchema(`${BRAND_NAME} controlled botanical export routes`, routeListItems),
+  itemListSchema(`${BRAND_NAME} cannabis export routes`, routeListItems),
   ...(faqLd ? [faqLd] : []),
 ]);
 
@@ -93,9 +93,9 @@ const breadcrumbLd = JSON.stringify({
     <link rel="preload" as="image" href={marketingHeroImages.cannabis.src} />
   </Fragment>
   <MarketingPageHero
-    eyebrow="Controlled botanical exports"
+    eyebrow="Licensed cannabis exports"
     title="Cannabis &amp; hemp export logistics from Bangkok"
-    description="Air freight, customs, and GDP cold-chain handling for GACP-aligned controlled botanical shipments — with documentation support for EU and Oceania destinations."
+    description="Air freight, customs, and GDP cold-chain handling for GACP-aligned cannabis and hemp shipments — with documentation support for EU and Oceania destinations."
     backgroundImage={marketingHeroImages.cannabis.src}
     backgroundImageAlt={marketingHeroImages.cannabis.alt}
     priority
@@ -104,7 +104,7 @@ const breadcrumbLd = JSON.stringify({
   <div class="marketing-container pb-[72px] pt-8">
     <section class="max-w-3xl">
       <p class="text-lg leading-relaxed" style="color: var(--ink);">
-        <strong>OMG Experience</strong> moves controlled botanical exports from Thailand when shippers hold valid
+        <strong>OMG Experience</strong> moves cannabis and hemp exports from Thailand when shippers hold valid
         licences and destination import approvals. We combine Bangkok air freight capacity with GDP warehousing,
         customs coordination, and traceability documentation aligned to Thai B.E. 2568 export rules and EU importer
         expectations — not generic blog content, but operational logistics with compliance-aware file preparation.
