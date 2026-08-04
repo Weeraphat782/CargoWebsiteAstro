@@ -6,15 +6,17 @@ import {
   NOINDEX,
 } from '@/lib/site';
 
-/** Full `<title>` is `{title} | {BRAND_NAME}` — keep total ≤ 60 chars (WS2.1). */
-const TITLE_SUFFIX_LEN = ` | ${BRAND_NAME}`.length;
+/** `<title>` budget — total must stay ≤ 60 chars (WS2.1, asserted in verify-build). */
+const TITLE_MAX = 60;
+const TITLE_SUFFIX = ` | ${BRAND_NAME}`;
 
-function clampTitle(title: string): string {
-  const max = 60 - TITLE_SUFFIX_LEN;
-  // ponytail: reserve a few chars — Astro HTML-escapes & ' " in <title>
-  const safeMax = max - 4;
-  if (title.length <= safeMax) return title;
-  return `${title.slice(0, safeMax - 1).replace(/\s+\S*$/, '')}…`;
+/**
+ * Cut on a word boundary without appending an ellipsis — a self-added "…" reads as a
+ * broken page in the SERP, and Google adds its own marker when it truncates.
+ */
+function clampTitle(title: string, budget: number): string {
+  if (title.length <= budget) return title;
+  return title.slice(0, budget).replace(/\s+\S*$/, '');
 }
 
 /** SERP description budget 140–160; truncate long CMS excerpts at build time. */
@@ -36,7 +38,14 @@ export type PageMeta = {
 };
 
 export function pageMeta(opts: PageMeta) {
-  const title = clampTitle(opts.title);
+  // ponytail: CMS article titles skip the brand suffix — those 17 chars buy a whole
+  // title instead of a truncated one, and og:site_name already carries the brand.
+  const withBrand = !opts.article;
+  const clamped = clampTitle(
+    opts.title,
+    withBrand ? TITLE_MAX - TITLE_SUFFIX.length : TITLE_MAX
+  );
+  const title = withBrand ? `${clamped}${TITLE_SUFFIX}` : clamped;
   const description = clampDescription(opts.description);
   const url = absoluteUrl(opts.path);
   const canonical = NOINDEX ? legacyCanonical(opts.path) : url;
@@ -48,7 +57,7 @@ export function pageMeta(opts: PageMeta) {
     description,
     canonical,
     ogType: opts.article ? 'article' : 'website',
-    ogTitle: `${title} | ${BRAND_NAME}`,
+    ogTitle: title,
     ogDescription: description,
     ogUrl: url,
     ogImage: og,
