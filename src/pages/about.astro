@@ -7,9 +7,9 @@ import { BRAND_NAME } from '../lib/site';
 import { marketingHeroImages } from '../data/marketing-hero-images';
 
 const meta = pageMeta({
-  title: 'About Us',
+  title: 'About OMG — Cannabis Export Bangkok',
   description:
-    'From GSA and airline distribution heritage to specialized pharmaceutical-grade logistics—industry expertise and routing intelligence at OMG Experience.',
+    'OMG Experience: Bangkok air freight forwarder for licensed cannabis, hemp, and kratom exports — NIA-backed, 20+ monthly shipments, eight destination lanes.',
   path: '/about',
   ogImage: marketingHeroImages.about.og,
   ogImageAlt: marketingHeroImages.about.alt,
@@ -19,7 +19,7 @@ const ld = jsonLdScript([
   webPageSchema({
     path: '/about',
     name: `About ${BRAND_NAME}`,
-    description: 'Heritage in airline distribution and GSA, now focused on pharmaceutical-grade logistics.',
+    description: 'Bangkok air freight forwarder for licensed cannabis, hemp, and kratom exports with partner GDP warehousing.',
   }),
 ]);
 
@@ -33,7 +33,7 @@ const breadcrumbLd = JSON.stringify({
 
 const stats = [
   { n: '7+', l: 'Countries served' },
-  { n: 'GDP', l: 'Certified handling' },
+  { n: 'Partner', l: 'GDP warehousing' },
   { n: 'AI', l: 'Document intelligence' },
   { n: '24h', l: 'Quote response' },
 ];
@@ -85,7 +85,7 @@ const teamPhoto =
     <div class="marketing-container relative py-16">
       <div class="text-eyebrow mb-2.5">About Us</div>
       <h1 class="font-display max-w-[760px] text-[clamp(34px,4.5vw,52px)] font-extrabold leading-[1.05]">
-        From airline distribution to specialized logistics
+        Bangkok forwarder for cannabis, hemp &amp; kratom exports
       </h1>
     </div>
   </section>
@@ -95,14 +95,15 @@ const teamPhoto =
       <div>
         <div class="accent-bar mb-5"></div>
         <p class="text-[17px] leading-relaxed" style="color: #2b3138;">
-          OMG Experience has built its expertise on a foundation of traditional airline distribution and GSA
-          heritage, transitioning into specialized pharmaceutical-grade logistics with modern traceability and
-          compliance tooling.
+          OMG Experience Co., Ltd. is a Bangkok-based air freight forwarder specialising in licensed cannabis,
+          hemp, and kratom exports. Built on airline distribution and GSA heritage, we combine routing
+          intelligence with partner GDP warehousing, partner ISO-certified laboratory COA, and AI document
+          verification — we hold neither GDP nor ISO certification ourselves.
         </p>
         <p class="mt-4 text-[15px] leading-relaxed" style="color: var(--muted);">
-          Our airline heritage provides direct access to routing intelligence, capacity availability and optimal
-          transit times across major global hubs — now paired with AI-powered document intelligence and validated
-          cold-chain handling for the most demanding, regulated cargo.
+          Supported by Thailand&apos;s National Innovation Agency (NIA), we handle 20+ export shipments per
+          month across eight published destination countries — a meaningful share of the 100–200 ภ.ท.32 filings
+          nationwide reported by the government in June 2026.
         </p>
       </div>
       <div class="aspect-[4/3] overflow-hidden rounded-[var(--radius-lg)] border border-[var(--line)]">

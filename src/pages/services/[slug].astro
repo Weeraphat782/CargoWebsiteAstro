@@ -1,0 +1,171 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import MarketingPageHero from '../../components/MarketingPageHero.astro';
+import { ServiceIcon } from '../../components/ServiceIcon';
+import { services, serviceById, type ServiceId } from '../../data/marketing-services';
+import { pageMeta } from '../../lib/page-meta';
+import { absoluteUrl, BRAND_NAME, getSiteUrl } from '../../lib/site';
+import {
+  breadcrumbListSchema,
+  faqPageSchema,
+  jsonLdScript,
+  webPageSchema,
+} from '../../lib/json-ld';
+
+export function getStaticPaths() {
+  return services.map((s) => ({ params: { slug: s.id } }));
+}
+
+const { slug } = Astro.params;
+const service = serviceById(slug as ServiceId);
+if (!service) {
+  throw new Error(`Unknown service slug: ${slug}`);
+}
+
+const meta = pageMeta({
+  title: service.title,
+  description: `${service.shortDescription} From Bangkok — ${BRAND_NAME} coordinates air freight, documentation, and partner GDP warehousing where required.`,
+  path: `/services/${service.id}`,
+  ogImage: service.imageUrl.startsWith('http') ? service.imageUrl : undefined,
+});
+
+const serviceFaqs =
+  service.id === 'shipping-customs'
+    ? [
+        {
+          question: 'What is ภ.ท.32 (Form T.K. 32)?',
+          answer:
+            'ภ.ท.32 is Thailand\'s per-shipment notification of controlled-herb (cannabis) export details, filed before each departure and valid up to 180 days. It sits under the ภ.ท.10 export licence (applied for on ภ.ท.9). Last verified: 2026-08-05 against Thai FDA / DTAM form guidance.',
+        },
+        {
+          question: 'Which export documents does OMG verify before departure?',
+          answer:
+            'Typical files include the Thai export licence copy, purchase order or sales agreement, destination import permit where required, GACP or COA evidence, phytosanitary or Certificate of Origin where applicable, and National Single Window filing when DTAM Next integration is live.',
+        },
+      ]
+    : service.id === 'gdp-warehousing'
+      ? [
+          {
+            question: 'Is OMG Experience GDP-certified?',
+            answer:
+              'No. Packing and GDP-compliant warehousing are performed through our certified partner facilities. OMG Experience coordinates air freight, customs, and documented handoffs — we do not hold GDP certification ourselves.',
+          },
+        ]
+      : service.id === 'qc-lab-testing'
+        ? [
+            {
+              question: 'Is the QC lab operated by OMG Experience?',
+              answer:
+              'No. Full-panel cannabis testing and COA delivery are provided through our ISO-certified, GACP-aligned partner laboratory. OMG integrates sample tracking via the Export Portal.',
+            },
+          ]
+        : [];
+
+const faqLd = faqPageSchema(serviceFaqs);
+
+const serviceLd = {
+  '@type': 'Service',
+  '@id': `${absoluteUrl(`/services/${service.id}`)}#service`,
+  name: service.title,
+  description: service.fullDescription,
+  provider: { '@id': `${getSiteUrl()}/#organization` },
+  url: absoluteUrl(`/services/${service.id}`),
+};
+
+const ld = jsonLdScript([
+  webPageSchema({
+    path: `/services/${service.id}`,
+    name: service.title,
+    description: meta.description,
+  }),
+  serviceLd,
+  ...(faqLd ? [faqLd] : []),
+]);
+
+const breadcrumbLd = JSON.stringify({
+  '@context': 'https://schema.org',
+  ...breadcrumbListSchema([
+    { name: 'Home', path: '/' },
+    { name: 'Services', path: '/services' },
+    { name: service.title, path: `/services/${service.id}` },
+  ]),
+});
+---
+
+<BaseLayout meta={meta} jsonLd={ld} breadcrumbLd={breadcrumbLd}>
+  <MarketingPageHero
+    eyebrow={service.tag}
+    title={service.title}
+    description={service.shortDescription}
+    backgroundImage={service.imageUrl}
+    backgroundImageAlt={service.title}
+  />
+
+  <div class="marketing-container pb-[72px] pt-8">
+    <article class="grid items-start gap-11 lg:grid-cols-[1fr_380px]">
+      <div class="max-w-3xl">
+        <p class="text-[17px] leading-relaxed" style="color: var(--ink);">
+          {service.fullDescription}
+        </p>
+        {
+          service.extraBody && (
+            <div class="mt-6 text-[15px] leading-relaxed" style="color: var(--ink);">
+              <Fragment set:html={service.extraBody} />
+            </div>
+          )
+        }
+        <ul class="mt-8 flex flex-col gap-3">
+          {
+            service.points.map((pt) => (
+              <li class="flex items-start gap-2.5 text-[15px]" style="color: #2b3138;">
+                <span class="mt-0.5 shrink-0" style="color: #4a9c2d;">
+                  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+                    <path d="M20 6L9 17l-5-5" />
+                  </svg>
+                </span>
+                {pt}
+              </li>
+            ))
+          }
+        </ul>
+        {
+          serviceFaqs.length > 0 && (
+            <section class="mt-12" id="faq">
+              <h2 class="font-display text-2xl font-bold" style="color: var(--navy-950);">FAQ</h2>
+              <div class="mt-6 flex flex-col gap-6">
+                {serviceFaqs.map((f) => (
+                  <div>
+                    <h3 class="font-display text-lg font-semibold" style="color: var(--navy-950);">{f.question}</h3>
+                    <p class="mt-2 text-[15px] leading-relaxed" style="color: var(--ink);">{f.answer}</p>
+                  </div>
+                ))}
+              </div>
+            </section>
+          )
+        }
+      </div>
+      <aside class="rounded-[var(--radius-lg)] border border-[var(--line)] bg-[var(--paper-muted)] p-6">
+        <span
+          class="mb-4 flex h-12 w-12 items-center justify-center rounded-[3px]"
+          style="background: #e6eef6; color: var(--navy-700);"
+        >
+          <ServiceIcon id={service.icon} size={22} />
+        </span>
+        <p class="text-sm font-semibold" style="color: var(--navy-950);">Request a quote</p>
+        <p class="mt-2 text-sm leading-relaxed" style="color: var(--muted);">
+          Share product classification, lane, and licence references. We respond within one business day.
+        </p>
+        <a
+          href="/contact"
+          class="mt-4 inline-flex rounded-[var(--radius-sm)] px-5 py-2.5 text-sm font-semibold text-white"
+          style="background: var(--green-500);"
+        >
+          Contact us
+        </a>
+        <a href="/services" class="mt-3 block text-sm font-semibold underline" style="color: var(--navy-700);">
+          ← All services
+        </a>
+      </aside>
+    </article>
+  </div>
+</BaseLayout>

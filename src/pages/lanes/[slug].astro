@@ -1,0 +1,144 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import MarketingPageHero from '../../components/MarketingPageHero.astro';
+import { exportLanes, laneBySlug } from '../../data/marketing-lanes';
+import { pageMeta } from '../../lib/page-meta';
+import { absoluteUrl, BRAND_NAME, getSiteUrl } from '../../lib/site';
+import {
+  breadcrumbListSchema,
+  faqPageSchema,
+  jsonLdScript,
+  webPageSchema,
+} from '../../lib/json-ld';
+
+export function getStaticPaths() {
+  return exportLanes.map((l) => ({ params: { slug: l.slug } }));
+}
+
+const { slug } = Astro.params;
+const lane = laneBySlug(slug!);
+if (!lane) throw new Error(`Unknown lane: ${slug}`);
+
+const meta = pageMeta({
+  title: lane.metaTitle,
+  description: lane.metaDescription,
+  path: `/lanes/${lane.slug}`,
+});
+
+const faqLd = faqPageSchema(lane.faqs);
+
+const serviceLd = {
+  '@type': 'Service',
+  '@id': `${absoluteUrl(`/lanes/${lane.slug}`)}#service`,
+  name: lane.title,
+  description: lane.metaDescription,
+  provider: { '@id': `${getSiteUrl()}/#organization` },
+  areaServed: { '@type': 'Country', name: lane.country },
+  url: absoluteUrl(`/lanes/${lane.slug}`),
+};
+
+const ld = jsonLdScript([
+  webPageSchema({
+    path: `/lanes/${lane.slug}`,
+    name: lane.title,
+    description: meta.description,
+  }),
+  serviceLd,
+  ...(faqLd ? [faqLd] : []),
+]);
+
+const breadcrumbLd = JSON.stringify({
+  '@context': 'https://schema.org',
+  ...breadcrumbListSchema([
+    { name: 'Home', path: '/' },
+    { name: 'Export lanes', path: '/services/cannabis-export-logistics' },
+    { name: lane.country, path: `/lanes/${lane.slug}` },
+  ]),
+});
+---
+
+<BaseLayout meta={meta} jsonLd={ld} breadcrumbLd={breadcrumbLd}>
+  <MarketingPageHero
+    eyebrow={`${lane.region} · ${lane.gateway}`}
+    title={lane.title}
+    description={`Bangkok (BKK) air freight to ${lane.gateway} — permit-aware documentation and validated cold chain. Last verified ${lane.lastVerified}.`}
+    backgroundImage="/images/air-freight.jpg"
+    backgroundImageAlt={`Air freight to ${lane.country}`}
+  />
+
+  <div class="marketing-container pb-[72px] pt-8">
+    <div class="max-w-3xl">
+      <p class="text-[17px] leading-relaxed" style="color: var(--ink);">
+        <strong>{BRAND_NAME}</strong> publishes this lane for licensed cannabis, hemp, and kratom exporters who
+        already hold Thai permits and a destination importer with valid authorisations. We coordinate Bangkok air
+        freight, customs files, and GDP-compliant handling through partner facilities — we are the forwarder, not
+        the GDP-certified warehouse or ISO-certified laboratory.
+      </p>
+      {
+        lane.honestNote && (
+          <p class="mt-4 rounded-[var(--radius-md)] border border-amber-200 bg-amber-50 px-4 py-3 text-sm leading-relaxed text-amber-950">
+            <strong>Note:</strong> {lane.honestNote}
+          </p>
+        )
+      }
+    </div>
+
+    <section class="mt-10 grid gap-6 lg:grid-cols-3">
+      <div class="rounded-[var(--radius-md)] border border-[var(--line)] bg-[var(--paper-muted)] p-5">
+        <h2 class="text-xs font-bold uppercase tracking-wider" style="color: var(--muted);">Transit</h2>
+        <p class="mt-2 font-semibold" style="color: var(--navy-950);">{lane.transitDays}</p>
+      </div>
+      <div class="rounded-[var(--radius-md)] border border-[var(--line)] bg-[var(--paper-muted)] p-5">
+        <h2 class="text-xs font-bold uppercase tracking-wider" style="color: var(--muted);">Regulator</h2>
+        <p class="mt-2 font-semibold" style="color: var(--navy-950);">{lane.regulator}</p>
+        <a href={lane.regulatorUrl} class="mt-1 block text-sm underline" style="color: var(--navy-700);" rel="noopener noreferrer" target="_blank">
+          Primary source →
+        </a>
+      </div>
+      <div class="rounded-[var(--radius-md)] border border-[var(--line)] bg-[var(--paper-muted)] p-5">
+        <h2 class="text-xs font-bold uppercase tracking-wider" style="color: var(--muted);">Last verified</h2>
+        <p class="mt-2 font-semibold" style="color: var(--navy-950);">{lane.lastVerified}</p>
+      </div>
+    </section>
+
+    <section class="mt-12 max-w-3xl">
+      <h2 class="font-display text-2xl font-bold" style="color: var(--navy-950);">Import permit chain</h2>
+      <ol class="mt-4 flex list-decimal flex-col gap-3 pl-5 text-[15px] leading-relaxed" style="color: var(--ink);">
+        {lane.permits.map((p) => <li>{p}</li>)}
+      </ol>
+    </section>
+
+    <section class="mt-12 max-w-3xl">
+      <h2 class="font-display text-2xl font-bold" style="color: var(--navy-950);">Quality and market context</h2>
+      <p class="mt-4 text-[15px] leading-relaxed" style="color: var(--ink);">{lane.qualityGate}</p>
+    </section>
+
+    <section class="mt-12 max-w-3xl" id="faq">
+      <h2 class="font-display text-2xl font-bold" style="color: var(--navy-950);">FAQ</h2>
+      <div class="mt-6 flex flex-col gap-6">
+        {
+          lane.faqs.map((f) => (
+            <article>
+              <h3 class="font-display text-lg font-semibold" style="color: var(--navy-950);">{f.question}</h3>
+              <p class="mt-2 text-[15px] leading-relaxed" style="color: var(--ink);">{f.answer}</p>
+            </article>
+          ))
+        }
+      </div>
+    </section>
+
+    <section class="mt-14 rounded-[var(--radius-lg)] border border-[var(--line)] bg-[var(--paper-muted)] p-9 text-center">
+      <h2 class="font-display text-2xl font-bold" style="color: var(--navy-950);">Request a {lane.country} route assessment</h2>
+      <p class="mt-2 text-[15px]" style="color: var(--muted);">
+        Share licence references, product form, and importer contact. We respond within one business day.
+      </p>
+      <a
+        href="/contact"
+        class="mt-5 inline-flex rounded-[var(--radius-sm)] px-7 py-3 text-[15px] font-semibold text-white"
+        style="background: var(--green-500);"
+      >
+        Request a Quote
+      </a>
+    </section>
+  </div>
+</BaseLayout>

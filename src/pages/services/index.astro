@@ -9,9 +9,9 @@ import { breadcrumbListSchema, itemListSchema, jsonLdScript, serviceSchemas, web
 import { marketingHeroImages } from '../../data/marketing-hero-images';
 
 const meta = pageMeta({
-  title: 'Pharma Air Freight & Customs — Bangkok',
+  title: 'Cannabis & Hemp Export Services',
   description:
-    'Specialized air freight, shipping & customs, GDP warehousing, and controlled temperature transport—end-to-end logistics from OMG Experience.',
+    'Cannabis, hemp, and kratom export services from Bangkok — air freight, customs & ภ.ท.32, partner GDP warehousing, cold chain, and partner ISO lab COA.',
   path: '/services',
   ogImage: marketingHeroImages.services.og,
   ogImageAlt: marketingHeroImages.services.alt,
@@ -19,14 +19,14 @@ const meta = pageMeta({
 
 const listItems = services.map((s) => ({
   name: s.title,
-  url: absoluteUrl(`/services#${s.id}`),
+  url: absoluteUrl(`/services/${s.id}`),
 }));
 
 const ld = jsonLdScript([
   webPageSchema({
     path: '/services',
     name: `${BRAND_NAME} services overview`,
-    description: 'Air freight, customs and documents, GDP warehousing, and cold-chain transport.',
+    description: 'Cannabis, hemp, and kratom export air freight, customs, partner GDP warehousing, and cold chain.',
   }),
   itemListSchema(`${BRAND_NAME} service lines`, listItems),
   ...serviceSchemas(services),
@@ -47,8 +47,8 @@ const breadcrumbLd = JSON.stringify({
   </Fragment>
   <MarketingPageHero
     eyebrow="Services"
-    title="Our Services"
-    description="End-to-end logistics for specialized air freight, customs clearance, pharmaceutical-grade warehousing, controlled temperature transport and QC lab testing."
+    title="Cannabis, hemp & kratom export services"
+    description="End-to-end export logistics from Bangkok — specialized air freight, Thai customs and ภ.ท.32 filings, partner GDP warehousing, validated cold chain, and partner ISO lab testing."
     backgroundImage={marketingHeroImages.services.src}
     backgroundImageAlt={marketingHeroImages.services.alt}
     priority
@@ -60,7 +60,7 @@ const breadcrumbLd = JSON.stringify({
           Cannabis &amp; hemp export logistics
         </h2>
         <p class="mt-1.5 max-w-xl text-[15px]" style="color: var(--muted);">
-          GACP-aligned air freight from Bangkok with GDP cold chain and EU documentation support.
+          GACP-aligned air freight from Bangkok with partner GDP cold chain and EU documentation support.
         </p>
       </div>
       <a
@@ -117,11 +117,11 @@ const breadcrumbLd = JSON.stringify({
                 ))}
               </ul>
               <a
-                href="/contact"
+                href={`/services/${s.id}`}
                 class="mt-6 inline-flex items-center gap-2 rounded-[var(--radius-sm)] px-5 py-2.5 text-[14.5px] font-semibold text-white"
                 style="background: var(--navy-700);"
               >
-                Request a quote
+                View service details
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                   <path d="M5 12h14M13 6l6 6-6 6" />
                 </svg>

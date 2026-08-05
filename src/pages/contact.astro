@@ -4,14 +4,14 @@ import MarketingPageHero from '../components/MarketingPageHero.astro';
 import MarketingIcon from '../components/MarketingIcon.astro';
 import ContactForm from '../components/react/ContactForm';
 import { pageMeta } from '../lib/page-meta';
-import { breadcrumbListSchema, jsonLdScript, webPageSchema } from '../lib/json-ld';
+import { breadcrumbListSchema, jsonLdScript, localBusinessSchema, webPageSchema } from '../lib/json-ld';
 import { APP_URL, BRAND_NAME, CONTACT_EMAIL, CONTACT_PHONE_DISPLAY, CONTACT_PHONE_E164, CONTACT_STREET, CONTACT_LOCALITY, CONTACT_POSTAL_CODE } from '../lib/site';
 import { marketingHeroImages } from '../data/marketing-hero-images';
 
 const meta = pageMeta({
-  title: 'Contact Us',
+  title: 'Contact Cannabis Export Bangkok',
   description:
-    'Request a quote for air freight, customs clearance, warehousing, or controlled temperature transport. The OMG Experience team responds within one business day.',
+    'Request a quote for cannabis, hemp, or kratom export air freight from Bangkok — customs, partner GDP warehousing, cold chain. Response within one business day.',
   path: '/contact',
   ogImage: marketingHeroImages.contact.og,
   ogImageAlt: marketingHeroImages.contact.alt,
@@ -21,8 +21,9 @@ const ld = jsonLdScript([
   webPageSchema({
     path: '/contact',
     name: `Contact ${BRAND_NAME}`,
-    description: 'Request quotes and speak with the logistics team about air freight, customs, GDP warehousing, and cold chain.',
+    description: 'Request quotes for cannabis, hemp, and kratom export air freight from Bangkok.',
   }),
+  localBusinessSchema(),
 ]);
 
 const breadcrumbLd = JSON.stringify({

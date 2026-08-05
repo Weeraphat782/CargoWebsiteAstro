@@ -133,7 +133,7 @@ export function organizationSchema(): JsonLdGraph {
       url: absoluteUrl("/logo.png"),
     },
     description:
-      "Specialized air freight and pharmaceutical-grade logistics for time-sensitive, temperature-controlled, and compliance-critical cargo.",
+      "Bangkok air freight forwarder for licensed cannabis, hemp, and kratom exports — customs, partner GDP warehousing, partner ISO lab testing, and AI document intelligence.",
     email: CONTACT_EMAIL,
     telephone: CONTACT_PHONE_E164,
     address: {
@@ -148,6 +148,35 @@ export function organizationSchema(): JsonLdGraph {
     sameAs: [
       "https://www.linkedin.com/company/omgexp",
       "https://x.com/omgexp",
+      "https://www.instagram.com/omgexperience/",
+    ],
+  };
+}
+
+export function localBusinessSchema(): JsonLdGraph {
+  return {
+    "@type": "LocalBusiness",
+    "@id": `${getSiteUrl()}/#localbusiness`,
+    name: BRAND_NAME,
+    legalName: BRAND_LEGAL_NAME,
+    url: getSiteUrl(),
+    email: CONTACT_EMAIL,
+    telephone: CONTACT_PHONE_E164,
+    image: absoluteUrl("/logo.png"),
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: CONTACT_STREET,
+      addressLocality: CONTACT_LOCALITY,
+      addressRegion: CONTACT_REGION,
+      postalCode: CONTACT_POSTAL_CODE,
+      addressCountry: "TH",
+    },
+    parentOrganization: { "@id": `${getSiteUrl()}/#organization` },
+    areaServed: serviceAreaCountries(),
+    sameAs: [
+      "https://www.linkedin.com/company/omgexp",
+      "https://x.com/omgexp",
+      "https://www.instagram.com/omgexperience/",
     ],
   };
 }
@@ -288,6 +317,6 @@ export function serviceSchemas(
     description: s.shortDescription,
     provider: { "@id": `${getSiteUrl()}/#organization` },
     areaServed: serviceAreaCountries(),
-    url: absoluteUrl(`/services#${s.id}`),
+    url: absoluteUrl(`/services/${s.id}`),
   }));
 }

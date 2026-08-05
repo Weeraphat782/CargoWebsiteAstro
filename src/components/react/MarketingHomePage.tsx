@@ -37,7 +37,7 @@ function HomeContinueExploring() {
           Talk to our logistics team →
         </a>
         <a
-          href="/services#qc-lab-testing"
+          href="/services/qc-lab-testing"
           className="rounded-[3px] border p-4 text-left text-sm font-semibold transition hover:border-[var(--green-500)]"
           style={{ borderColor: '#b6dd97', background: '#eaf6e0', color: '#3d6b26' }}
         >
@@ -94,14 +94,15 @@ export default function MarketingHomePageClient() {
             Our Services
           </h2>
           <p className="mx-auto mt-2.5 max-w-[560px] text-base leading-relaxed" style={{ color: 'var(--muted)' }}>
-            Comprehensive logistics solutions tailored to pharmaceutical, perishable and time-critical cargo.
+            Cannabis, hemp, and kratom export logistics from Bangkok — air freight, customs, partner GDP
+            warehousing, and partner ISO lab COA.
           </p>
         </div>
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {homeServices.map((s) => (
             <a
               key={s.id}
-              href={`/services#${s.id}`}
+              href={`/services/${s.id}`}
               className="flex flex-col overflow-hidden rounded-[var(--radius-md)] border border-[var(--line)] bg-white text-left transition hover:shadow-[var(--shadow-2)]"
             >
               <div className="relative h-[150px]">
@@ -226,7 +227,7 @@ export default function MarketingHomePageClient() {
               Request QC in Portal
             </a>
             <a
-              href="/services#qc-lab-testing"
+              href="/services/qc-lab-testing"
               className="rounded-[var(--radius-sm)] border py-3.5 text-center text-[15px] font-semibold"
               style={{ borderColor: '#97c47c', color: '#3d6b26', background: '#fff' }}
             >

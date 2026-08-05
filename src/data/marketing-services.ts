@@ -27,6 +27,8 @@ export type MarketingService = {
   shortDescription: string;
   fullDescription: string;
   points: string[];
+  /** Optional HTML body for service detail pages */
+  extraBody?: string;
 };
 
 export const services: MarketingService[] = [
@@ -37,13 +39,13 @@ export const services: MarketingService[] = [
     icon: 'air',
     imageUrl: '/images/air-freight.jpg',
     shortDescription:
-      'Time-critical air cargo solutions with routing intelligence and documented handoffs.',
+      'Time-critical air cargo for cannabis, hemp, and kratom exports from Bangkok (BKK) with documented handoffs.',
     fullDescription:
-      'OMG Experience delivers specialized air freight for time-sensitive and high-value cargo. Our airline heritage provides direct access to routing intelligence, capacity availability and optimal transit times across major global hubs. We manage the full lifecycle of your shipment with documented handoffs at every stage.',
+      'OMG Experience delivers specialized air freight for licensed cannabis, hemp, and kratom exports from Bangkok. Our airline heritage provides routing intelligence, capacity across major hubs, and optimal transit times to eight published destination countries — with documented chain-of-custody at every stage.',
     points: [
-      'Direct routing intelligence from airline heritage',
-      'Capacity across major global hubs',
-      'Documented chain-of-custody handoffs',
+      'Bangkok (BKK) origin on published EU, Oceania, and Africa lanes',
+      'Routing intelligence from airline distribution heritage',
+      'Documented chain-of-custody handoffs to partner GDP facilities',
     ],
   },
   {
@@ -53,29 +55,38 @@ export const services: MarketingService[] = [
     icon: 'customs',
     imageUrl: '/images/shipping-customs.jpg',
     shortDescription:
-      'End-to-end customs clearance support with document preparation and compliance expertise.',
+      'Export documentation for Thai controlled herbs — ภ.ท.10 licence, ภ.ท.32 per-shipment notification, and destination import files.',
     fullDescription:
-      'International shipping demands rigorous attention to customs regulations, documentation and compliance. We provide comprehensive shipping and customs services — document preparation, import/export permits and clearance coordination — with specialists who stay current on evolving regulatory requirements.',
+      'International cannabis and hemp exports demand rigorous customs files. We prepare and verify import/export permits, controlled-herb notifications, certificates of origin, phytosanitary evidence where required, and National Single Window filings — aligned to DTAM and destination regulator requirements.',
+    extraBody: `<p>Common Thai export forms we coordinate with shippers:</p>
+<ul>
+<li><strong>ภ.ท.9 / ภ.ท.10</strong> — controlled-herb export licence application and licence</li>
+<li><strong>ภ.ท.32 (Form T.K. 32)</strong> — per-shipment export notification (valid up to 180 days; filed before each departure)</li>
+<li><strong>ภ.ท.27–31</strong> — cultivation, sales, and monthly returns where applicable</li>
+<li>GACP certificates or COA from the producer; destination import permit where required</li>
+<li>Certificate of Origin and phytosanitary certificate when the lane requires them</li>
+</ul>
+<p><em>Last verified against Thai FDA / DTAM form guidance: 2026-08-05.</em></p>`,
     points: [
-      'Import/export permit preparation',
-      'Clearance coordination end to end',
-      'AI-assisted document verification',
+      'ภ.ท.32 per-shipment notifications aligned to DTAM rules',
+      'Destination import permit cross-check before booking',
+      'AI-assisted document verification via Export Portal',
     ],
   },
   {
     id: serviceIds.gdpWarehousing,
-    title: 'GDP Warehousing',
+    title: 'GDP Warehousing (Partner)',
     tag: 'Warehousing',
     icon: 'warehouse',
     imageUrl: '/images/gdp-warehousing.jpg',
     shortDescription:
-      'Pharmaceutical-grade storage in temperature-controlled conditions with full compliance documentation.',
+      'GDP-compliant packing and storage through our certified partner — OMG Experience is not GDP-certified.',
     fullDescription:
-      'Our Good Distribution Practice (GDP) compliant facilities are designed for pharmaceutical and temperature-sensitive products. We offer secure storage, packing, palletizing and cold-chain verification with full audit trails and documented handling at every step.',
+      'Packing, palletizing, and GDP-compliant storage for cannabis and hemp exports are performed through our certified partner facilities. OMG Experience coordinates air freight and documented handoffs into and out of partner warehousing — we do not operate GDP-certified warehouses ourselves.',
     points: [
-      'GDP-compliant secure storage',
-      'Cold-chain verification & audit trails',
-      'Packing, palletizing & labelling',
+      'Partner-operated GDP-compliant secure storage',
+      'Cold-chain verification and audit trails at partner sites',
+      'Packing, palletizing, and labelling before air departure',
     ],
   },
   {
@@ -85,28 +96,28 @@ export const services: MarketingService[] = [
     icon: 'cold',
     imageUrl: '/images/truck-temp.jpg',
     shortDescription:
-      'Validated cold-chain logistics with documented handling for temperature-sensitive cargo.',
+      'Validated cold-chain logistics with documented handling for temperature-sensitive cannabis material.',
     fullDescription:
-      'Temperature-sensitive cargo requires validated transport from origin to destination. We provide controlled temperature transport with validated packaging and documented cold-chain handling — covering ambient, chilled and frozen requirements across the journey.',
+      'Temperature-sensitive cannabis and hemp material requires validated transport from farm or partner warehouse to Bangkok airport. We coordinate controlled temperature transport with validated packaging and documented cold-chain handling — ambient, chilled, and frozen ranges — with monitoring records supporting import compliance.',
     points: [
-      'Ambient, chilled and frozen ranges',
+      'Ambient, chilled, and frozen ranges',
       'Validated packaging solutions',
-      'Live temperature logging to airway bill',
+      'Temperature records supporting airway bill and import dossier',
     ],
   },
   {
     id: serviceIds.qcLabTesting,
-    title: 'QC Lab Testing',
-    tag: 'New Service',
+    title: 'QC Lab Testing (Partner)',
+    tag: 'Partner Lab',
     icon: 'flask',
     imageUrl: '/images/qc-lab-testing.jpg',
     shortDescription:
-      'GACP-aligned partner lab, portal-integrated — QR-tracked samples with COA results online.',
+      'Full-panel COA from our ISO-certified, GACP-aligned partner lab — integrated via Export Portal.',
     fullDescription:
-      'Submit export samples through the Export Portal and receive a transparent QC quote with itemized pricing. Every sample gets a QR code for live tracking from receipt through testing to Certificate of Analysis (COA) delivery. Our integrated lab partner supports GACP-aligned testing.',
+      'Submit export samples through the Export Portal for a transparent QC quote with itemized pricing. Every sample receives QR-tracked handling from receipt through testing to Certificate of Analysis (COA) delivery. Testing is performed by our ISO-certified, GACP-aligned partner laboratory — OMG Experience does not operate the lab or hold ISO certification.',
     points: [
       'Instant QC quote with itemized pricing',
-      'QR-tracked sample lifecycle',
+      'QR-tracked sample lifecycle via Export Portal',
       'COA delivered online before departure',
     ],
   },

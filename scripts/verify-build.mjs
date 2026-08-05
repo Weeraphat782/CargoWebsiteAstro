@@ -154,10 +154,35 @@ const htmlFiles = walkHtml(dist);
 const indexableCanonicals = new Set();
 const descriptions = new Map();
 
+// Partner-certification claims must not imply OMG holds GDP/ISO certs
+const FORBIDDEN_CLAIMS = [
+  /GDP Certified/i,
+  /GDP-certified handling/i,
+  /\bour GDP warehousing\b/i,
+  /\bour ISO-certified lab\b/i,
+  /pharmaceutical-grade logistics/i,
+];
 for (const htmlPath of htmlFiles) {
   const html = readFileSync(htmlPath, 'utf8');
   const rel = htmlPath.replace(dist, '').replace(/\\/g, '/');
   if (rel.startsWith('/manual/')) continue;
+  for (const re of FORBIDDEN_CLAIMS) {
+    if (re.test(html)) fail(`${rel}: forbidden partner-certification claim matched ${re}`);
+  }
+}
+
+function isRedirectStub(html) {
+  return html.includes('http-equiv="refresh"') && html.includes('Redirecting to:');
+}
+
+for (const htmlPath of htmlFiles) {
+  const html = readFileSync(htmlPath, 'utf8');
+  const rel = htmlPath.replace(dist, '').replace(/\\/g, '/');
+  if (rel.startsWith('/manual/')) continue;
+  if (isRedirectStub(html)) {
+    if (!html.includes('noindex')) fail(`${rel}: redirect stub must be noindex`);
+    continue;
+  }
 
   for (const tag of html.match(IMG_TAG_RE) ?? []) {
     if (!ALT_RE.test(tag)) {

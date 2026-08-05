@@ -22,6 +22,11 @@ export default defineConfig({
   output: 'static',
   trailingSlash: 'never',
   site: env.PUBLIC_SITE_URL || 'https://web.omgexp.com',
+  redirects: {
+    '/services/customs-documents': '/services/shipping-customs',
+    '/services/air-freight': '/services/specialized-air-freight',
+    '/sitemap.xml': '/sitemap-index.xml',
+  },
   integrations: [
     react(),
     sitemap({
