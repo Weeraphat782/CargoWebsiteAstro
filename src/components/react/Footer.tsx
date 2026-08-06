@@ -1,6 +1,6 @@
 'use client';
 
-import { BRAND_NAME, APP_URL } from '@/lib/site';
+import { BRAND_NAME, LINKEDIN_URL } from '@/lib/site';
 import { trackCtaClick } from '@/lib/analytics';
 
 const navLinks = [
@@ -39,6 +39,17 @@ export default function Footer() {
               Specialized air freight and global logistics for time-sensitive, temperature-controlled, and
               compliance-critical cargo.
             </p>
+            <a
+              href={LINKEDIN_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`${BRAND_NAME} on LinkedIn`}
+              className="mt-5 inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/15 hover:border-white/40 hover:text-white"
+            >
+              <svg viewBox="0 0 24 24" fill="currentColor" className="h-4 w-4" aria-hidden="true">
+                <path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.94v5.67H9.35V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 110-4.12 2.06 2.06 0 010 4.12zM7.12 20.45H3.56V9h3.56v11.45z" />
+              </svg>
+            </a>
           </div>
           <div>
             <div className="font-display mb-4 text-[13px] font-bold uppercase tracking-[0.06em] text-white">

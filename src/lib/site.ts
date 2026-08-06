@@ -4,6 +4,7 @@ export const BRAND_SHORT = 'OMG Experience';
 export const BRAND_LEGAL_NAME = 'OMG Experience Co., Ltd.';
 export const DEFAULT_AUTHOR_NAME = 'Editorial Team, OMG Experience';
 export const CONTACT_EMAIL = 'cargo@omgexp.com';
+export const LINKEDIN_URL = 'https://www.linkedin.com/in/cargo-omgexp-87b368402';
 export const CONTACT_PHONE_DISPLAY = '02-630-4600-1';
 export const CONTACT_PHONE_E164 = '+6626304600';
 export const CONTACT_STREET = '10/12-13 Convent Road, Silom';

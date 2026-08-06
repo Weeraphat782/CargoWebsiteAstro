@@ -10,6 +10,7 @@ import {
   CONTACT_STREET,
   DEFAULT_AUTHOR_NAME,
   getSiteUrl,
+  LINKEDIN_URL,
 } from "@/lib/site";
 import { serviceAreaCountries } from "@/data/marketing-destinations";
 
@@ -145,11 +146,7 @@ export function organizationSchema(): JsonLdGraph {
       addressCountry: "TH",
     },
     areaServed: serviceAreaCountries(),
-    sameAs: [
-      "https://www.linkedin.com/company/omgexp",
-      "https://x.com/omgexp",
-      "https://www.instagram.com/omgexperience/",
-    ],
+    sameAs: [LINKEDIN_URL],
   };
 }
 
@@ -173,11 +170,7 @@ export function localBusinessSchema(): JsonLdGraph {
     },
     parentOrganization: { "@id": `${getSiteUrl()}/#organization` },
     areaServed: serviceAreaCountries(),
-    sameAs: [
-      "https://www.linkedin.com/company/omgexp",
-      "https://x.com/omgexp",
-      "https://www.instagram.com/omgexperience/",
-    ],
+    sameAs: [LINKEDIN_URL],
   };
 }
 
