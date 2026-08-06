@@ -14,6 +14,7 @@ import {
   jsonLdScript,
 } from '../../lib/json-ld';
 import R2Preconnect from '../../components/R2Preconnect.astro';
+import { CMS_HERO_WIDTH, optimizeCmsImage } from '../../lib/cms-image';
 
 export async function getStaticPaths() {
   const rows = await getPublishedArticlesList();
@@ -32,7 +33,13 @@ function normalizeImg(url: string | null | undefined): string {
   return t.startsWith('/') ? t : `/${t}`;
 }
 
-const ogImage = normalizeImg(item.image_url) || undefined;
+const ogImageRaw = normalizeImg(item.image_url) || undefined;
+const heroImage = await optimizeCmsImage(ogImageRaw, CMS_HERO_WIDTH, Math.round((CMS_HERO_WIDTH * 9) / 16));
+const ogImage = heroImage?.src.startsWith('http')
+  ? heroImage.src
+  : heroImage?.src
+    ? absoluteUrl(heroImage.src)
+    : ogImageRaw;
 const meta = pageMeta({
   title: item.title,
   description: item.excerpt,
@@ -89,9 +96,18 @@ const formattedDate = item.published_at
       <h1 class="mt-2 text-3xl font-bold text-neutral-900 sm:text-4xl">{item.title}</h1>
       <p class="mt-4 text-lg text-neutral-600">{item.excerpt}</p>
     </header>
-    {ogImage && (
+    {heroImage && (
       <div class="relative mt-8 aspect-[16/9] overflow-hidden rounded-xl bg-neutral-100">
-        <img src={ogImage} alt={item.title} class="h-full w-full object-cover" loading="lazy" />
+        <img
+          src={heroImage.src}
+          srcset={heroImage.srcSet}
+          width={heroImage.width}
+          height={heroImage.height}
+          alt={item.title}
+          class="h-full w-full object-cover"
+          loading="lazy"
+          decoding="async"
+        />
       </div>
     )}
     {item.content && (

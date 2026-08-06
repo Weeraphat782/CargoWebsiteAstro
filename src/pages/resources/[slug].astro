@@ -14,6 +14,7 @@ import {
   jsonLdScript,
 } from '../../lib/json-ld';
 import R2Preconnect from '../../components/R2Preconnect.astro';
+import { CMS_HERO_WIDTH, optimizeCmsImage } from '../../lib/cms-image';
 
 export async function getStaticPaths() {
   const rows = await getPublishedResources();
@@ -24,11 +25,17 @@ const { slug } = Astro.params;
 const item = await getResourceBySlug(slug!);
 if (!item) return Astro.redirect('/404');
 
-const ogImage = item.image_url?.startsWith('http')
+const heroSrcRaw = item.image_url?.startsWith('http')
   ? item.image_url
   : item.image_url
     ? absoluteUrl(item.image_url)
     : undefined;
+const heroImage = await optimizeCmsImage(heroSrcRaw, CMS_HERO_WIDTH, Math.round((CMS_HERO_WIDTH * 9) / 16));
+const ogImage = heroImage?.src.startsWith('http')
+  ? heroImage.src
+  : heroImage?.src
+    ? absoluteUrl(heroImage.src)
+    : heroSrcRaw;
 
 const meta = pageMeta({
   title: item.title,
@@ -70,7 +77,6 @@ const related = (await getPublishedResources())
   .slice(0, 3)
   .map((r) => ({ slug: r.slug, title: r.title, hrefPrefix: '/resources' as const }));
 
-const heroSrc = item.image_url?.startsWith('http') ? item.image_url : item.image_url || '';
 const publishedFormatted = item.published_at
   ? new Date(item.published_at).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
   : '';
@@ -92,9 +98,18 @@ const publishedFormatted = item.published_at
       <h1 class="mt-2 text-3xl font-bold text-neutral-900 sm:text-4xl">{item.title}</h1>
       <p class="mt-4 text-lg text-neutral-600">{item.excerpt}</p>
     </header>
-    {heroSrc && (
+    {heroImage && (
       <div class="relative mt-8 aspect-[16/9] overflow-hidden rounded-xl bg-neutral-100">
-        <img src={heroSrc} alt={item.title} class="h-full w-full object-cover" loading="lazy" />
+        <img
+          src={heroImage.src}
+          srcset={heroImage.srcSet}
+          width={heroImage.width}
+          height={heroImage.height}
+          alt={item.title}
+          class="h-full w-full object-cover"
+          loading="lazy"
+          decoding="async"
+        />
       </div>
     )}
     {item.file_url && (

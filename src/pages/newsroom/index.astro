@@ -16,6 +16,12 @@ import { absoluteUrl, BRAND_NAME } from '../../lib/site';
 import { breadcrumbListSchema, itemListSchema, jsonLdScript, webPageSchema } from '../../lib/json-ld';
 import { marketingHeroImages } from '../../data/marketing-hero-images';
 import R2Preconnect from '../../components/R2Preconnect.astro';
+import {
+  CMS_CARD_WIDTH,
+  CMS_FEATURED_WIDTH,
+  mapWithCmsImages,
+  optimizeCmsImage,
+} from '../../lib/cms-image';
 
 const currentPage = 1;
 const rows = await getPublishedArticlesList();
@@ -23,6 +29,8 @@ const allArticles = mapNewsroomListArticles(rows);
 const totalPages = newsroomListTotalPages(allArticles.length);
 const pageArticles = allArticles.slice(0, NEWSROOM_PAGE_SIZE);
 const [featured, ...restArticles] = pageArticles;
+const featuredImage = featured ? await optimizeCmsImage(featured.imageUrl, CMS_FEATURED_WIDTH) : undefined;
+const restWithImages = await mapWithCmsImages(restArticles, CMS_CARD_WIDTH);
 
 const meta = pageMeta({
   title: 'Cannabis Export Newsroom',
@@ -83,18 +91,18 @@ const nextUrl = totalPages > 1 ? absoluteUrl(newsroomListPagePath(2)) : undefine
               title={featured.title}
               date={featured.date}
               excerpt={featured.excerpt}
-              imageUrl={featured.imageUrl}
+              cmsImage={featuredImage}
               featured
             />
           )}
           <div class="mt-9 grid gap-[22px] sm:grid-cols-2 lg:grid-cols-3">
-            {restArticles.map((item) => (
+            {restWithImages.map((item) => (
               <NewsCard
                 slug={item.slug}
                 title={item.title}
                 date={item.date}
                 excerpt={item.excerpt}
-                imageUrl={item.imageUrl}
+                cmsImage={item.cmsImage}
               />
             ))}
           </div>

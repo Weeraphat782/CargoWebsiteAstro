@@ -1,14 +1,16 @@
 ---
+import type { CmsImage } from '@/lib/cms-image';
+
 interface Props {
   slug: string;
   title: string;
   date: string;
   excerpt: string;
-  imageUrl?: string;
+  cmsImage?: CmsImage;
   featured?: boolean;
 }
 
-const { slug, title, date, excerpt, imageUrl, featured = false } = Astro.props;
+const { slug, title, date, excerpt, cmsImage, featured = false } = Astro.props;
 
 const formattedDate = date
   ? new Date(date).toLocaleDateString('en-US', {
@@ -26,10 +28,13 @@ const formattedDate = date
   ]}
 >
   {
-    imageUrl && (
+    cmsImage && (
       <div class:list={['relative', featured ? 'min-h-[320px]' : 'h-[170px]']}>
         <img
-          src={imageUrl}
+          src={cmsImage.src}
+          srcset={cmsImage.srcSet}
+          width={cmsImage.width}
+          height={cmsImage.height}
           alt={title}
           class="absolute inset-0 h-full w-full object-cover"
           loading="lazy"

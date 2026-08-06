@@ -1,19 +1,29 @@
+import type { CmsImage } from '@/lib/cms-image';
 
 interface ResourceCardProps {
   slug: string;
   title: string;
   excerpt: string;
   tags: string[];
-  imageUrl?: string;
+  cmsImage?: CmsImage;
 }
 
-export default function ResourceCard({ slug, title, excerpt, tags, imageUrl }: ResourceCardProps) {
+export default function ResourceCard({ slug, title, excerpt, tags, cmsImage }: ResourceCardProps) {
   const primaryTag = tags[0] ?? 'Guide';
   return (
     <article className="flex flex-col overflow-hidden rounded-[var(--radius-md)] border border-[var(--line)] bg-white transition hover:shadow-[var(--shadow-2)]">
-      {imageUrl && (
+      {cmsImage && (
         <div className="relative h-[150px]">
-          <img src={imageUrl} alt={title} className="h-full w-full object-cover" loading="lazy" decoding="async" />
+          <img
+            src={cmsImage.src}
+            srcSet={cmsImage.srcSet}
+            width={cmsImage.width}
+            height={cmsImage.height}
+            alt={title}
+            className="h-full w-full object-cover"
+            loading="lazy"
+            decoding="async"
+          />
           <div className="absolute inset-0 bg-gradient-to-b from-[rgba(13,44,77,0.05)] to-[rgba(13,44,77,0.35)]" />
           <span
             className="absolute left-3 top-3 rounded-[var(--radius-sm)] bg-white px-2 py-1 text-[10.5px] font-bold uppercase tracking-wide"

@@ -27,6 +27,14 @@ export default defineConfig({
     '/services/air-freight': '/services/specialized-air-freight',
     '/sitemap.xml': '/sitemap-index.xml',
   },
+  image: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'pub-8bcc4f3b024b4819ba737865d58e9664.r2.dev',
+      },
+    ],
+  },
   integrations: [
     react(),
     sitemap({

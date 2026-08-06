@@ -17,6 +17,7 @@ import { absoluteUrl, BRAND_NAME } from '../../../lib/site';
 import { itemListSchema, jsonLdScript, webPageSchema, breadcrumbListSchema } from '../../../lib/json-ld';
 import { marketingHeroImages } from '../../../data/marketing-hero-images';
 import R2Preconnect from '../../../components/R2Preconnect.astro';
+import { CMS_CARD_WIDTH, mapWithCmsImages } from '../../../lib/cms-image';
 
 export async function getStaticPaths() {
   const rows = await getPublishedArticlesList();
@@ -42,6 +43,7 @@ interface Props {
 }
 
 const { pageArticles, pageNum, totalPages } = Astro.props;
+const pageArticlesWithImages = await mapWithCmsImages(pageArticles, CMS_CARD_WIDTH);
 
 const meta = pageMeta({
   title: `Newsroom — Page ${pageNum}`,
@@ -92,13 +94,13 @@ const nextUrl =
   />
   <div class="marketing-container py-12 pb-[72px]">
     <div class="grid gap-[22px] sm:grid-cols-2 lg:grid-cols-3">
-      {pageArticles.map((item) => (
+      {pageArticlesWithImages.map((item) => (
         <NewsCard
           slug={item.slug}
           title={item.title}
           date={item.date}
           excerpt={item.excerpt}
-          imageUrl={item.imageUrl}
+          cmsImage={item.cmsImage}
         />
       ))}
     </div>

@@ -4,4 +4,5 @@ export type ResourceItem = {
   excerpt: string;
   tags: string[];
   imageUrl?: string;
+  cmsImage?: import('@/lib/cms-image').CmsImage;
 };

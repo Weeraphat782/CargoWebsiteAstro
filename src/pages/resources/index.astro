@@ -8,6 +8,7 @@ import { absoluteUrl, BRAND_NAME } from '../../lib/site';
 import { breadcrumbListSchema, itemListSchema, jsonLdScript, webPageSchema } from '../../lib/json-ld';
 import { marketingHeroImages } from '../../data/marketing-hero-images';
 import R2Preconnect from '../../components/R2Preconnect.astro';
+import { CMS_CARD_WIDTH, mapWithCmsImages } from '../../lib/cms-image';
 
 const meta = pageMeta({
   title: 'Cannabis Export Resources',
@@ -19,13 +20,16 @@ const meta = pageMeta({
 });
 
 const raw = await getPublishedResources();
-const resources = raw.map((item) => ({
-  slug: item.slug,
-  title: item.title,
-  excerpt: item.excerpt,
-  tags: item.tags || [],
-  imageUrl: item.image_url || undefined,
-}));
+const resources = (await mapWithCmsImages(
+  raw.map((item) => ({
+    slug: item.slug,
+    title: item.title,
+    excerpt: item.excerpt,
+    tags: item.tags || [],
+    imageUrl: item.image_url || undefined,
+  })),
+  CMS_CARD_WIDTH,
+)).map(({ imageUrl: _drop, ...item }) => item);
 const allTags = Array.from(new Set(resources.flatMap((r) => r.tags))).sort();
 
 const listItems = resources.map((r) => ({
@@ -69,7 +73,7 @@ const breadcrumbLd = JSON.stringify({
       resources.length === 0 ? (
         <p class="py-8 text-center" style="color: #9aa2aa;">No published guides yet.</p>
       ) : (
-        <ResourcesList client:load resources={resources} allTags={allTags} />
+        <ResourcesList client:visible resources={resources} allTags={allTags} />
       )
     }
   </div>
