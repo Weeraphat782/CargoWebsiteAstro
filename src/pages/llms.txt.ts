@@ -33,7 +33,7 @@ export const GET: APIRoute = async () => {
 
   const body = `# ${BRAND_NAME}
 
-> Bangkok air freight forwarder for licensed cannabis, hemp, and kratom exports. OMG Experience coordinates air freight, Thai customs (ภ.ท.32), and partner GDP warehousing and ISO-certified lab COA — we hold neither GDP nor ISO certification ourselves. ~20+ shipments/month; NIA-backed.
+> Bangkok air freight forwarder for licensed cannabis, hemp, and kratom exports. OMG Cargo coordinates air freight, Thai customs (ภ.ท.32), and partner GDP warehousing and ISO-certified lab COA — we hold neither GDP nor ISO certification ourselves. ~20+ shipments/month; NIA-backed.
 
 ## Entity
 - Type: Organization (air freight forwarder / export logistics)

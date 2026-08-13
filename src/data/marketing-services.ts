@@ -41,10 +41,10 @@ export const services: MarketingService[] = [
     shortDescription:
       'Time-critical air cargo for cannabis, hemp, and kratom exports from Bangkok (BKK) with documented handoffs.',
     fullDescription:
-      'OMG Experience delivers specialized air freight for licensed cannabis, hemp, and kratom exports from Bangkok. Our airline heritage provides routing intelligence, capacity across major hubs, and optimal transit times to eight published destination countries — with documented chain-of-custody at every stage.',
+      'OMG Cargo delivers specialized air freight for licensed cannabis, hemp, and kratom exports from Bangkok. We provide routing intelligence, capacity across major hubs, and optimal transit times to eight published destination countries — with documented chain-of-custody at every stage.',
     points: [
       'Bangkok (BKK) origin on published EU, Oceania, and Africa lanes',
-      'Routing intelligence from airline distribution heritage',
+      'Routing intelligence across major global hubs',
       'Documented chain-of-custody handoffs to partner GDP facilities',
     ],
   },
@@ -80,9 +80,9 @@ export const services: MarketingService[] = [
     icon: 'warehouse',
     imageUrl: '/images/gdp-warehousing.jpg',
     shortDescription:
-      'GDP-compliant packing and storage through our certified partner — OMG Experience is not GDP-certified.',
+      'GDP-compliant packing and storage through our certified partner — OMG Cargo is not GDP-certified.',
     fullDescription:
-      'Packing, palletizing, and GDP-compliant storage for cannabis and hemp exports are performed through our certified partner facilities. OMG Experience coordinates air freight and documented handoffs into and out of partner warehousing — we do not operate GDP-certified warehouses ourselves.',
+      'Packing, palletizing, and GDP-compliant storage for cannabis and hemp exports are performed through our certified partner facilities. OMG Cargo coordinates air freight and documented handoffs into and out of partner warehousing — we do not operate GDP-certified warehouses ourselves.',
     points: [
       'Partner-operated GDP-compliant secure storage',
       'Cold-chain verification and audit trails at partner sites',
@@ -114,7 +114,7 @@ export const services: MarketingService[] = [
     shortDescription:
       'Full-panel COA from our ISO-certified, GACP-aligned partner lab — integrated via Export Portal.',
     fullDescription:
-      'Submit export samples through the Export Portal for a transparent QC quote with itemized pricing. Every sample receives QR-tracked handling from receipt through testing to Certificate of Analysis (COA) delivery. Testing is performed by our ISO-certified, GACP-aligned partner laboratory — OMG Experience does not operate the lab or hold ISO certification.',
+      'Submit export samples through the Export Portal for a transparent QC quote with itemized pricing. Every sample receives QR-tracked handling from receipt through testing to Certificate of Analysis (COA) delivery. Testing is performed by our ISO-certified, GACP-aligned partner laboratory — OMG Cargo does not operate the lab or hold ISO certification.',
     points: [
       'Instant QC quote with itemized pricing',
       'QR-tracked sample lifecycle via Export Portal',

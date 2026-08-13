@@ -1,6 +1,6 @@
 'use client';
 
-import { BRAND_NAME, LINKEDIN_URL } from '@/lib/site';
+import { BRAND_NAME, BRAND_LEGAL_NAME, LINKEDIN_URL } from '@/lib/site';
 import { trackCtaClick } from '@/lib/analytics';
 
 const navLinks = [
@@ -85,7 +85,7 @@ export default function Footer() {
           </div>
         </div>
         <div className="flex flex-col items-center justify-between gap-3 py-8 text-xs sm:flex-row" style={{ color: '#8fb4d8' }}>
-          <p>&copy; {new Date().getFullYear()} OMG Experience Co., Ltd. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} {BRAND_LEGAL_NAME} All rights reserved.</p>
           <nav className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1" aria-label="Legal">
             <a href="/terms-of-service" className="hover:text-white">
               Terms of Service

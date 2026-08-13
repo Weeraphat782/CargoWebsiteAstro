@@ -2,11 +2,12 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { pageMeta } from '../lib/page-meta';
 import { jsonLdScript, webPageSchema } from '../lib/json-ld';
+import { BRAND_NAME } from '../lib/site';
 
 const meta = pageMeta({
   title: 'Page Not Found',
   description:
-    'This page is unavailable. Browse OMG Experience services, regulatory resources, newsroom updates, or contact our Bangkok logistics team for air freight support.',
+    `This page is unavailable. Browse ${BRAND_NAME} services, regulatory resources, newsroom updates, or contact our Bangkok logistics team for air freight support.`,
   path: '/404',
   forceNoindex: true,
 });

@@ -1,8 +1,8 @@
 /** Canonical site URL and brand constants for SEO / GEO. */
-export const BRAND_NAME = 'OMG Experience';
-export const BRAND_SHORT = 'OMG Experience';
+export const BRAND_NAME = 'OMG Cargo';
+export const BRAND_SHORT = 'OMG Cargo';
 export const BRAND_LEGAL_NAME = 'OMG Experience Co., Ltd.';
-export const DEFAULT_AUTHOR_NAME = 'Editorial Team, OMG Experience';
+export const DEFAULT_AUTHOR_NAME = 'Editorial Team, OMG Cargo';
 export const CONTACT_EMAIL = 'cargo@omgexp.com';
 export const LINKEDIN_URL = 'https://www.linkedin.com/in/cargo-omgexp-87b368402';
 export const CONTACT_PHONE_DISPLAY = '02-630-4600-1';

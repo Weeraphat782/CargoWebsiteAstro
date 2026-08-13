@@ -25,7 +25,7 @@ export const exportLanes: ExportLane[] = [
     title: 'Export cannabis from Thailand to Germany',
     metaTitle: 'Thailand to Germany Cannabis Export',
     metaDescription:
-      'Bangkok air freight to Germany — BfArM MedCanG §4 licence and §12 per-shipment import authorisation, EU-GMP routing, and documented cold chain from OMG Experience.',
+      'Bangkok air freight to Germany — BfArM MedCanG §4 licence and §12 per-shipment import authorisation, EU-GMP routing, and documented cold chain from OMG Cargo.',
     regulator: 'BfArM (Bundesopiumstelle)',
     regulatorUrl: 'https://www.bfarm.de/DE/Bundesopiumstelle/Medizinisches-Cannabis/_node.html',
     lastVerified: '2026-08-05',
@@ -40,7 +40,7 @@ export const exportLanes: ExportLane[] = [
       'Germany imported 50,539 kg in Q1 2026 (as reported from BfArM data via trade press, May–June 2026) — up ~34% year on year and down ~15% quarter on quarter. Thai flower typically routes as EU-GMP-aligned starting material, not finished pharmacy product.',
     faqs: [
       {
-        question: 'Does OMG Experience fly cannabis to Frankfurt or Munich?',
+        question: 'Does OMG Cargo fly cannabis to Frankfurt or Munich?',
         answer:
           'We publish scheduled Bangkok (BKK) lanes to Frankfurt and Munich when shippers hold valid Thai export permits and the German importer holds BfArM authorisations. Final routing depends on carrier acceptance and product classification.',
       },
@@ -119,7 +119,7 @@ export const exportLanes: ExportLane[] = [
     title: 'Export cannabis from Thailand to South Africa',
     metaTitle: 'Thailand to South Africa Cannabis Export',
     metaDescription:
-      'Bangkok to Johannesburg air freight — SAHPRA section 22C licence, section 22A permit, GMP/GWP site evidence, and validated cold chain from OMG Experience.',
+      'Bangkok to Johannesburg air freight — SAHPRA section 22C licence, section 22A permit, GMP/GWP site evidence, and validated cold chain from OMG Cargo.',
     regulator: 'SAHPRA',
     regulatorUrl: 'https://www.sahpra.org.za/cannabis-and-related-substances/',
     lastVerified: '2026-08-05',
@@ -179,7 +179,7 @@ export const exportLanes: ExportLane[] = [
     title: 'Export cannabis from Thailand to Portugal',
     metaTitle: 'Thailand to Portugal Cannabis Export',
     metaDescription:
-      'Bangkok to Lisbon air freight — Infarmed import authorisation, third-country supplier qualification with CAPA audit, and EU-GMP processing hub routing from OMG Experience.',
+      'Bangkok to Lisbon air freight — Infarmed import authorisation, third-country supplier qualification with CAPA audit, and EU-GMP processing hub routing from OMG Cargo.',
     regulator: 'Infarmed',
     regulatorUrl: 'https://www.infarmed.pt/web/infarmed/canabis-medicinal',
     lastVerified: '2026-08-05',
@@ -208,7 +208,7 @@ export const exportLanes: ExportLane[] = [
     title: 'Export cannabis from Thailand to Czech Republic',
     metaTitle: 'Thailand to Czech Republic Cannabis Export',
     metaDescription:
-      'Bangkok to Prague air freight — distribution authorisation, Ministry of Health addictive-substance permits, and EU importer documentation from OMG Experience.',
+      'Bangkok to Prague air freight — distribution authorisation, Ministry of Health addictive-substance permits, and EU importer documentation from OMG Cargo.',
     regulator: 'SÚKL · Ministry of Health',
     regulatorUrl:
       'https://sukl.gov.cz/en/pharmaceutical-industry/cannabis-for-medicinal-purposes/distributors-and-importers/distribution-and-import/',
@@ -238,7 +238,7 @@ export const exportLanes: ExportLane[] = [
     title: 'Bangkok air freight to North Macedonia',
     metaTitle: 'Bangkok to Skopje Air Freight Lane',
     metaDescription:
-      'Scheduled Bangkok to Skopje air freight from OMG Experience. Medical cannabis flower export into North Macedonia requires buyer-side verification — sector is export-oriented.',
+      'Scheduled Bangkok to Skopje air freight from OMG Cargo. Medical cannabis flower export into North Macedonia requires buyer-side verification — sector is export-oriented.',
     regulator: 'MALMED (Agency for Medicines)',
     regulatorUrl: 'https://malmed.gov.mk/',
     lastVerified: '2026-08-05',

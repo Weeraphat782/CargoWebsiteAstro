@@ -2,6 +2,8 @@
 
 import { useState } from 'react';
 
+import { BRAND_NAME } from '@/lib/site';
+
 export default function PartnerSection() {
   const [niaLogoError, setNiaLogoError] = useState(false);
   return (
@@ -10,7 +12,7 @@ export default function PartnerSection() {
         <div className="accent-bar mx-auto mb-4" />
         <h2 className="font-display text-[28px] font-bold">Innovation Fueled by Partnership</h2>
         <p className="mx-auto mt-3 max-w-[620px] text-[15px] leading-relaxed" style={{ color: 'var(--hero-muted)' }}>
-          OMG Experience is proud to be part of the Thai innovation ecosystem. Our AI-powered logistics
+          {BRAND_NAME} is proud to be part of the Thai innovation ecosystem. Our AI-powered logistics
           platform is funded and supported by the{' '}
           <strong className="text-white">National Innovation Agency (Public Organization)</strong>, or NIA,
           Thailand.
