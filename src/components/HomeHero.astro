@@ -8,6 +8,7 @@ import {
   HERO_POSTER_SRC,
   HERO_VIDEO_SRC,
 } from '@/lib/hero';
+import { APP_URL } from '@/lib/site';
 import type { CarrierBoardDisplayItem } from '@/types/carrier-board';
 
 interface Props {
@@ -17,6 +18,7 @@ interface Props {
 const { carrierItems } = Astro.props;
 const mode = getHeroBgMode();
 const countryCount = destinationCountryNames.length;
+const loginUrl = `${APP_URL}/site/login`;
 
 const heroGradientVideo =
   'linear-gradient(105deg,rgba(13,44,77,.78) 0%,rgba(13,44,77,.55) 42%,rgba(13,44,77,.32) 100%)';
@@ -103,6 +105,13 @@ const heroGradientImage =
           style="border-color: rgba(255,255,255,.4); background: rgba(255,255,255,.1);"
         >
           View Services
+        </a>
+        <a
+          href={loginUrl}
+          class="inline-flex items-center rounded-[var(--radius-sm)] px-6 py-3.5 text-base font-semibold"
+          style="background: #fff; color: var(--navy-700);"
+        >
+          Login
         </a>
       </div>
     </div>

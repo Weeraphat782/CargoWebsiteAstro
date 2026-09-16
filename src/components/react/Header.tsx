@@ -74,7 +74,7 @@ export default function Header() {
           })}
         </nav>
 
-        <div className="flex items-center gap-2.5 sm:gap-2.5">
+        <div className="ml-auto flex items-center gap-2.5 sm:gap-2.5 md:ml-0">
           <a
             href={registerUrl}
             className="hidden rounded-[var(--radius-sm)] border-[1.5px] px-4 py-1.5 text-sm font-semibold sm:inline-block"
