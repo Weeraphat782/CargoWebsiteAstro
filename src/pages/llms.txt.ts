@@ -61,6 +61,11 @@ export const GET: APIRoute = async () => {
 - [Contact](${base}/contact)
 - [Export Portal login](${APP_URL}/site/login)
 
+## Request a quote
+- Request a quote through the Contact page (the "Request a Quote" form): ${base}/contact
+- Existing customers can submit and track quote requests in the Export Portal (login required): ${APP_URL}/portal/quotations/new
+- The team responds within one business day. Pricing and availability are confirmed by the OMG Cargo team; the site does not show instant automated rates.
+
 ## Destination lanes (BKK)
 ${laneLines}
 

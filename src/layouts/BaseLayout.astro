@@ -3,7 +3,7 @@ import '../styles/global.css';
 import TopBar from '../components/TopBar.astro';
 import Header from '../components/react/Header';
 import Footer from '../components/react/Footer';
-import { BRAND_NAME, absoluteUrl } from '../lib/site';
+import { APP_URL, BRAND_NAME, absoluteUrl } from '../lib/site';
 import type { PageMeta } from '../lib/page-meta';
 import { jsonLdScript, mergeJsonLdScripts, organizationSchema, websiteSchema } from '../lib/json-ld';
 
@@ -156,6 +156,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       <slot />
     </main>
     <Footer client:load />
+    <link rel="stylesheet" href="/chatbot/chatbot.css" />
+    <script is:inline src="/chatbot/chatbot.js" data-api={`${APP_URL}/api/public/chat`} defer></script>
     <script>
       import { bootAttribution } from '@/lib/attribution-init';
       bootAttribution();
