@@ -50,6 +50,21 @@ export const GET: APIRoute = async () => {
 - Germany imported 50,539 kg medical cannabis in Q1 2026 (+34% YoY, −15% QoQ) per BfArM data reported in trade press May–June 2026.
 - 31 Dec 2026 expiry applies to Category 5 **extract** licences (Thai FDA), not DTAM controlled-herb flower export licences.
 
+## Required export documents (cannabis)
+- Company Registration / DBD certificate (เอกสารจดทะเบียนบริษัท)
+- Company Declaration — the company's statement affirming the product is produced to quality standards
+- ID card copy of the company director(s) (สำเนาบัตรประชาชนกรรมการ)
+- ภ.ท.10 — cannabis export licence (ใบอนุญาตส่งออกกัญชานอกประเทศ)
+- ภ.ท.11 — licence to sell/distribute (เอกสารสำหรับจำหน่าย)
+- ภ.ท.32 — per-shipment cannabis export certificate; required and essential for every shipment
+- ภ.ท.31 — monthly export report; its details are drawn from the ภ.ท.32 records
+- Purchase Order from the overseas buyer
+- Commercial Invoice
+- Packing List — list of what is packed in the shipment
+- Import Permit for Cannabis — issued by the destination country
+- Hemp Letter — required when shipping hemp
+- Thai GACP certification
+
 ## Key pages
 - [Homepage](${base}/)
 - [Cannabis export logistics](${base}/services/cannabis-export-logistics)

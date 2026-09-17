@@ -1,0 +1,18 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { pageMeta } from '../lib/page-meta';
+
+const meta = pageMeta({
+  title: 'Chat with our AI Export Assistant',
+  description:
+    'Ask the OMG Cargo AI assistant about cannabis, hemp, and kratom export logistics from Bangkok.',
+  path: '/chat',
+});
+---
+
+<BaseLayout meta={meta}>
+  <section class="marketing-container py-10">
+    <h1 class="font-display mb-4 text-2xl font-bold">AI Export Assistant</h1>
+    <div data-omg-chat-embed style="height: min(80vh, 820px);"></div>
+  </section>
+</BaseLayout>

@@ -5,6 +5,8 @@
     window.__omgChatbotLoaded = true;
 
     const script = document.currentScript;
+    const embedMount = document.querySelector("[data-omg-chat-embed]");
+    const embedded = Boolean(embedMount);
     const apiUrl = script?.dataset.api || "https://cargo.omgexp.com/api/public/chat";
     const sessionUrl = `${apiUrl.replace(/\/$/, "")}/session`;
     const SESSION_STORAGE_KEY = "omg-chat-session-id";
@@ -39,7 +41,7 @@
     const defaultStarters = [
         "What export services does OMG Cargo offer?",
         "Which destination lanes do you ship from Bangkok?",
-        "What documents are needed for cannabis export (ภ.ท.32)?",
+        "What documents are needed for cannabis export?",
         "How does lab COA coordination work?",
         "How do I request a freight quote?",
     ];
@@ -307,7 +309,12 @@
             </button>
         </aside>
     `;
-    document.body.appendChild(wrapper);
+    if (embedded) {
+        wrapper.classList.add("omg-chat-embedded");
+        embedMount.appendChild(wrapper);
+    } else {
+        document.body.appendChild(wrapper);
+    }
 
     const windowElement = wrapper.querySelector(".omg-chat-window");
     const launcher = wrapper.querySelector(".omg-chat-launcher");
@@ -483,6 +490,7 @@
     /* ---- State transitions ---- */
 
     function schedulePreview(delay = PREVIEW_RETURN_DELAY_MS) {
+        if (embedded) return;
         window.clearTimeout(previewDelay);
         previewDelay = window.setTimeout(() => {
             if (getState() === CHAT_STATES.MINIMIZED) {
@@ -503,6 +511,7 @@
     }
 
     function minimizeChat() {
+        if (embedded) return;
         window.clearTimeout(previewDelay);
         setState(CHAT_STATES.MINIMIZED);
         launcher.focus();
@@ -1046,6 +1055,7 @@
     // Outside click minimizes the widget. Clicks anywhere inside the chatbot
     // (window or launcher) never change the open/minimized state on their own.
     document.addEventListener("click", (event) => {
+        if (embedded) return;
         const state = getState();
         if (state === CHAT_STATES.MINIMIZED) return;
         if (!event.composedPath().includes(wrapper)) {
@@ -1062,12 +1072,23 @@
         const state = getState();
         if (state === CHAT_STATES.CLOSE_CONFIRMATION) {
             cancelClose();
-        } else if (state === CHAT_STATES.OPEN || state === CHAT_STATES.PREVIEW) {
+        } else if (!embedded && (state === CHAT_STATES.OPEN || state === CHAT_STATES.PREVIEW)) {
             minimizeChat();
         }
     });
 
-    if (script?.dataset.open === "true") {
+    document.addEventListener("click", (event) => {
+        const trigger = event.target.closest?.("[data-omg-chat-open]");
+        if (!trigger) return;
+        event.preventDefault();
+        openChat();
+    });
+    window.omgOpenChat = openChat;
+    if (window.location.hash === "#chat") openChat();
+
+    if (embedded) {
+        openChat();
+    } else if (script?.dataset.open === "true") {
         openChat();
     } else {
         showSlide(0);

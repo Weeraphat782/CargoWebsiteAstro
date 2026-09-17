@@ -1477,3 +1477,38 @@
         opacity: .72;
     }
 }
+
+#omg-chatbot.omg-chat-embedded {
+    position: static;
+    width: 100%;
+    height: 100%;
+}
+
+#omg-chatbot.omg-chat-embedded .omg-chat-launcher,
+#omg-chatbot.omg-chat-embedded .omg-chat-preview,
+#omg-chatbot.omg-chat-embedded .omg-chat-minimize,
+#omg-chatbot.omg-chat-embedded .omg-chat-close {
+    display: none !important;
+}
+
+#omg-chatbot.omg-chat-embedded .omg-chat-window {
+    position: static;
+    display: flex;
+    inset: auto;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    max-height: none;
+    border-radius: 16px;
+}
+
+@media (max-width: 650px) {
+    #omg-chatbot.omg-chat-embedded .omg-chat-window {
+        position: static;
+        right: auto;
+        left: auto;
+        bottom: auto;
+        width: 100%;
+        height: 100%;
+    }
+}

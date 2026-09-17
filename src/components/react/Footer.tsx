@@ -61,6 +61,13 @@ export default function Footer() {
                   {link.label}
                 </a>
               ))}
+              <a
+                href="/chat"
+                onClick={() => trackCtaClick('Chat with AI Assistant', 'footer')}
+                className="hover:text-white"
+              >
+                Chat with AI Assistant
+              </a>
             </nav>
           </div>
           <div>
