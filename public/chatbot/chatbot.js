@@ -6,6 +6,8 @@
 
     const script = document.currentScript;
     const apiUrl = script?.dataset.api || "https://cargo.omgexp.com/api/public/chat";
+    const sessionUrl = `${apiUrl.replace(/\/$/, "")}/session`;
+    const SESSION_STORAGE_KEY = "omg-chat-session-id";
     const brandLogoUrl = "/favicon.svg";
     const launcherIconSvg =
         '<svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"/></svg>';
@@ -182,6 +184,28 @@
             </header>
 
             <div class="omg-chat-body">
+                <form class="omg-chat-intake" novalidate>
+                    <p class="omg-chat-intake-lead">Please tell us who you are before we start.</p>
+                    <label class="omg-chat-intake-field">
+                        <span>Name</span>
+                        <input type="text" name="name" required maxlength="120" autocomplete="name">
+                    </label>
+                    <label class="omg-chat-intake-field">
+                        <span>Company</span>
+                        <input type="text" name="company" required maxlength="200" autocomplete="organization">
+                    </label>
+                    <label class="omg-chat-intake-field">
+                        <span>Email</span>
+                        <input type="email" name="email" maxlength="254" autocomplete="email">
+                    </label>
+                    <label class="omg-chat-intake-field">
+                        <span>Phone</span>
+                        <input type="tel" name="phone" maxlength="40" autocomplete="tel">
+                    </label>
+                    <p class="omg-chat-intake-hint">Email or phone is required so our team can follow up.</p>
+                    <p class="omg-chat-intake-error" hidden></p>
+                    <button class="omg-chat-intake-submit" type="submit">Continue</button>
+                </form>
                 <div class="omg-chat-start-title">Where should we start?</div>
                 <div class="omg-chat-suggestions"></div>
                 <div
@@ -192,7 +216,7 @@
                 ></div>
             </div>
 
-            <div class="omg-chat-input-section">
+            <div class="omg-chat-input-section omg-chat-input-section--locked">
                 <div class="omg-chat-flow-menu" hidden>
                     <div class="omg-chat-flow-header">
                         <button class="omg-chat-flow-back" type="button" aria-label="Back to main options" hidden>←</button>
@@ -231,7 +255,8 @@
             </div>
 
             <footer class="omg-chat-footer">
-                AI can make mistakes. Double check accuracy with official sources.
+                <button class="omg-chat-new-session" type="button" hidden>Start new chat</button>
+                <span class="omg-chat-footer-note">AI can make mistakes. Double check accuracy with official sources.</span>
             </footer>
 
             <section class="omg-chat-confirm" aria-hidden="true">
@@ -296,9 +321,14 @@
     const closeButton = wrapper.querySelector(".omg-chat-close");
     const minimizeButton = wrapper.querySelector(".omg-chat-minimize");
     const greeting = wrapper.querySelector(".omg-chat-greeting");
+    const intakeForm = wrapper.querySelector(".omg-chat-intake");
+    const intakeError = wrapper.querySelector(".omg-chat-intake-error");
+    const intakeSubmit = wrapper.querySelector(".omg-chat-intake-submit");
     const startTitle = wrapper.querySelector(".omg-chat-start-title");
     const suggestions = wrapper.querySelector(".omg-chat-suggestions");
     const messages = wrapper.querySelector(".omg-chat-messages");
+    const inputSection = wrapper.querySelector(".omg-chat-input-section");
+    const newSessionButton = wrapper.querySelector(".omg-chat-new-session");
     const form = wrapper.querySelector(".omg-chat-form");
     const flowMenu = wrapper.querySelector(".omg-chat-flow-menu");
     const flowTitle = wrapper.querySelector(".omg-chat-flow-title");
@@ -339,6 +369,76 @@
 
     let history = [];
     let waiting = false;
+    let intakeSubmitting = false;
+    let sessionId = localStorage.getItem(SESSION_STORAGE_KEY);
+
+    function updateIntakeVisibility() {
+        const hasSession = Boolean(sessionId);
+        intakeForm.hidden = hasSession;
+        inputSection.classList.toggle("omg-chat-input-section--locked", !hasSession);
+        newSessionButton.hidden = !hasSession;
+        if (!hasSession) {
+            suggestions.hidden = true;
+            startTitle.hidden = true;
+            messages.dataset.active = "false";
+        } else if (history.length === 0 && windowElement.dataset.conversation !== "true") {
+            suggestions.hidden = false;
+            startTitle.hidden = false;
+        }
+    }
+
+    async function submitIntake(event) {
+        event.preventDefault();
+        if (intakeSubmitting) return;
+
+        const formData = new FormData(intakeForm);
+        const payload = {
+            name: String(formData.get("name") || ""),
+            company: String(formData.get("company") || ""),
+            email: String(formData.get("email") || ""),
+            phone: String(formData.get("phone") || ""),
+        };
+
+        intakeError.hidden = true;
+        intakeSubmitting = true;
+        intakeSubmit.disabled = true;
+
+        try {
+            const response = await fetch(sessionUrl, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload),
+            });
+            const data = await response.json().catch(() => ({}));
+            if (!response.ok) {
+                throw new Error(data.error || "Could not start chat session.");
+            }
+            if (!data.sessionId) {
+                throw new Error("Invalid session response.");
+            }
+            sessionId = data.sessionId;
+            localStorage.setItem(SESSION_STORAGE_KEY, sessionId);
+            updateIntakeVisibility();
+            input.focus();
+        } catch (error) {
+            intakeError.textContent =
+                error instanceof Error ? error.message : "Please try again.";
+            intakeError.hidden = false;
+        } finally {
+            intakeSubmitting = false;
+            intakeSubmit.disabled = false;
+        }
+    }
+
+    function startNewChat() {
+        sessionId = null;
+        localStorage.removeItem(SESSION_STORAGE_KEY);
+        intakeForm.reset();
+        intakeError.hidden = true;
+        resetConversation();
+        updateIntakeVisibility();
+        intakeForm.querySelector('input[name="name"]')?.focus();
+    }
 
     function getState() {
         return windowElement.dataset.state;
@@ -394,7 +494,12 @@
     function openChat() {
         window.clearTimeout(previewDelay);
         setState(CHAT_STATES.OPEN);
-        input.focus();
+        updateIntakeVisibility();
+        if (sessionId) {
+            input.focus();
+        } else {
+            intakeForm.querySelector('input[name="name"]')?.focus();
+        }
     }
 
     function minimizeChat() {
@@ -819,6 +924,13 @@
         const message = rawMessage.trim();
         if (!message || waiting) return;
 
+        if (!sessionId) {
+            openChat();
+            updateIntakeVisibility();
+            intakeForm.querySelector('input[name="name"]')?.focus();
+            return;
+        }
+
         activateConversation();
         const priorHistory = history.slice(-MAX_CONTEXT_MESSAGES);
         history.push({ role: "user", content: message });
@@ -836,6 +948,7 @@
                 body: JSON.stringify({
                     message,
                     history: priorHistory,
+                    sessionId,
                 }),
             });
 
@@ -922,6 +1035,8 @@
     });
     confirmNo.addEventListener("click", cancelClose);
     confirmYes.addEventListener("click", confirmClose);
+    intakeForm.addEventListener("submit", submitIntake);
+    newSessionButton.addEventListener("click", startNewChat);
 
     form.addEventListener("submit", (event) => {
         event.preventDefault();
@@ -959,4 +1074,5 @@
         startEngagementTracking();
     }
     renderFlow();
+    updateIntakeVisibility();
 })();
