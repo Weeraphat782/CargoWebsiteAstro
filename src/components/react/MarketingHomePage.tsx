@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { APP_URL, TOUR_POSTER_PATH, TOUR_VIDEO_PATH } from '@/lib/site';
 import { homeServiceOrder, serviceById } from '@/data/marketing-services';
 import { ServiceIcon } from '@/components/ServiceIcon';
@@ -58,28 +58,98 @@ function HomeContinueExploring() {
 }
 
 function HomeTourVideo() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const trackedPlay = useRef(false);
-  const onPlay = () => {
+  const autoStarted = useRef(false);
+  const [needsSoundTap, setNeedsSoundTap] = useState(false);
+
+  const trackPlayOnce = useCallback(() => {
     if (trackedPlay.current) return;
     trackedPlay.current = true;
     trackCtaClick('Play tour video', 'home-video');
-  };
+  }, []);
+
+  const startTourPlayback = useCallback(async () => {
+    const video = videoRef.current;
+    if (!video || autoStarted.current) return;
+    autoStarted.current = true;
+    video.currentTime = 0;
+    video.muted = false;
+    try {
+      await video.play();
+      setNeedsSoundTap(false);
+      trackPlayOnce();
+    } catch {
+      video.muted = true;
+      try {
+        await video.play();
+        setNeedsSoundTap(true);
+        trackPlayOnce();
+      } catch {
+        autoStarted.current = false;
+      }
+    }
+  }, [trackPlayOnce]);
+
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0];
+        if (!entry) return;
+        if (entry.isIntersecting && entry.intersectionRatio >= 0.4) {
+          void startTourPlayback();
+        } else if (!entry.isIntersecting) {
+          autoStarted.current = false;
+          videoRef.current?.pause();
+        }
+      },
+      { threshold: [0, 0.4, 0.6] },
+    );
+
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, [startTourPlayback]);
 
   return (
-    <section className="marketing-container py-14" aria-labelledby="home-tour-heading">
+    <section
+      ref={sectionRef}
+      className="marketing-container py-14"
+      aria-labelledby="home-tour-heading"
+    >
       <div className="grid items-center gap-12 lg:grid-cols-2">
-        <div className="overflow-hidden rounded-[var(--radius-md)] border border-[var(--line)] bg-black shadow-[var(--shadow-2)]">
+        <div className="relative overflow-hidden rounded-[var(--radius-md)] border border-[var(--line)] bg-black shadow-[var(--shadow-2)]">
           <video
+            ref={videoRef}
             className="aspect-video w-full"
             controls
-            preload="none"
+            preload="metadata"
             playsInline
             poster={TOUR_POSTER_PATH}
             src={TOUR_VIDEO_PATH}
-            onPlay={onPlay}
+            onPlay={trackPlayOnce}
           >
             <track kind="captions" />
           </video>
+          {needsSoundTap && (
+            <button
+              type="button"
+              onClick={() => {
+                const video = videoRef.current;
+                if (!video) return;
+                video.muted = false;
+                void video.play();
+                setNeedsSoundTap(false);
+              }}
+              className="absolute bottom-3 right-3 rounded-[var(--radius-sm)] px-3 py-1.5 text-[13px] font-semibold text-white shadow-md"
+              style={{ background: 'rgba(13, 44, 77, 0.92)' }}
+            >
+              Enable sound
+            </button>
+          )}
         </div>
         <div>
           <div className="accent-bar mb-4" />
