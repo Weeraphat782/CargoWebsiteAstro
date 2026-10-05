@@ -300,6 +300,19 @@ export function itemListSchema(
   };
 }
 
+export function tourVideoObjectSchema(): JsonLdGraph {
+  return {
+    '@type': 'VideoObject',
+    name: 'OMG Cargo export portal tour',
+    description:
+      'One-minute overview: Google login, cannabis/hemp/kratom document checklists, automated document pre-check, airline booking, and daily shipment tracking.',
+    thumbnailUrl: absoluteUrl('/images/omgcargo-tour-poster.jpg'),
+    contentUrl: absoluteUrl('/video/omgcargo-tour-v1.mp4'),
+    uploadDate: '2026-10-05',
+    duration: 'PT58S',
+  };
+}
+
 export function serviceSchemas(
   services: { id: string; title: string; shortDescription: string }[],
 ): JsonLdGraph[] {

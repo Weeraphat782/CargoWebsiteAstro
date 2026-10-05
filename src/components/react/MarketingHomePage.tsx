@@ -1,6 +1,7 @@
 'use client';
 
-import { APP_URL } from '@/lib/site';
+import { useRef } from 'react';
+import { APP_URL, TOUR_POSTER_PATH, TOUR_VIDEO_PATH } from '@/lib/site';
 import { homeServiceOrder, serviceById } from '@/data/marketing-services';
 import { ServiceIcon } from '@/components/ServiceIcon';
 import PartnerSection from '@/components/react/PartnerSection';
@@ -12,6 +13,14 @@ const homeServices = homeServiceOrder.map((id) => serviceById(id)).filter((s): s
 
 const aiTags = ['Error Detection', 'Compliance Check', 'Batch Processing', 'Region Rules'];
 const qcTags = ['Lab Testing', 'QR Tracked', 'COA Online', 'GACP-aligned'];
+
+const tourBullets = [
+  'Sign in with Google or Gmail — no new password',
+  'Document checklists for cannabis, hemp, and kratom',
+  'Automated document pre-check before booking',
+  'Booking requests sent to the airline for quick replies',
+  'Daily automatic shipment tracking',
+];
 
 const continueTile =
   'rounded-[3px] border border-[var(--line)] p-4 text-left text-sm font-semibold transition hover:border-[var(--navy-700)] hover:bg-[#f2f6fb]';
@@ -43,6 +52,64 @@ function HomeContinueExploring() {
         >
           QC lab testing for your exports →
         </a>
+      </div>
+    </section>
+  );
+}
+
+function HomeTourVideo() {
+  const trackedPlay = useRef(false);
+  const onPlay = () => {
+    if (trackedPlay.current) return;
+    trackedPlay.current = true;
+    trackCtaClick('Play tour video', 'home-video');
+  };
+
+  return (
+    <section className="marketing-container py-14" aria-labelledby="home-tour-heading">
+      <div className="grid items-center gap-12 lg:grid-cols-2">
+        <div className="overflow-hidden rounded-[var(--radius-md)] border border-[var(--line)] bg-black shadow-[var(--shadow-2)]">
+          <video
+            className="aspect-video w-full"
+            controls
+            preload="none"
+            playsInline
+            poster={TOUR_POSTER_PATH}
+            src={TOUR_VIDEO_PATH}
+            onPlay={onPlay}
+          >
+            <track kind="captions" />
+          </video>
+        </div>
+        <div>
+          <div className="accent-bar mb-4" />
+          <h2
+            id="home-tour-heading"
+            className="font-display text-[32px] font-bold leading-tight"
+            style={{ color: 'var(--navy-950)' }}
+          >
+            See how it works in 60 seconds
+          </h2>
+          <p className="mt-3 text-[15px] leading-relaxed" style={{ color: 'var(--muted)' }}>
+            Watch the export portal before you sign in — the same flow your team uses from quote to delivery.
+          </p>
+          <ul className="mt-6 space-y-3">
+            {tourBullets.map((line) => (
+              <li key={line} className="flex gap-3 text-[15px]" style={{ color: '#444c54' }}>
+                <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full" style={{ background: 'var(--green-500)' }} />
+                {line}
+              </li>
+            ))}
+          </ul>
+          <a
+            href={`${APP_URL}/site/login`}
+            onClick={() => trackCtaClick('Request a Quote', 'home-tour')}
+            className="mt-8 inline-flex items-center gap-2 rounded-[var(--radius-sm)] px-6 py-3 text-[15px] font-semibold text-white"
+            style={{ background: 'var(--green-500)' }}
+          >
+            Request a Quote →
+          </a>
+        </div>
       </div>
     </section>
   );
@@ -85,6 +152,8 @@ export default function MarketingHomePageClient() {
           </span>
         </a>
       </section>
+
+      <HomeTourVideo />
 
       {/* Services grid */}
       <section className="marketing-container py-16">

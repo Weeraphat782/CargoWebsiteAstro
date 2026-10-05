@@ -54,3 +54,7 @@ export function appUrl(path: string): string {
   if (!path || path === '/') return APP_URL;
   return `${APP_URL}${path.startsWith('/') ? path : `/${path}`}`;
 }
+
+/** Self-hosted customer tour (version bump filename when re-rendering). */
+export const TOUR_VIDEO_PATH = '/video/omgcargo-tour-v1.mp4';
+export const TOUR_POSTER_PATH = '/images/omgcargo-tour-poster.jpg';

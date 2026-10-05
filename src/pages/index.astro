@@ -4,7 +4,7 @@ import HomeHero from '../components/HomeHero.astro';
 import MarketingHomePage from '../components/react/MarketingHomePage';
 import { getCarrierBoardDisplayItems } from '../lib/carrier-board-data';
 import { pageMeta } from '../lib/page-meta';
-import { jsonLdScript, webPageSchema } from '../lib/json-ld';
+import { jsonLdScript, tourVideoObjectSchema, webPageSchema } from '../lib/json-ld';
 import { BRAND_NAME } from '../lib/site';
 import {
   getHeroBgMode,
@@ -29,6 +29,7 @@ const ld = jsonLdScript([
     description:
       'Licensed cannabis, hemp, and kratom export air freight from Bangkok — customs, partner GDP warehousing, and validated cold chain.',
   }),
+  tourVideoObjectSchema(),
 ]);
 ---
 
