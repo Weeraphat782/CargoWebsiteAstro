@@ -6,6 +6,7 @@ export const destinationRegions = [
       { country: 'Germany', city: 'Frankfurt' },
       { country: 'Czech Republic', city: 'Prague' },
       { country: 'Portugal', city: 'Lisbon' },
+      { country: 'Poland', city: 'Warsaw' },
       { country: 'Macedonia', city: 'Skopje' },
     ],
   },
